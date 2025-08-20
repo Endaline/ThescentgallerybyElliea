@@ -222,23 +222,6 @@ export default function AdminOrdersPage() {
               Manage and track customer orders and fulfillment.
             </p>
           </div>
-
-          {/* <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button
-              variant="outline"
-              className="border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-          </div> */}
         </motion.div>
 
         {/* Stats Cards */}

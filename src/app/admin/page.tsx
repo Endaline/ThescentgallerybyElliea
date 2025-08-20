@@ -22,7 +22,7 @@ const dashboardStats = {
   totalRevenue: 45280,
   revenueChange: 12.5,
   totalOrders: 324,
-  ordersChange: 8.2,
+  // ordersChange: 8.2,
   totalCustomers: 1247,
   customersChange: 15.3,
   totalProducts: 89,
@@ -65,19 +65,19 @@ const topProducts = [
     name: "Midnight Rose",
     sales: 156,
     revenue: 29484,
-    image: "/placeholder.svg?height=50&width=50",
+    image: "/images/pef-1.jpeg",
   },
   {
     name: "Golden Amber",
     sales: 134,
     revenue: 22110,
-    image: "/placeholder.svg?height=50&width=50",
+    image: "/images/pef-3.jpeg",
   },
   {
     name: "Ocean Breeze",
     sales: 98,
     revenue: 14210,
-    image: "/placeholder.svg?height=50&width=50",
+    image: "/images/pef-4.jpeg",
   },
 ];
 
@@ -112,7 +112,8 @@ export default function AdminDashboard() {
               Dashboard
             </h1>
             <p className="text-gray-600 mt-1">
-              Welcome back! Here&apos;s what&apos;s happening with your store.
+              Welcome back! Here&apos;s what&apos;s happening with your perfume
+              business.
             </p>
           </div>
 
@@ -174,10 +175,6 @@ export default function AdminDashboard() {
                 <div className="text-2xl font-bold">
                   ${dashboardStats.totalRevenue.toLocaleString()}
                 </div>
-                <div className="flex items-center text-xs text-green-600">
-                  <TrendingUp className="h-3 w-3 mr-1" />+
-                  {dashboardStats.revenueChange}% from last period
-                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -197,10 +194,6 @@ export default function AdminDashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">
                   {dashboardStats.totalOrders}
-                </div>
-                <div className="flex items-center text-xs text-green-600">
-                  <TrendingUp className="h-3 w-3 mr-1" />+
-                  {dashboardStats.ordersChange}% from last period
                 </div>
               </CardContent>
             </Card>
@@ -222,10 +215,6 @@ export default function AdminDashboard() {
                 <div className="text-2xl font-bold">
                   {dashboardStats.totalCustomers}
                 </div>
-                <div className="flex items-center text-xs text-green-600">
-                  <TrendingUp className="h-3 w-3 mr-1" />+
-                  {dashboardStats.customersChange}% from last period
-                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -245,10 +234,6 @@ export default function AdminDashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">
                   {dashboardStats.totalProducts}
-                </div>
-                <div className="flex items-center text-xs text-green-600">
-                  <TrendingUp className="h-3 w-3 mr-1" />+
-                  {dashboardStats.productsChange}% from last period
                 </div>
               </CardContent>
             </Card>
@@ -363,7 +348,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
@@ -405,7 +390,7 @@ export default function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div> */}
       </div>
     </AdminLayout>
   );

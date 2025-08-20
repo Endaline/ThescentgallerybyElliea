@@ -166,7 +166,7 @@ export default function AdminProductsPage() {
           </div>
 
           <Link href="/admin/products/new">
-            <Button className="bg-burgundy hover:bg-burgundy/90 text-white">
+            <Button className="bg-burgundy hover:bg-burgundy/90 text-purple-900 cursor-pointer">
               <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>

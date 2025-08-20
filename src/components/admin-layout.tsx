@@ -141,21 +141,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             >
               <Menu className="h-5 w-5" />
             </Button>
-
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input placeholder="Search..." className="pl-10 w-64" />
-            </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                3
-              </span>
-            </Button>
-
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-[#A76BCF] rounded-full flex items-center justify-center">
                 <span className="text-white text-sm font-medium">A</span>

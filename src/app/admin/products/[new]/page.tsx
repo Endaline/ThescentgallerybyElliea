@@ -119,7 +119,7 @@ export default function NewProductPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="font-serif text-3xl font-bold text-charcoal">
+            <h1 className="font-serif text-3xl font-bold text-purple-900">
               Add New Product
             </h1>
             <p className="text-gray-600 mt-1">
@@ -199,27 +199,6 @@ export default function NewProductPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="category">Category *</Label>
-                      <Select
-                        value={formData.category}
-                        onValueChange={(value) =>
-                          handleInputChange("category", value)
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Floral">Floral</SelectItem>
-                          <SelectItem value="Oriental">Oriental</SelectItem>
-                          <SelectItem value="Fresh">Fresh</SelectItem>
-                          <SelectItem value="Woody">Woody</SelectItem>
-                          <SelectItem value="Citrus">Citrus</SelectItem>
-                          <SelectItem value="Spicy">Spicy</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
                     <div>
                       <Label htmlFor="sku">SKU</Label>
                       <Input
