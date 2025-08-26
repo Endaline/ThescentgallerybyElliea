@@ -9,10 +9,8 @@ import { Button } from "@/components/ui/button";
 
 interface ProductFiltersProps {
   filters: {
-    category: string;
     priceRange: string;
     brand: string;
-    rating: string;
   };
   onFiltersChange: (filters: any) => void;
 }
@@ -30,10 +28,8 @@ export default function ProductFilters({
 
   const clearFilters = () => {
     onFiltersChange({
-      category: "",
       priceRange: "",
       brand: "",
-      rating: "",
     });
   };
 

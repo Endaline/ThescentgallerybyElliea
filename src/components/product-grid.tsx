@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -74,10 +73,8 @@ interface ProductGridProps {
   viewMode: "grid" | "list";
   searchQuery: string;
   filters: {
-    category: string;
     priceRange: string;
     brand: string;
-    rating: string;
   };
 }
 
@@ -86,8 +83,6 @@ export default function ProductGrid({
   searchQuery,
   filters,
 }: ProductGridProps) {
-  const [favorites, setFavorites] = useState<number[]>([]);
-
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       // Search filter
@@ -100,9 +95,6 @@ export default function ProductGrid({
       }
 
       // Category filter
-      if (filters.category && product.category !== filters.category) {
-        return false;
-      }
 
       // Brand filter
       if (filters.brand && product.brand !== filters.brand) {
@@ -128,19 +120,9 @@ export default function ProductGrid({
         }
       }
 
-      // Rating filter
-
       return true;
     });
   }, [searchQuery, filters]);
-
-  const toggleFavorite = (productId: number) => {
-    setFavorites((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
-    );
-  };
 
   if (viewMode === "list") {
     return (
@@ -161,40 +143,47 @@ export default function ProductGrid({
             >
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex gap-6">
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-sm text-gray-500">
-                            {product.brand}
-                          </p>
-                          <Link href={`/products/${product.id}`}>
-                            <h3 className="font-serif text-xl font-semibold text-charcoal hover:text-burgundy">
-                              {product.name}
-                            </h3>
-                          </Link>
-                          <p className="text-gray-600 mt-1">
-                            {product.description}
-                          </p>
-                        </div>
+                  <div className="flex justify-between items-center gap-6">
+                    <div className="flex flex-col items-start  ">
+                      <div>
+                        <p className="text-sm text-gray-500">{product.brand}</p>
+                        <Link href={`/products/${product.id}`}>
+                          <h3 className="font-serif text-xl font-semibold text-charcoal hover:text-[#A76BCF]">
+                            {product.name}
+                          </h3>
+                        </Link>
+                        <p className="text-gray-600 mt-1">
+                          {product.description}
+                        </p>
                       </div>
-
-                      <div className="flex items-center justify-between pt-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-xl text-charcoal">
-                            ${product.price}
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-xl text-charcoal">
+                          ${product.price}
+                        </span>
+                        {product.originalPrice && (
+                          <span className="text-sm text-gray-500 line-through">
+                            ${product.originalPrice}
                           </span>
-                          {product.originalPrice && (
-                            <span className="text-sm text-gray-500 line-through">
-                              ${product.originalPrice}
-                            </span>
-                          )}
-                        </div>
-                        <Button className="bg-burgundy hover:bg-burgundy/90 text-white">
-                          <ShoppingCart className="h-4 w-4 mr-2" />
-                          Add to Cart
-                        </Button>
+                        )}
                       </div>
+                    </div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="relative overflow-hidden">
+                        <Link href={`/products/${product.id}`}>
+                          <Image
+                            width={1000}
+                            height={1000}
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            className="w-40 h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </Link>
+                      </div>
+                      <Button className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white cursor-pointer">
+                        <ShoppingCart className="h-4 w-4 mr-2" />
+                        Add to Cart
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -242,7 +231,7 @@ export default function ProductGrid({
                       {product.brand}
                     </p>
                     <Link href={`/products/${product.id}`}>
-                      <h3 className="font-serif text-xl font-semibold text-charcoal mb-2 hover:text-burgundy">
+                      <h3 className="font-serif text-xl font-semibold text-charcoal mb-2 hover:text-[#A76BCF]">
                         {product.name}
                       </h3>
                     </Link>
@@ -261,7 +250,7 @@ export default function ProductGrid({
                     </div>
                     <Button
                       size="sm"
-                      className="bg-[#A76BCF] hover:bg-burgundy/90 text-white"
+                      className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white cursor-pointer"
                     >
                       Add to Cart
                     </Button>

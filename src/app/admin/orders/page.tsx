@@ -215,7 +215,7 @@ export default function AdminOrdersPage() {
           className="flex items-center justify-between"
         >
           <div>
-            <h1 className="font-serif text-3xl font-bold text-charcoal">
+            <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
               Orders
             </h1>
             <p className="text-gray-600 mt-1">

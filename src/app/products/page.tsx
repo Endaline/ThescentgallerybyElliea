@@ -14,10 +14,8 @@ export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
-    category: "",
     priceRange: "",
     brand: "",
-    rating: "",
   });
 
   return (

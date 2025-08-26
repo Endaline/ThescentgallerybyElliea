@@ -10,7 +10,6 @@ import {
   Users,
   DollarSign,
   Package,
-  TrendingUp,
   Eye,
   ArrowUpRight,
 } from "lucide-react";
@@ -22,7 +21,6 @@ const dashboardStats = {
   totalRevenue: 45280,
   revenueChange: 12.5,
   totalOrders: 324,
-  // ordersChange: 8.2,
   totalCustomers: 1247,
   customersChange: 15.3,
   totalProducts: 89,
@@ -108,7 +106,7 @@ export default function AdminDashboard() {
           className="flex items-center justify-between"
         >
           <div>
-            <h1 className="font-serif text-3xl font-bold text-charcoal">
+            <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
               Dashboard
             </h1>
             <p className="text-gray-600 mt-1">
@@ -346,51 +344,6 @@ export default function AdminDashboard() {
             </Card>
           </motion.div>
         </div>
-
-        {/* Quick Actions */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-                >
-                  <Package className="h-6 w-6 mb-2" />
-                  Add Product
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-                >
-                  <ShoppingBag className="h-6 w-6 mb-2" />
-                  View Orders
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-                >
-                  <Users className="h-6 w-6 mb-2" />
-                  Manage Customers
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
-                >
-                  <TrendingUp className="h-6 w-6 mb-2" />
-                  View Analytics
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div> */}
       </div>
     </AdminLayout>
   );

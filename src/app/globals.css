@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.max-content {
+  @apply mx-auto max-w-[1440px];
+}
+
+.padding-x {
+  @apply px-4 lg:px-12 xl:px-24;
+}
+
+.padding-xl {
+  @apply px-4 lg:px-12 xl:pl-32 xl:pr-24;
+}
+
+.container {
+  @apply mt-10;
+}
+.container2 {
+  @apply my-20;
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

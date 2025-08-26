@@ -1,132 +1,143 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart } from "lucide-react";
-import { motion } from "framer-motion";
+
+import Link from "next/link";
+import { Button } from "./ui/button";
 import Image from "next/image";
 
-const featuredProducts = [
+const products = [
   {
     id: 1,
-    name: "Midnight Rose",
-    brand: "Luxe Parfum",
-    price: 189,
-    originalPrice: 220,
-    image: "/images/pef-1.jpeg",
+    name: "Armaf Club De Nuit Intense Man EDT 105ml",
+    price: "₦69,000.00",
+    image: "/images/pef-1.jpg",
   },
   {
     id: 2,
-    name: "Golden Amber",
-    brand: "Luxe Parfum",
-    price: 165,
-    image: "/images/pef-2.jpeg",
+    name: "AFNAN 9 Pm For Men EDP 100ML",
+    price: "₦56,000.00",
+    image: "/images/pef-1.jpeg",
   },
   {
     id: 3,
-    name: "Ocean Breeze",
-    brand: "Luxe Parfum",
-    price: 145,
+    name: "FRANCK OLIVIER Oud Touch EDP 100ml",
+    price: "₦45,000.00",
+    image: "/images/pef-3.jpg",
+  },
+  {
+    id: 4,
+    name: "Armaf Club De Nuit Women EDP 105ml",
+    price: "₦66,000.00",
     image: "/images/pef-4.jpeg",
+  },
+  {
+    id: 5,
+    name: "Armaf Club De Nuit Intense Man Edp 200ml",
+    price: "₦102,000.00",
+    image: "/images/pef-1.jpg",
+  },
+  {
+    id: 6,
+    name: "ELIZABETH ARDEN Beauty Ladies EDP 100ml",
+    price: "₦50,000.00",
+    originalPrice: "₦55,000.00",
+    image: "/images/pef-1.jpeg",
+  },
+  {
+    id: 7,
+    name: "Armaf Club De Nuit Intense Woman 105ml",
+    price: "₦64,000.00",
+    image: "/images/pef-4.jpeg",
+  },
+  {
+    id: 8,
+    name: "GIORGIO PINK Special Edition EDP 100ml",
+    price: "₦30,000.00",
+    image: "/images/pef-3.jpeg",
   },
 ];
 
-export default function FeaturedProducts() {
+const FeaturedProducts = () => {
   return (
-    <section className="py-20 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="font-serif text-4xl font-bold text-purple-900 mb-4">
-            Featured Fragrances
+    <section className="py-20 bg-white">
+      <div className="max-content padding-x">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[linear-gradient(135deg,#C8A2C8,hsl(280,75%,45%))] bg-clip-text text-transparent">
+            Featured Collection
           </h2>
-          <p className="text-lg text-purple-700 max-w-2xl mx-auto">
-            Discover our most beloved scents, carefully selected for their
-            exceptional quality and timeless appeal.
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Handpicked fragrances that define luxury and elegance
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product, index) => (
-            <motion.div
+        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <Card
               key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2, duration: 0.8 }}
-              viewport={{ once: true }}
+              className="group overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300"
             >
-              <Card className="group hover:shadow-2xl hover:scale-105 transition-all duration-500 border-0 shadow-xl bg-gradient-to-br from-purple-200 to-purple-300 backdrop-blur-sm rounded-3xl overflow-hidden">
-                <CardContent className="p-0">
-                  {/* <div className="relative overflow-hidden rounded-t-3xl"> */}
-                  {/* <div className="bg-gradient-to-br from-purple-300 to-purple-400 p-8 h-64 flex items-center justify-center"> */}
-                  {/* <div className="w-32 h-32 bg-gradient-to-br from-purple-100 to-white rounded-2xl shadow-lg flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-500"> */}
+              <Link href={`/products/${product.id}`}>
+                <div className="relative overflow-hidden bg-gray-50">
                   <Image
-                    width={100}
-                    height={100}
+                    width={300}
+                    height={300}
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
-                    className="w-full h-80 object-cover rounded-xl"
+                    className="w-full h-64 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                   />
-                  {/* </div> */}
-                  {/* </div> */}
-                  {/* </div> */}
+                </div>
+              </Link>
 
-                  <div className="p-6 space-y-4 bg-gradient-to-br from-purple-200 to-purple-300">
-                    <div className="text-center">
-                      <h3 className="font-serif text-xl font-semibold text-purple-900 mb-1">
-                        {product.name}
-                      </h3>
-                      <p className="text-sm text-purple-700 mb-3">
-                        {product.brand}
-                      </p>
-                    </div>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <Link href={`/product/${product.id}`}>
+                    <h3 className="text-sm font-medium text-gray-900 leading-tight">
+                      {product.name}
+                    </h3>
+                  </Link>
 
-                    <div className="text-center">
-                      <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="font-bold text-2xl text-yellow-600">
-                          ${product.price}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-purple-600 line-through">
-                            ${product.originalPrice}
-                          </span>
-                        )}
-                      </div>
-                      <Button
-                        size="sm"
-                        className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
-                      >
-                        Add to Cart
-                      </Button>
-                    </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg font-bold text-gray-900">
+                      {product.price}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-sm text-gray-500 line-through">
+                        {product.originalPrice}
+                      </span>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+
+                  <div className="space-y-2">
+                    <Button className="w-full bg-[#512260] hover:bg-[#512260]/50 text-white cursor-pointer">
+                      Add to cart
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                    >
+                      Quick view
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-2 border-purple-600 text-purple-700 hover:bg-purple-600 hover:text-white px-8 py-3 bg-white/50 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-          >
-            View All Products
-          </Button>
-        </motion.div>
+        <div className="text-center mt-12">
+          <Link href="/products">
+            <Button
+              variant="outline"
+              size="lg"
+              className="cursor-pointer border-[#9b59b6] text-[#9b59b6] hover:bg-[#9b59b6] hover:text-white"
+            >
+              View All Products
+            </Button>
+          </Link>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default FeaturedProducts;

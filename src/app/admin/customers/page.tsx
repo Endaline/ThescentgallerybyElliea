@@ -130,7 +130,7 @@ export default function CustomersPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
+            <h1 className="text-3xl font-bold text-[#A76BCF]">Customers</h1>
             <p className="text-gray-600">
               Manage your customer relationships and profiles
             </p>
@@ -156,9 +156,6 @@ export default function CustomersPage() {
                   <ShoppingBag className="w-6 h-6 text-blue-600" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2">
-                +12% from last month
-              </p>
             </CardContent>
           </Card>
 
@@ -175,7 +172,6 @@ export default function CustomersPage() {
                   <Star className="w-6 h-6 text-yellow-600" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2">+8% from last month</p>
             </CardContent>
           </Card>
 
@@ -192,7 +188,6 @@ export default function CustomersPage() {
                   <Calendar className="w-6 h-6 text-green-600" />
                 </div>
               </div>
-              <p className="text-xs text-red-600 mt-2">-3% from last month</p>
             </CardContent>
           </Card>
 
@@ -209,7 +204,6 @@ export default function CustomersPage() {
                   <Star className="w-6 h-6 text-purple-600" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2">+5% from last month</p>
             </CardContent>
           </Card>
         </div>

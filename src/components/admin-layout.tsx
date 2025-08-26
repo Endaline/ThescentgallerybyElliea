@@ -16,10 +16,7 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
-  Search,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 const sidebarItems = [
   {
@@ -42,11 +39,11 @@ const sidebarItems = [
     href: "/admin/customers",
     icon: Users,
   },
-  {
-    name: "Analytics",
-    href: "/admin/analytics",
-    icon: BarChart3,
-  },
+  // {
+  //   name: "Analytics",
+  //   href: "/admin/analytics",
+  //   icon: BarChart3,
+  // },
   {
     name: "Settings",
     href: "/admin/settings",

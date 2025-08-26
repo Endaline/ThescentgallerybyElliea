@@ -157,7 +157,7 @@ export default function AdminProductsPage() {
           className="flex items-center justify-between"
         >
           <div>
-            <h1 className="font-serif text-3xl font-bold text-charcoal">
+            <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
               Products
             </h1>
             <p className="text-gray-600 mt-1">
@@ -171,6 +171,47 @@ export default function AdminProductsPage() {
               Add Product
             </Button>
           </Link>
+        </motion.div>
+
+        {/* Summary Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="grid grid-cols-1 md:grid-cols-4 gap-4"
+        >
+          <Card>
+            <CardContent className="p-4 text-center">
+              <p className="text-2xl font-bold text-charcoal">
+                {products.length}
+              </p>
+              <p className="text-sm text-gray-600">Total Products</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <p className="text-2xl font-bold text-green-600">
+                {products.filter((p) => p.status === "active").length}
+              </p>
+              <p className="text-sm text-gray-600">Active Products</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <p className="text-2xl font-bold text-yellow-600">
+                {products.filter((p) => p.stock < 10 && p.stock > 0).length}
+              </p>
+              <p className="text-sm text-gray-600">Low Stock</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 text-center">
+              <p className="text-2xl font-bold text-red-600">
+                {products.filter((p) => p.stock === 0).length}
+              </p>
+              <p className="text-sm text-gray-600">Out of Stock</p>
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Filters and Search */}
@@ -201,7 +242,7 @@ export default function AdminProductsPage() {
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="all">All Brands</SelectItem>
                       <SelectItem value="Floral">Floral</SelectItem>
                       <SelectItem value="Oriental">Oriental</SelectItem>
                       <SelectItem value="Fresh">Fresh</SelectItem>
@@ -295,7 +336,7 @@ export default function AdminProductsPage() {
                         />
                       </th>
                       <th className="text-left p-4 font-medium">Product</th>
-                      <th className="text-left p-4 font-medium">Category</th>
+                      <th className="text-left p-4 font-medium">Brands</th>
                       <th className="text-left p-4 font-medium">Price</th>
                       <th className="text-left p-4 font-medium">Stock</th>
                       <th className="text-left p-4 font-medium">Sales</th>
@@ -433,47 +474,6 @@ export default function AdminProductsPage() {
                   </Link>
                 </div>
               )}
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Summary Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-4"
-        >
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-charcoal">
-                {products.length}
-              </p>
-              <p className="text-sm text-gray-600">Total Products</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-green-600">
-                {products.filter((p) => p.status === "active").length}
-              </p>
-              <p className="text-sm text-gray-600">Active Products</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-yellow-600">
-                {products.filter((p) => p.stock < 10 && p.stock > 0).length}
-              </p>
-              <p className="text-sm text-gray-600">Low Stock</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-red-600">
-                {products.filter((p) => p.stock === 0).length}
-              </p>
-              <p className="text-sm text-gray-600">Out of Stock</p>
             </CardContent>
           </Card>
         </motion.div>

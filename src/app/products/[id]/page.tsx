@@ -4,16 +4,10 @@ import { useParams } from "next/navigation";
 import Navigation from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  ShoppingCart,
-  Minus,
-  Plus,
-  Truck,
-  Shield,
-  RotateCcw,
-} from "lucide-react";
+import { Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Footer from "@/components/footer";
 
 // Mock product data - in real app, this would come from API
 const productData = {
@@ -24,20 +18,20 @@ const productData = {
     price: 189,
     originalPrice: 220,
     images: ["/images/pef-1.jpeg", "/images/pef-2.jpeg", "/images/pef-3.jpeg"],
-    category: "Floral",
     description:
       "A captivating blend of midnight roses and vanilla that creates an enchanting and mysterious aura. This sophisticated fragrance opens with fresh rose petals, develops into a heart of deep crimson roses, and settles into a warm base of vanilla and musk.",
-    notes: {
-      top: ["Rose Petals", "Bergamot", "Pink Pepper"],
-      middle: ["Crimson Rose", "Jasmine", "Peony"],
-      base: ["Vanilla", "Musk", "Sandalwood"],
-    },
-    details: {
-      concentration: "Eau de Parfum",
-      volume: "50ml / 100ml",
-      longevity: "8-10 hours",
-      sillage: "Moderate to Strong",
-    },
+    // notes: {
+    //   top: ["Rose Petals", "Bergamot", "Pink Pepper"],
+    //   middle: ["Crimson Rose", "Jasmine", "Peony"],
+    //   base: ["Vanilla", "Musk", "Sandalwood"],
+    // },
+    // details: {
+    //   concentration: "Eau de Parfum",
+    //   volume: "50ml / 100ml",
+    //   longevity: "8-10 hours",
+    //   sillage: "Moderate to Strong",
+    // },
+    size: "100ml",
     inStock: true,
     stockCount: 15,
   },
@@ -48,20 +42,20 @@ const productData = {
     price: 189,
     originalPrice: 220,
     images: ["/images/pef-2.jpeg", "/images/pef-4.jpeg", "/images/pef-3.jpeg"],
-    category: "Floral",
     description:
       "A captivating blend of midnight roses and vanilla that creates an enchanting and mysterious aura. This sophisticated fragrance opens with fresh rose petals, develops into a heart of deep crimson roses, and settles into a warm base of vanilla and musk.",
-    notes: {
-      top: ["Rose Petals", "Bergamot", "Pink Pepper"],
-      middle: ["Crimson Rose", "Jasmine", "Peony"],
-      base: ["Vanilla", "Musk", "Sandalwood"],
-    },
-    details: {
-      concentration: "Eau de Parfum",
-      volume: "50ml / 100ml",
-      longevity: "8-10 hours",
-      sillage: "Moderate to Strong",
-    },
+    // notes: {
+    //   top: ["Rose Petals", "Bergamot", "Pink Pepper"],
+    //   middle: ["Crimson Rose", "Jasmine", "Peony"],
+    //   base: ["Vanilla", "Musk", "Sandalwood"],
+    // },
+    // details: {
+    //   concentration: "Eau de Parfum",
+    //   volume: "50ml / 100ml",
+    //   longevity: "8-10 hours",
+    //   sillage: "Moderate to Strong",
+    // },
+    size: "50ml",
     inStock: true,
     stockCount: 15,
   },
@@ -74,7 +68,6 @@ export default function ProductDetailPage() {
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("50ml");
 
   if (!product) {
     return <div>Product not found</div>;
@@ -85,7 +78,7 @@ export default function ProductDetailPage() {
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
           {/* Product Images */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -163,26 +156,9 @@ export default function ProductDetailPage() {
               <p className="text-gray-600 leading-relaxed mb-6">
                 {product.description}
               </p>
-            </div>
-
-            {/* Size Selection */}
-            <div className="space-y-3">
-              <h3 className="font-semibold text-charcoal">Size</h3>
-              <div className="flex gap-3">
-                {["50ml", "100ml"].map((size) => (
-                  <Button
-                    key={size}
-                    variant={selectedSize === size ? "default" : "outline"}
-                    onClick={() => setSelectedSize(size)}
-                    className={
-                      selectedSize === size
-                        ? "bg-[#9b59b6] hover:bg-[#9b59b6]/90"
-                        : "border-[#9b59b6] text-[#9b59b6] hover:bg-[#9b59b6] hover:text-white"
-                    }
-                  >
-                    {size}
-                  </Button>
-                ))}
+              <div className="flex">
+                <h3 className="font-semibold text-charcoal">Size--</h3>
+                <p>{product.size}</p>
               </div>
             </div>
 
@@ -219,11 +195,17 @@ export default function ProductDetailPage() {
             <div className="flex gap-4 pt-4">
               <Button
                 size="lg"
-                className="flex-1 bg-[#9b59b6] hover:bg-[#9b59b6]/90 text-white h-12 cursor-pointer"
+                className="flex-1 border border-[#9b59b6] hover:bg-[#9b59b6]/90 bg-white hover:text-white text-[#512260] h-12 cursor-pointer"
                 disabled={!product.inStock}
               >
-                <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to Cart
+              </Button>
+              <Button
+                size="lg"
+                className="flex-1 bg-[#9b59b6] hover:border-[#9b59b6] border hover:text-slate-700 hover:bg-white text-white h-12 cursor-pointer"
+                disabled={!product.inStock}
+              >
+                Buy it now
               </Button>
             </div>
 
@@ -248,6 +230,7 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }
