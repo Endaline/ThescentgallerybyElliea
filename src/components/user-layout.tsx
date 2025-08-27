@@ -8,23 +8,13 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  User,
-  Package,
-  MapPin,
-  Heart,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+import { User, Package, MapPin, Settings, LogOut, Menu, X } from "lucide-react";
 
 const navigation = [
-  { name: "Dashboard", href: "/account", icon: User },
+  // { name: "Dashboard", href: "/account", icon: User },
   { name: "My Orders", href: "/account/orders", icon: Package },
   { name: "Addresses", href: "/account/addresses", icon: MapPin },
-  { name: "Wishlist", href: "/account/wishlist", icon: Heart },
-  { name: "Settings", href: "/account/settings", icon: Settings },
+  // { name: "Settings", href: "/account/settings", icon: Settings },
 ];
 
 export default function UserLayout({

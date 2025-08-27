@@ -17,7 +17,7 @@ const productData = {
     brand: "Luxe Parfum",
     price: 189,
     originalPrice: 220,
-    images: ["/images/pef-1.jpeg", "/images/pef-2.jpeg", "/images/pef-3.jpeg"],
+    images: ["/images/pef-3.jpeg", "/images/pef-2.jpeg", "/images/pef-3.jpeg"],
     description:
       "A captivating blend of midnight roses and vanilla that creates an enchanting and mysterious aura. This sophisticated fragrance opens with fresh rose petals, develops into a heart of deep crimson roses, and settles into a warm base of vanilla and musk.",
     // notes: {

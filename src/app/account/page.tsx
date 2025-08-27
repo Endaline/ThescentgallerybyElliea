@@ -13,6 +13,7 @@ import {
   ArrowRight,
   Gift,
 } from "lucide-react";
+import Image from "next/image";
 
 const recentOrders = [
   {
@@ -177,7 +178,9 @@ export default function AccountDashboard() {
                     className="flex items-center justify-between p-4 border rounded-lg"
                   >
                     <div className="flex items-center space-x-4">
-                      <img
+                      <Image
+                        width={1000}
+                        height={1000}
                         src={order.image || "/placeholder.svg"}
                         alt="Product"
                         className="h-12 w-12 rounded-lg object-cover"

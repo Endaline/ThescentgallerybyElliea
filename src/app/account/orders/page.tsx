@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   Search,
   Filter,
   Package,
@@ -23,6 +30,7 @@ import {
   Eye,
   Download,
 } from "lucide-react";
+import Image from "next/image";
 
 const orders = [
   {
@@ -164,34 +172,58 @@ export default function OrdersPage() {
       </motion.div>
 
       {/* Orders List */}
-      <div className="space-y-6">
-        {filteredOrders.map((order, index) => {
-          const StatusIcon =
-            statusIcons[order.status as keyof typeof statusIcons];
-          const isExpanded = selectedOrder === order.id;
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="border rounded-lg"
+      >
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Order ID</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Items</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredOrders.map((order) => {
+              const StatusIcon =
+                statusIcons[order.status as keyof typeof statusIcons];
+              const isExpanded = selectedOrder === order.id;
 
-          return (
-            <motion.div
-              key={order.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * (index + 2) }}
-            >
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
+              return (
+                <>
+                  <TableRow key={order.id} className="hover:bg-gray-50">
+                    <TableCell className="font-medium">{order.id}</TableCell>
+                    <TableCell>{order.date}</TableCell>
+                    <TableCell>
                       <div className="flex items-center space-x-2">
-                        <StatusIcon className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <CardTitle className="text-lg">{order.id}</CardTitle>
-                          <p className="text-sm text-gray-600">
-                            Placed on {order.date}
-                          </p>
+                        <div className="flex -space-x-2">
+                          {order.items.slice(0, 3).map((item, index) => (
+                            <Image
+                              key={index}
+                              width={32}
+                              height={32}
+                              src={
+                                item.image ||
+                                "/placeholder.svg?height=32&width=32"
+                              }
+                              alt={item.name}
+                              className="h-8 w-8 rounded-full border-2 border-white object-cover"
+                            />
+                          ))}
                         </div>
+                        <span className="text-sm text-gray-600">
+                          {order.items.length} item
+                          {order.items.length > 1 ? "s" : ""}
+                        </span>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-3">
+                    </TableCell>
+                    <TableCell>
                       <Badge
                         className={
                           statusColors[
@@ -199,118 +231,125 @@ export default function OrdersPage() {
                           ]
                         }
                       >
+                        <StatusIcon className="h-3 w-3 mr-1" />
                         {order.status}
                       </Badge>
-                      <p className="font-semibold text-lg">${order.total}</p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          setSelectedOrder(isExpanded ? null : order.id)
-                        }
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        {isExpanded ? "Hide" : "View"} Details
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-
-                {isExpanded && (
-                  <CardContent className="border-t">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-6">
-                      {/* Order Items */}
-                      <div>
-                        <h4 className="font-semibold mb-4">Order Items</h4>
-                        <div className="space-y-3">
-                          {order.items.map((item, itemIndex) => (
-                            <div
-                              key={itemIndex}
-                              className="flex items-center space-x-3 p-3 border rounded-lg"
-                            >
-                              <img
-                                src={item.image || "/placeholder.svg"}
-                                alt={item.name}
-                                className="h-12 w-12 rounded-lg object-cover"
-                              />
-                              <div className="flex-1">
-                                <p className="font-medium text-sm">
-                                  {item.name}
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                  Qty: {item.quantity}
-                                </p>
-                              </div>
-                              <p className="font-semibold">${item.price}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Shipping Info */}
-                      <div>
-                        <h4 className="font-semibold mb-4">
-                          Shipping Information
-                        </h4>
-                        <div className="space-y-3">
-                          <div className="p-3 border rounded-lg">
-                            <p className="text-sm font-medium text-gray-900">
-                              Delivery Address
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              {order.shipping.address}
-                            </p>
-                          </div>
-                          <div className="p-3 border rounded-lg">
-                            <p className="text-sm font-medium text-gray-900">
-                              Shipping Method
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              {order.shipping.method}
-                            </p>
-                          </div>
-                          {order.shipping.tracking && (
-                            <div className="p-3 border rounded-lg">
-                              <p className="text-sm font-medium text-gray-900">
-                                Tracking Number
-                              </p>
-                              <p className="text-sm text-gray-600 font-mono">
-                                {order.shipping.tracking}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="flex space-x-2 mt-4">
-                          {order.shipping.tracking && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 bg-transparent"
-                            >
-                              <Truck className="h-4 w-4 mr-2" />
-                              Track Package
-                            </Button>
-                          )}
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="flex-1 bg-transparent"
-                          >
-                            <Download className="h-4 w-4 mr-2" />
-                            Download Invoice
+                    </TableCell>
+                    <TableCell className="font-semibold">
+                      ${order.total}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setSelectedOrder(isExpanded ? null : order.id)
+                          }
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        {order.shipping.tracking && (
+                          <Button variant="outline" size="sm">
+                            <Truck className="h-4 w-4" />
                           </Button>
-                        </div>
+                        )}
+                        <Button variant="outline" size="sm">
+                          <Download className="h-4 w-4" />
+                        </Button>
                       </div>
-                    </div>
-                  </CardContent>
-                )}
-              </Card>
-            </motion.div>
-          );
-        })}
-      </div>
+                    </TableCell>
+                  </TableRow>
 
+                  {isExpanded && (
+                    <TableRow>
+                      <TableCell colSpan={6} className="bg-gray-50">
+                        <div className="p-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Order Items */}
+                            <div>
+                              <h4 className="font-semibold mb-4">
+                                Order Items
+                              </h4>
+                              <div className="space-y-3">
+                                {order.items.map((item, itemIndex) => (
+                                  <div
+                                    key={itemIndex}
+                                    className="flex items-center space-x-3 p-3 bg-white border rounded-lg"
+                                  >
+                                    <Image
+                                      width={48}
+                                      height={48}
+                                      src={
+                                        item.image ||
+                                        "/placeholder.svg?height=48&width=48"
+                                      }
+                                      alt={item.name}
+                                      className="h-12 w-12 rounded-lg object-cover"
+                                    />
+                                    <div className="flex-1">
+                                      <p className="font-medium text-sm">
+                                        {item.name}
+                                      </p>
+                                      <p className="text-sm text-gray-600">
+                                        Qty: {item.quantity}
+                                      </p>
+                                    </div>
+                                    <p className="font-semibold">
+                                      ${item.price}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Shipping Info */}
+                            <div>
+                              <h4 className="font-semibold mb-4">
+                                Shipping Information
+                              </h4>
+                              <div className="space-y-3">
+                                <div className="p-3 bg-white border rounded-lg">
+                                  <p className="text-sm font-medium text-gray-900">
+                                    Delivery Address
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {order.shipping.address}
+                                  </p>
+                                </div>
+                                <div className="p-3 bg-white border rounded-lg">
+                                  <p className="text-sm font-medium text-gray-900">
+                                    Shipping Method
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {order.shipping.method}
+                                  </p>
+                                </div>
+                                {order.shipping.tracking && (
+                                  <div className="p-3 bg-white border rounded-lg">
+                                    <p className="text-sm font-medium text-gray-900">
+                                      Tracking Number
+                                    </p>
+                                    <p className="text-sm text-gray-600 font-mono">
+                                      {order.shipping.tracking}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </motion.div>
+
+      {/* Empty state */}
       {filteredOrders.length === 0 && (
         <motion.div
           initial={{ opacity: 0 }}

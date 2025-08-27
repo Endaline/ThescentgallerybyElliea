@@ -10,11 +10,11 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 shadow bg-white/10 backdrop-blur-md border-b border-white/20">
+    <nav className="sticky top-0 z-50 shadow bg-gray-50 backdrop-blur-md border-b border-white/20">
       <div className=" max-content padding-x">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <Image
               width={1000}
               height={1000}
@@ -25,7 +25,7 @@ export default function Navigation() {
             <span className="text-2xl font-semibold text-[#512260] ">
               ThescentgallerybyElliea
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8 text-[#512260]">

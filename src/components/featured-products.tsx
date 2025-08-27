@@ -62,7 +62,7 @@ const FeaturedProducts = () => {
     <section className="py-20 bg-white">
       <div className="max-content padding-x">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[linear-gradient(135deg,#C8A2C8,hsl(280,75%,45%))] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[">
             Featured Collection
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

@@ -9,13 +9,13 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/images/pef-4.jpeg')`,
+          backgroundImage: `url('/images/pef-5.jpeg')`,
           filter: "brightness(0.7)",
         }}
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-800 opacity-80" />
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-800 opacity-80" /> */}
 
       {/* Content */}
       <div className="relative z-10 text-center text-primary-foreground max-w-4xl mx-auto px-6">

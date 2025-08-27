@@ -23,8 +23,8 @@ export default function ProductsPage() {
       <Navigation />
 
       {/* Header */}
-      <div className=" border-b">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className=" border-b ">
+        <div className="max-content padding-x py-20">
           <div className="text-center mb-8">
             <h1 className="font-serif text-4xl font-bold text-charcoal mb-4">
               Our Fragrances
@@ -34,61 +34,52 @@ export default function ProductsPage() {
               with the finest ingredients.
             </p>
           </div>
-
-          {/* Search and Controls */}
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-200 h-5 w-5" />
-              <Input
-                placeholder="Search fragrances..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12"
-              />
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowFilters(!showFilters)}
-                className="border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-              </Button>
-
-              <div className="flex border rounded-lg">
-                <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setViewMode("grid")}
-                  className={
-                    viewMode === "grid"
-                      ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
-                      : ""
-                  }
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setViewMode("list")}
-                  className={
-                    viewMode === "list"
-                      ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
-                      : ""
-                  }
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-content padding-x py-20">
+        {/* Search and Controls */}
+        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between pb-10">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-200 h-5 w-5" />
+            <Input
+              placeholder="Search fragrances..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-12"
+            />
+          </div>
+
+          <div className="flex items-center gap-4">
+            <p>View</p>
+            <div className="flex border rounded-lg">
+              <Button
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+                className={
+                  viewMode === "grid"
+                    ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
+                    : ""
+                }
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("list")}
+                className={
+                  viewMode === "list"
+                    ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
+                    : ""
+                }
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
         <div className="flex gap-8">
           {/* Filters Sidebar */}
           <div
