@@ -135,7 +135,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-slate-100;
+    @apply bg-slate-100 text-slate-800;
   }
 }
 
