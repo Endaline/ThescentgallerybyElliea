@@ -150,7 +150,7 @@ export default function ProductGrid({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className="hover:shadow-lg transition-shadow bg-slate-100">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-6">
                     {/* Product Image - Left */}
@@ -226,10 +226,10 @@ export default function ProductGrid({
           >
             <Card
               key={product.id}
-              className="group overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300"
+              className="group overflow-hidden border border-gray-200 bg-slate-100 hover:shadow-lg transition-shadow duration-300"
             >
               <Link href={`/products/${product.id}`}>
-                <div className="relative overflow-hidden bg-gray-50">
+                <div className="relative overflow-hidden bg-slate-100">
                   <Image
                     width={300}
                     height={300}
