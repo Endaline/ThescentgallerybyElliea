@@ -27,21 +27,21 @@ export default function Footer() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-[#512260] hover:text-[#9b59b6] hover:bg-gray-100 cursor-pointer"
+                className="text-[#512260] hover:text-[#512260]/80 hover:bg-gray-100 cursor-pointer"
               >
                 <Facebook className="h-5 w-5" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-[#512260] hover:text-[#9b59b6] hover:bg-gray-100 cursor-pointer"
+                className="text-[#512260] hover:text-[#512260]/80 hover:bg-gray-100 cursor-pointer"
               >
                 <Instagram className="h-5 w-5" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-[#512260] hover:text-[#9b59b6] hover:bg-gray-100 cursor-pointer"
+                className="text-[#512260] hover:text-[#512260]/80 hover:bg-gray-100 cursor-pointer"
               >
                 <Twitter className="h-5 w-5" />
               </Button>
@@ -56,25 +56,25 @@ export default function Footer() {
             <div className="space-y-2">
               <Link
                 href="/contact"
-                className="block text-[#512260] hover:text-[#9b59b6] transition-colors"
+                className="block text-[#512260] hover:text-[#512260]/80 transition-colors"
               >
                 Contact Us
               </Link>
               <Link
                 href="/shipping"
-                className="block text-[#512260] hover:text-[#9b59b6] transition-colors"
+                className="block text-[#512260] hover:text-[#512260]/80 transition-colors"
               >
                 Shipping Info
               </Link>
               <Link
                 href="/returns"
-                className="block text-[#512260] hover:text-[#9b59b6] transition-colors"
+                className="block text-[#512260] hover:text-[#512260]/80 transition-colors"
               >
                 Returns
               </Link>
               <Link
                 href="/faq"
-                className="block text-[#512260] hover:text-[#9b59b6] transition-colors"
+                className="block text-[#512260] hover:text-[#512260]/80 transition-colors"
               >
                 FAQ
               </Link>
@@ -88,15 +88,15 @@ export default function Footer() {
             </h4>
             <div className="space-y-3 text-[#512260]">
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-[#9b59b6]" />
+                <Mail className="h-4 w-4 text-[#512260]" />
                 <span>hello@perf.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-[#9b59b6]" />
+                <Phone className="h-4 w-4 text-[#512260]" />
                 <span>+1 (555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-[#9b59b6]" />
+                <MapPin className="h-4 w-4 text-[#512260]" />
                 <span>New York, NY 10001</span>
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function Footer() {
                 placeholder="Your email"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#512260]"
               />
-              <Button className="bg-[#512260] hover:bg-[#9b59b6] text-white px-6 py-2 rounded-md">
+              <Button className="bg-[#512260] hover:bg-[#512260]/80 text-white px-6 py-2 rounded-md">
                 Subscribe
               </Button>
             </div>
@@ -131,13 +131,13 @@ export default function Footer() {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               href="/privacy"
-              className="text-[#512260] hover:text-[#9b59b6] text-sm transition-colors"
+              className="text-[#512260] hover:text-[#512260]/80 text-sm transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-[#512260] hover:text-[#9b59b6] text-sm transition-colors"
+              className="text-[#512260] hover:text-[#512260]/80 text-sm transition-colors"
             >
               Terms of Service
             </Link>

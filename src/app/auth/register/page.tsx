@@ -17,10 +17,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  //   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -52,19 +53,26 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-white flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-xl border-0 bg-slate-100 text-slate-700 ">
           <CardHeader className="text-center pb-6">
-            <Link href="/" className="inline-block mb-4">
-              <h1 className="font-serif text-3xl font-bold text-burgundy">
-                Luxe Parfum
-              </h1>
+            <Link href="/" className="flex flex-col items-center space-x-2">
+              <Image
+                width={1000}
+                height={1000}
+                src="/images/Logo.svg"
+                alt="logo"
+                className="h-20 w-auto"
+              />
+              <span className="text-2xl font-semibold text-[#512260] ">
+                ThescentgallerybyElliea
+              </span>
             </Link>
             <CardTitle className="text-2xl font-serif text-charcoal">
               Create Account
@@ -136,7 +144,7 @@ export default function RegisterPage() {
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <User className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                     <Input
                       id="firstName"
                       name="firstName"
@@ -167,7 +175,7 @@ export default function RegisterPage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="email"
                     name="email"
@@ -184,7 +192,7 @@ export default function RegisterPage() {
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Lock className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="password"
                     name="password"
@@ -211,7 +219,7 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
@@ -239,9 +247,9 @@ export default function RegisterPage() {
                     )}
                   </Button>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="flex items-center space-x-2">
+              {/* <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   id="terms"
@@ -261,11 +269,11 @@ export default function RegisterPage() {
                     Privacy Policy
                   </Link>
                 </Label>
-              </div>
+              </div> */}
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-burgundy hover:bg-burgundy/90 text-white"
+                className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Create Account"}
@@ -277,7 +285,7 @@ export default function RegisterPage() {
                 Already have an account?
                 <Link
                   href="/auth/login"
-                  className="text-burgundy hover:underline font-medium"
+                  className="text-[#512260] hover:underline font-medium"
                 >
                   Sign in
                 </Link>

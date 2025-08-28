@@ -167,7 +167,7 @@ export default function Navigation() {
   });
 
   return (
-    <nav className="bg-white border-b border-gray-100 text-[#512260] sticky top-0 z-50">
+    <nav className="bg-gray-50 border-b border-gray-200 text-[#512260] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -186,23 +186,24 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
+              href="/"
+              className="text-charcoal hover:text-burgundy font-medium"
+            >
+              Home
+            </Link>
+            <Link
               href="/products"
               className="text-charcoal hover:text-burgundy font-medium"
             >
               Fragrances
             </Link>
-            <Link
-              href="/collections"
-              className="text-charcoal hover:text-burgundy font-medium"
-            >
-              Collections
-            </Link>
-            <Link
+
+            {/* <Link
               href="/about"
               className="text-charcoal hover:text-burgundy font-medium"
             >
               About
-            </Link>
+            </Link> */}
             <Link
               href="/contact"
               className="text-charcoal hover:text-burgundy font-medium"
@@ -226,12 +227,12 @@ export default function Navigation() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-charcoal hover:text-burgundy"
+                  className="text-charcoal hover:text-[#512260]/80 cursor-pointer"
                 >
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 bg-gray-50">
                 {isLoggedIn ? (
                   <>
                     <div className="px-3 py-2">
@@ -273,7 +274,7 @@ export default function Navigation() {
                     </DropdownMenuItem>
                   </>
                 ) : (
-                  <>
+                  <div>
                     <DropdownMenuItem asChild>
                       <Link href="/auth/login" className="flex items-center">
                         <LogIn className="mr-2 h-4 w-4" />
@@ -286,7 +287,7 @@ export default function Navigation() {
                         Create Account
                       </Link>
                     </DropdownMenuItem>
-                  </>
+                  </div>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -295,7 +296,7 @@ export default function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-charcoal hover:text-burgundy relative"
+                className="text-charcoal hover:text-[#512260]/90 relative cursor-pointer"
               >
                 <ShoppingBag className="h-5 w-5" />
                 <span className="absolute -top-1 -right-1 bg-slate-100 text-[#9b59b6] text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">

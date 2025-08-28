@@ -43,7 +43,7 @@ export default function ProductFilters({
           variant="ghost"
           size="sm"
           onClick={clearFilters}
-          className="text-white hover:text-[#9b59b6]/80 bg-[#9b59b6] cursor-pointer"
+          className="text-white hover:text-[#512260]/80 bg-[#512260] cursor-pointer"
         >
           Clear All
         </Button>
@@ -56,33 +56,50 @@ export default function ProductFilters({
         </CardHeader>
         <CardContent>
           <RadioGroup
+            className="text-slate-800"
             value={filters.priceRange}
             onValueChange={(value) =>
               onFiltersChange({ ...filters, priceRange: value })
             }
           >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="under-100" id="under-100" />
+              <RadioGroupItem
+                value="under-100"
+                id="under-100"
+                className="text-slate-800 bg-slate-200"
+              />
               <Label htmlFor="under-100" className="text-sm">
-                Under $100
+                Under ₦100,000
               </Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="100-200" id="100-200" />
+              <RadioGroupItem
+                value="100-200"
+                id="100-200"
+                className="text-slate-800 bg-slate-200"
+              />
               <Label htmlFor="100-200" className="text-sm">
-                $100 - $200
+                ₦100,00 - ₦200,00
               </Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="200-300" id="200-300" />
+              <RadioGroupItem
+                value="200-300"
+                id="200-300"
+                className="text-slate-800 bg-slate-200"
+              />
               <Label htmlFor="200-300" className="text-sm">
-                $200 - $300
+                ₦200,00 - ₦300,00
               </Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="over-300" id="over-300" />
+              <RadioGroupItem
+                value="over-300"
+                id="over-300"
+                className="text-slate-800 bg-slate-200"
+              />
               <Label htmlFor="over-300" className="text-sm">
-                Over $300
+                Over ₦300,00
               </Label>
             </div>
           </RadioGroup>
@@ -98,6 +115,7 @@ export default function ProductFilters({
           {brands.map((brand) => (
             <div key={brand} className="flex items-center space-x-2">
               <Checkbox
+                className="text-slate-800 bg-slate-200"
                 id={brand}
                 checked={filters.brand === brand}
                 onCheckedChange={(checked) =>

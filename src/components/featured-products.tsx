@@ -129,7 +129,7 @@ const FeaturedProducts = () => {
             <Button
               variant="outline"
               size="lg"
-              className="cursor-pointer border-[#9b59b6] text-[#9b59b6] hover:bg-[#9b59b6] hover:text-white"
+              className="cursor-pointer border-[#512260] text-[#512260] hover:bg-[#512260] hover:text-white"
             >
               View All Products
             </Button>

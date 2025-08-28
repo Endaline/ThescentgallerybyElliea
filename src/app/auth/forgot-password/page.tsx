@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -34,19 +35,26 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-cream to-white flex items-center justify-center p-4">
+      <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <Card className="shadow-xl border-0">
+          <Card className="shadow-xl border-0 bg-slate-100 text-slate-700 ">
             <CardHeader className="text-center pb-6">
-              <Link href="/" className="inline-block mb-4">
-                <h1 className="font-serif text-3xl font-bold text-burgundy">
-                  Luxe Parfum
-                </h1>
+              <Link href="/" className="flex items-center space-x-2">
+                <Image
+                  width={1000}
+                  height={1000}
+                  src="/images/Logo.svg"
+                  alt="logo"
+                  className="h-20 w-auto"
+                />
+                <span className="text-2xl font-semibold text-[#512260] ">
+                  ThescentgallerybyElliea
+                </span>
               </Link>
               <CardTitle className="text-2xl font-serif text-charcoal">
                 Check Your Email
@@ -91,23 +99,30 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-xl border-0 bg-slate-100 text-slate-700 ">
           <CardHeader className="text-center pb-6">
-            <Link href="/" className="inline-block mb-4">
-              <h1 className="font-serif text-3xl font-bold text-burgundy">
-                Luxe Parfum
-              </h1>
+            <Link href="/" className="flex flex-col items-center space-x-2">
+              <Image
+                width={1000}
+                height={1000}
+                src="/images/Logo.svg"
+                alt="logo"
+                className="h-20 w-auto"
+              />
+              <span className="text-2xl font-semibold text-[#512260] ">
+                ThescentgallerybyElliea
+              </span>
             </Link>
-            <CardTitle className="text-2xl font-serif text-charcoal">
+            {/* <CardTitle className="text-2xl font-serif text-charcoal">
               Reset Password
-            </CardTitle>
+            </CardTitle> */}
             <CardDescription className="text-gray-600">
               Enter your email address and we&apos;ll send you a link to reset
               your password
@@ -118,8 +133,8 @@ export default function ForgotPasswordPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <div className="relative flex items-center">
+                  <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
@@ -134,7 +149,7 @@ export default function ForgotPasswordPage() {
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-burgundy hover:bg-burgundy/90 text-white"
+                className="w-full h-12 bg-[#512260] hover:bg-[#512260]/80 text-white cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Sending..." : "Send Reset Link"}
@@ -144,7 +159,7 @@ export default function ForgotPasswordPage() {
             <div className="text-center">
               <Link
                 href="/auth/login"
-                className="inline-flex items-center text-sm text-burgundy hover:underline"
+                className="inline-flex items-center text-sm text-[#512260] hover:underline"
               >
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 Back to Sign In

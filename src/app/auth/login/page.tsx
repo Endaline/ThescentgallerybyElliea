@@ -14,9 +14,9 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,23 +39,30 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-white flex items-center justify-center p-4">
+    <div className="min-h-screen flex  items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-xl border-0 bg-slate-100 text-slate-700 ">
           <CardHeader className="text-center pb-6">
-            <Link href="/" className="inline-block mb-4">
-              <h1 className="font-serif text-3xl font-bold text-burgundy">
-                Luxe Parfum
-              </h1>
+            <Link href="/" className="flex flex-col items-center space-x-2">
+              <Image
+                width={1000}
+                height={1000}
+                src="/images/Logo.svg"
+                alt="logo"
+                className="h-20 w-auto"
+              />
+              <span className="text-2xl font-semibold text-[#512260] ">
+                ThescentgallerybyElliea
+              </span>
             </Link>
-            <CardTitle className="text-2xl font-serif text-charcoal">
+            {/* <CardTitle className="text-2xl font-serif text-charcoal">
               Welcome Back
-            </CardTitle>
+            </CardTitle> */}
             <CardDescription className="text-gray-600">
               Sign in to your account to continue shopping
             </CardDescription>
@@ -122,7 +129,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
@@ -138,7 +145,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Lock className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -164,16 +171,10 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <input type="checkbox" id="remember" className="rounded" />
-                  <Label htmlFor="remember" className="text-sm">
-                    Remember me
-                  </Label>
-                </div>
+              <div className="flex items-end justify-end">
                 <Link
                   href="/auth/forgot-password"
-                  className="text-sm text-burgundy hover:underline"
+                  className="text-sm text-[#512260] hover:underline"
                 >
                   Forgot password?
                 </Link>
@@ -181,7 +182,7 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-burgundy hover:bg-burgundy/90 text-white"
+                className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Signing in..." : "Sign In"}
@@ -190,10 +191,10 @@ export default function LoginPage() {
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Don&apos;t have an account?{" "}
+                Don&apos;t have an account?
                 <Link
                   href="/auth/register"
-                  className="text-burgundy hover:underline font-medium"
+                  className="text-[#512260] hover:underline font-medium"
                 >
                   Sign up
                 </Link>

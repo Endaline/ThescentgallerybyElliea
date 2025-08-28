@@ -19,7 +19,7 @@ const initialCartItems = [
     brand: "Luxe Parfum",
     price: 189,
     originalPrice: 220,
-    image: "/placeholder.svg?height=200&width=150",
+    image: "/images/pef-1.jpeg",
     size: "50ml",
     quantity: 2,
   },
@@ -28,7 +28,7 @@ const initialCartItems = [
     name: "Golden Amber",
     brand: "Luxe Parfum",
     price: 165,
-    image: "/placeholder.svg?height=200&width=150",
+    image: "/images/pef-4.jpeg",
     size: "100ml",
     quantity: 1,
   },
@@ -92,7 +92,7 @@ export default function CartPage() {
             <Link href="/products">
               <Button
                 size="lg"
-                className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
+                className="bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
               >
                 Shop Fragrances
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -105,10 +105,10 @@ export default function CartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen ">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-content padding-x py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -128,7 +128,7 @@ export default function CartPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                 >
-                  <Card>
+                  <Card className="bg-slate-100">
                     <CardContent className="p-6">
                       <div className="flex gap-6">
                         <div className="w-24 h-24 flex-shrink-0">
@@ -224,7 +224,7 @@ export default function CartPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <Card className="sticky top-8">
+              <Card className="sticky top-8 bg-slate-100">
                 <CardContent className="p-6 space-y-4">
                   <h2 className="font-serif text-xl font-semibold text-charcoal">
                     Order Summary
@@ -278,7 +278,7 @@ export default function CartPage() {
                   </div>
 
                   {/* Promo Code */}
-                  {!promoApplied && (
+                  {/* {!promoApplied && (
                     <div className="space-y-2">
                       <div className="flex gap-2">
                         <Input
@@ -290,7 +290,7 @@ export default function CartPage() {
                         <Button
                           variant="outline"
                           onClick={applyPromoCode}
-                          className="border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
+                          className="border-[#512260] text-[#512260] hover:bg-[#512260] hover:text-white bg-transparent"
                         >
                           Apply
                         </Button>
@@ -299,12 +299,12 @@ export default function CartPage() {
                         Try: WELCOME10 for 10% off
                       </p>
                     </div>
-                  )}
+                  )} */}
 
                   <Link href="/checkout" className="block">
                     <Button
                       size="lg"
-                      className="w-full bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
+                      className="w-full bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
                     >
                       Proceed to Checkout
                       <ArrowRight className="ml-2 h-5 w-5" />
