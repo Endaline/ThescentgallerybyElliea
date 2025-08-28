@@ -75,13 +75,13 @@ export function CreateAddressForm() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer bg-[#512660] hover:bg-[#512260]/80 text-slate-50">
           <Plus className="h-4 w-4 mr-2" />
-          Add Address
+          Add a new address
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto bg-slate-100">
         <DialogHeader className="flex items-center justify-between pb-4">
           <div>
             <DialogTitle className="text-xl font-semibold">
@@ -94,7 +94,10 @@ export function CreateAddressForm() {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 bg-slate-100"
+          >
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -281,7 +284,7 @@ export function CreateAddressForm() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 bg-black text-white hover:bg-gray-800 cursor-pointer"
+              className="w-full h-12 bg-[#512260] text-white hover:bg-[#512260]/90 cursor-pointer"
             >
               {isLoading ? "Adding..." : "Add a new address"}
             </Button>

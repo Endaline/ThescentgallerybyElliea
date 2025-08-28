@@ -50,7 +50,7 @@ export default function ProductFilters({
       </div>
 
       {/* Price Range */}
-      <Card className="bg-slate-100">
+      <Card className="bg-slate-100 text-slate-900">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Price Range</CardTitle>
         </CardHeader>
@@ -90,7 +90,7 @@ export default function ProductFilters({
       </Card>
 
       {/* Brand Filter */}
-      <Card className="bg-slate-100">
+      <Card className="bg-slate-100 text-slate-900">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Brand</CardTitle>
         </CardHeader>

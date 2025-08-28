@@ -26,7 +26,7 @@ export default function AddressesPage() {
   ]);
 
   return (
-    <div className="py-20 max-w-7xl mx-auto">
+    <div className="py-20 max-content padding-x">
       <div className="flex items-center gap-60 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-balance">My Addresses</h1>
@@ -37,9 +37,9 @@ export default function AddressesPage() {
         <CreateAddressForm />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 ">
         {addresses.map((address) => (
-          <Card key={address.id} className="relative">
+          <Card key={address.id} className="relative bg-slate-100">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg flex items-center gap-2">

@@ -8,11 +8,11 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, Package, MapPin, Settings, LogOut, Menu, X } from "lucide-react";
+import { Package, MapPin, LogOut, Menu, X } from "lucide-react";
 
 const navigation = [
   // { name: "Dashboard", href: "/account", icon: User },
-  { name: "My Orders", href: "/account/orders", icon: Package },
+  { name: "My Orders", href: "/account", icon: Package },
   { name: "Addresses", href: "/account/addresses", icon: MapPin },
   // { name: "Settings", href: "/account/settings", icon: Settings },
 ];
@@ -26,12 +26,12 @@ export default function UserLayout({
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen ">
       {/* Mobile sidebar */}
       <motion.div
         initial={false}
         animate={{ x: sidebarOpen ? 0 : "-100%" }}
-        className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl lg:hidden"
+        className="fixed inset-y-0 left-0 z-50 w-64 bg-slate-100  shadow-xl lg:hidden"
       >
         <div className="flex h-16 items-center justify-between px-6 border-b">
           <h2 className="font-serif text-xl text-burgundy-600">My Account</h2>
@@ -53,7 +53,7 @@ export default function UserLayout({
                 href={item.href}
                 className={`flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-burgundy-50 text-burgundy-700"
+                    ? "bg-[#512660] text-slate-50"
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 }`}
                 onClick={() => setSidebarOpen(false)}
@@ -67,8 +67,8 @@ export default function UserLayout({
       </motion.div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-white border-r border-gray-200">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w4 lg:flex-col">
+        <div className="flex flex-col flex-grow bg-slate-100 border-r border-gray-200">
           <div className="flex items-center h-16 px-6 border-b">
             <h2 className="font-serif text-xl text-burgundy-600">My Account</h2>
           </div>
@@ -94,8 +94,8 @@ export default function UserLayout({
                   href={item.href}
                   className={`flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? "bg-burgundy-50 text-burgundy-700"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? "bg-[#512660] text-slate-50"
+                      : "hover:bg-[#512660]/10 text-slate-800"
                   }`}
                 >
                   <Icon className="mr-3 h-5 w-5" />

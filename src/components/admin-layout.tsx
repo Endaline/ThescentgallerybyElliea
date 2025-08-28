@@ -11,7 +11,6 @@ import {
   Package,
   ShoppingBag,
   Users,
-  BarChart3,
   Settings,
   LogOut,
   Menu,
@@ -39,11 +38,7 @@ const sidebarItems = [
     href: "/admin/customers",
     icon: Users,
   },
-  // {
-  //   name: "Analytics",
-  //   href: "/admin/analytics",
-  //   icon: BarChart3,
-  // },
+
   {
     name: "Settings",
     href: "/admin/settings",
