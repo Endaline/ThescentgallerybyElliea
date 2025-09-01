@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
@@ -16,6 +16,9 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { signOutUser } from "@/app/actions/user.actions";
 
 const sidebarItems = [
   {
@@ -53,6 +56,11 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const session = useSession();
+
+  const router = useRouter();
+
+  const email = session.data?.user.email;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -71,10 +79,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         }`}
       >
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-          <Link href="/admin" className="flex items-center">
-            <h1 className="font-serif text-xl font-bold text-[#A76BCF]">
-              Luxe Admin
-            </h1>
+          <Link href="/" className="flex items-center my-5">
+            <Image
+              width={1000}
+              height={1000}
+              src="/images/Logo.svg"
+              alt="logo"
+              className="h-16 w-auto"
+            />
+            <span className="text-xs font-semibold text-[#512260] ">
+              ThescentgallerybyElliea
+            </span>
           </Link>
           <Button
             variant="ghost"
@@ -112,6 +127,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="absolute bottom-4 left-4 right-4">
           <Button
             variant="ghost"
+            onClick={async () => {
+              await signOutUser();
+
+              router.push("/");
+            }}
             className="w-full justify-start text-gray-700 hover:bg-gray-100"
           >
             <LogOut className="h-5 w-5 mr-3" />
@@ -142,7 +162,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </div>
               <div className="hidden md:block">
                 <p className="text-sm font-medium">Admin User</p>
-                <p className="text-xs text-gray-500">admin@luxeparfum.com</p>
+                <p className="text-xs text-gray-500">{email}</p>
               </div>
             </div>
           </div>
