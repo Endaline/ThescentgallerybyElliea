@@ -1,0 +1,93 @@
+"use server";
+
+import { formatError } from "@/lib/utils";
+import bcrypt from "bcrypt";
+
+import { signIn, signOut } from "../../services/auth";
+import { redirect } from "next/navigation";
+import { signInFormSchema, signUpFormSchema } from "@/lib/validators";
+import { prisma } from "@/app/db/prismadb";
+
+export async function signInWithCredentials(
+  prevState: unknown,
+  formData: FormData
+) {
+  try {
+    const user = signInFormSchema.parse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+
+    await signIn("credentials", user);
+
+    return { success: true, message: "Signed in successfully" };
+  } catch (error) {
+    // Handle redirect errors by re-throwing them
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+    return { success: false, message: "Invalid email or password" };
+  }
+}
+
+export async function signUpUser(prevState: unknown, formData: FormData) {
+  try {
+    const user = signUpFormSchema.parse({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    const plainPassword = user.password;
+
+    const saltRounds = 10;
+
+    user.password = await bcrypt.hash(user.password, saltRounds);
+
+    await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+    });
+
+    await signIn("credentials", {
+      email: user.email,
+      password: plainPassword,
+    });
+
+    return { success: true, message: "User registered successfully" };
+  } catch (error) {
+    // Handle redirect errors by re-throwing them
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function signOutUser() {
+  // get current users cart and delete it so it does not persist to next user
+  // const currentCart = await getMyCart();
+
+  // if (currentCart?.id) {
+  //   await prisma.cart.delete({ where: { id: currentCart.id } });
+  // }
+  await signOut();
+
+  redirect("/login");
+}
