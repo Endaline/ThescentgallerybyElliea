@@ -168,7 +168,7 @@ export default function Navigation() {
 
   return (
     <nav className="bg-gray-50 border-b border-gray-200 text-[#512260] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-content padding-x py-2">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
@@ -232,7 +232,10 @@ export default function Navigation() {
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-gray-50">
+              <DropdownMenuContent
+                align="end"
+                className="w-56 bg-gray-50 text-salte-800"
+              >
                 {isLoggedIn ? (
                   <>
                     <div className="px-3 py-2">
@@ -350,26 +353,20 @@ export default function Navigation() {
                 Contact
               </Link>
 
-              <div className="border-t border-gray-100 pt-4 mt-4">
+              <div className="border-t border-gray-100 text-slate-800 pt-4 mt-4">
                 {isLoggedIn ? (
                   <>
                     <Link
                       href="/account"
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
-                      My Account
-                    </Link>
-                    <Link
-                      href="/account/orders"
-                      className="block text-charcoal hover:text-burgundy font-medium mb-2"
-                    >
                       My Orders
                     </Link>
                     <Link
-                      href="/account/wishlist"
+                      href="/account/addresses"
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
-                      Wishlist
+                      Address
                     </Link>
                     <button
                       onClick={() => setIsLoggedIn(false)}
@@ -382,7 +379,7 @@ export default function Navigation() {
                   <>
                     <Link
                       href="/auth/login"
-                      className="block text-charcoal hover:text-burgundy font-medium mb-2"
+                      className="block text-slate-800 hover:text-burgundy font-medium mb-2"
                     >
                       Sign In
                     </Link>
