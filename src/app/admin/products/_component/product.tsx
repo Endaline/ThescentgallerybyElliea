@@ -8,12 +8,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -23,110 +17,166 @@ import {
 import {
   Search,
   Plus,
-  Filter,
-  MoreHorizontal,
-  Edit,
   Trash2,
   Eye,
   Package,
   AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
+  Pencil,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 
-// Mock product data
-const products = [
-  {
-    id: 1,
-    name: "Midnight Rose",
-    brand: "Luxe Parfum",
-    category: "Floral",
-    price: 189,
-    originalPrice: 220,
-    stock: 45,
-    status: "active",
-    image: "/placeholder.svg?height=80&width=80",
-    sales: 156,
-    createdAt: "2024-01-10",
-  },
-  {
-    id: 2,
-    name: "Golden Amber",
-    brand: "Luxe Parfum",
-    category: "Oriental",
-    price: 165,
-    stock: 23,
-    status: "active",
-    image: "/placeholder.svg?height=80&width=80",
-    sales: 134,
-    createdAt: "2024-01-08",
-  },
-  {
-    id: 3,
-    name: "Ocean Breeze",
-    brand: "Luxe Parfum",
-    category: "Fresh",
-    price: 145,
-    stock: 8,
-    status: "active",
-    image: "/placeholder.svg?height=80&width=80",
-    sales: 98,
-    createdAt: "2024-01-05",
-  },
-  {
-    id: 4,
-    name: "Velvet Orchid",
-    brand: "Essence Elite",
-    category: "Floral",
-    price: 210,
-    stock: 0,
-    status: "inactive",
-    image: "/placeholder.svg?height=80&width=80",
-    sales: 78,
-    createdAt: "2024-01-03",
-  },
-  {
-    id: 5,
-    name: "Spiced Cedar",
-    brand: "Royal Scents",
-    category: "Woody",
-    price: 175,
-    stock: 67,
-    status: "active",
-    image: "/placeholder.svg?height=80&width=80",
-    sales: 92,
-    createdAt: "2024-01-01",
-  },
-];
+interface Brand {
+  id: string;
+  name: string;
+  createdAt: Date;
+}
 
-const Product = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+interface ProductImage {
+  id: string;
+  url: string;
+  name: string;
+  key: string;
+}
+interface ProductData {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  shortDescription: string;
+  concentration: string;
+  sku: string;
+  status: string;
+  featured: boolean;
+  limitedEdition: boolean;
+  newArrival: boolean;
+  price: number;
+  originalPrice: number;
+  stock: number;
+  volume: string;
+  weight: string;
+  dimensions: string;
+  longevity: string;
+  sillage: string;
+  topNotes: string[];
+  middleNotes: string[];
+  baseNotes: string[];
+  images: ProductImage[];
+  createdAt: Date;
+  updatedAt: Date;
+  brandId: string;
+  brand: Brand;
+}
+
+interface ProductsResponse {
+  data: ProductData[];
+  totalPages: number;
+  currentPage: number;
+  totalCount: number;
+}
+
+interface CountsResponse {
+  counts: {
+    totalCount: number;
+    activeCount: number;
+    lowCount: number;
+    outCount: number;
+  };
+}
+
+interface ProductProps {
+  products: ProductsResponse;
+  brands: Brand[];
+  counts: CountsResponse;
+}
+
+export default function Product({ products, brands, counts }: ProductProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentSearch = searchParams.get("name") || "";
+
+  const [searchQuery, setSearchQuery] = useState(currentSearch);
+
+  const [selectedBrand, setSelectedBrand] = useState(
+    searchParams.get("brand") || "all"
+  );
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-  const [sortBy, setSortBy] = useState("name");
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
-    const matchesStatus =
-      selectedStatus === "all" || product.status === selectedStatus;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const currentPage = products.currentPage;
+  const totalPages = products.totalPages;
+  const productList = products.data;
+
+  // Handle search
+  const updateSearchParams = (updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === "" || value === "all") {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+
+    if ("name" in updates || "brand" in updates) {
+      params.delete("page");
+    }
+
+    router.push(`?${params.toString()}`);
+  };
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    const timeoutId = setTimeout(() => {
+      updateSearchParams({ name: value });
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  };
+
+  // Handle brand filter
+  const handleBrandFilter = (brandValue: string) => {
+    setSelectedBrand(brandValue);
+    const params = new URLSearchParams(searchParams);
+    if (brandValue && brandValue !== "all") {
+      params.set("brand", brandValue);
+    } else {
+      params.delete("brand");
+    }
+    params.set("page", "1"); // Reset to first page on filter
+    router.push(`?${params.toString()}`);
+  };
+
+  // Handle pagination
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", (currentPage - 1).toString());
+      router.push(`?${params.toString()}`);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", (currentPage + 1).toString());
+      router.push(`?${params.toString()}`);
+    }
+  };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedProducts(filteredProducts.map((p) => p.id));
+      setSelectedProducts(productList.map((p) => p.id));
     } else {
       setSelectedProducts([]);
     }
   };
 
-  const handleSelectProduct = (productId: number, checked: boolean) => {
+  const handleSelectProduct = (productId: string, checked: boolean) => {
     if (checked) {
       setSelectedProducts([...selectedProducts, productId]);
     } else {
@@ -183,7 +233,7 @@ const Product = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-charcoal">
-                {products.length}
+                {counts.counts.totalCount}
               </p>
               <p className="text-sm text-gray-600">Total Products</p>
             </CardContent>
@@ -191,7 +241,7 @@ const Product = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-green-600">
-                {products.filter((p) => p.status === "active").length}
+                {counts.counts.activeCount}
               </p>
               <p className="text-sm text-gray-600">Active Products</p>
             </CardContent>
@@ -199,7 +249,7 @@ const Product = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-yellow-600">
-                {products.filter((p) => p.stock < 10 && p.stock > 0).length}
+                {counts.counts.lowCount}
               </p>
               <p className="text-sm text-gray-600">Low Stock</p>
             </CardContent>
@@ -207,7 +257,7 @@ const Product = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-red-600">
-                {products.filter((p) => p.stock === 0).length}
+                {counts.counts.outCount}
               </p>
               <p className="text-sm text-gray-600">Out of Stock</p>
             </CardContent>
@@ -229,25 +279,25 @@ const Product = () => {
                     <Input
                       placeholder="Search products..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={(e) => handleSearch(e.target.value)}
                       className="pl-10"
                     />
                   </div>
 
                   <Select
-                    value={selectedCategory}
-                    onValueChange={setSelectedCategory}
+                    value={selectedBrand}
+                    onValueChange={handleBrandFilter}
                   >
                     <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Category" />
+                      <SelectValue placeholder="Brand" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Brands</SelectItem>
-                      <SelectItem value="Floral">Floral</SelectItem>
-                      <SelectItem value="Oriental">Oriental</SelectItem>
-                      <SelectItem value="Fresh">Fresh</SelectItem>
-                      <SelectItem value="Woody">Woody</SelectItem>
-                      <SelectItem value="Citrus">Citrus</SelectItem>
+                      {brands.map((brand) => (
+                        <SelectItem key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
@@ -264,25 +314,6 @@ const Product = () => {
                       <SelectItem value="inactive">Inactive</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Sort by" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="name">Name</SelectItem>
-                      <SelectItem value="price">Price</SelectItem>
-                      <SelectItem value="stock">Stock</SelectItem>
-                      <SelectItem value="sales">Sales</SelectItem>
-                      <SelectItem value="created">Date Created</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Button variant="outline" size="icon">
-                    <Filter className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
 
@@ -328,24 +359,22 @@ const Product = () => {
                       <th className="text-left p-4 w-12">
                         <Checkbox
                           checked={
-                            selectedProducts.length ===
-                              filteredProducts.length &&
-                            filteredProducts.length > 0
+                            selectedProducts.length === productList.length &&
+                            productList.length > 0
                           }
                           onCheckedChange={handleSelectAll}
                         />
                       </th>
                       <th className="text-left p-4 font-medium">Product</th>
-                      <th className="text-left p-4 font-medium">Brands</th>
+                      <th className="text-left p-4 font-medium">Brand</th>
                       <th className="text-left p-4 font-medium">Price</th>
                       <th className="text-left p-4 font-medium">Stock</th>
-                      <th className="text-left p-4 font-medium">Sales</th>
                       <th className="text-left p-4 font-medium">Status</th>
                       <th className="text-left p-4 font-medium">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts.map((product, index) => {
+                    {productList.map((product, index) => {
                       const stockStatus = getStockStatus(product.stock);
                       return (
                         <motion.tr
@@ -372,33 +401,38 @@ const Product = () => {
                           <td className="p-4">
                             <div className="flex items-center gap-3">
                               <Image
-                                width={1000}
-                                height={1000}
-                                src={product.image || "/placeholder.svg"}
-                                alt={product.name}
+                                key={product.id}
+                                width={48}
+                                height={48}
+                                src={
+                                  product.images?.[0]?.url || "/placeholder.svg"
+                                }
+                                alt={product.images?.[0]?.name || product.name}
                                 className="w-12 h-12 object-cover rounded-lg"
                               />
                               <div>
                                 <p className="font-medium">{product.name}</p>
                                 <p className="text-sm text-gray-600">
-                                  {product.brand}
+                                  SKU: {product.sku}
                                 </p>
                               </div>
                             </div>
                           </td>
+
                           <td className="p-4">
                             <Badge variant="secondary">
-                              {product.category}
+                              {product.brand?.name || "No Brand"}
                             </Badge>
                           </td>
                           <td className="p-4">
                             <div>
                               <p className="font-medium">${product.price}</p>
-                              {product.originalPrice && (
-                                <p className="text-sm text-gray-500 line-through">
-                                  ${product.originalPrice}
-                                </p>
-                              )}
+                              {product.originalPrice &&
+                                product.originalPrice > product.price && (
+                                  <p className="text-sm text-gray-500 line-through">
+                                    ${product.originalPrice}
+                                  </p>
+                                )}
                             </div>
                           </td>
                           <td className="p-4">
@@ -418,9 +452,6 @@ const Product = () => {
                             </p>
                           </td>
                           <td className="p-4">
-                            <span className="font-medium">{product.sales}</span>
-                          </td>
-                          <td className="p-4">
                             <Badge className={getStatusColor(product.status)}>
                               {product.status === "active"
                                 ? "Active"
@@ -428,27 +459,13 @@ const Product = () => {
                             </Badge>
                           </td>
                           <td className="p-4">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  View
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Edit className="h-4 w-4 mr-2" />
-                                  Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            <div className="flex items-center gap-3">
+                              <Eye className="h-5 w-5 cursor-pointer text-neutral-800" />
+
+                              <Pencil className="h-5 w-5 cursor-pointer text-green-600" />
+
+                              <Trash2 className="h-5 w-5 cursor-pointer text-red-600" />
+                            </div>
                           </td>
                         </motion.tr>
                       );
@@ -457,7 +474,7 @@ const Product = () => {
                 </table>
               </div>
 
-              {filteredProducts.length === 0 && (
+              {productList.length === 0 && (
                 <div className="text-center py-12">
                   <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                   <h3 className="font-medium text-gray-900 mb-2">
@@ -477,9 +494,50 @@ const Product = () => {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-600">
+                    Showing page {currentPage} of {totalPages} (
+                    {products.totalCount} total products)
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={handlePrevPage}
+                      disabled={currentPage <= 1}
+                      className="flex items-center gap-2"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </Button>
+                    <span className="px-3 py-1 text-sm font-medium bg-gray-100 rounded">
+                      {currentPage}
+                    </span>
+                    <Button
+                      variant="outline"
+                      onClick={handleNextPage}
+                      disabled={currentPage >= totalPages}
+                      className="flex items-center gap-2"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
       </div>
     </AdminLayout>
   );
-};
-
-export default Product;
+}

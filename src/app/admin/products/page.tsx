@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAllBrand } from "@/app/actions/brand.action";
 import Product from "./_component/product";
 import { getAllProducts, productCounter } from "@/app/actions/product.action";
@@ -15,16 +16,43 @@ export default async function AdminProductsPage(props: {
   const searchText = searchParams.name || "";
   const brand = searchParams.brand || "";
 
-  const products = await getAllProducts({
-    query: searchText,
-    page,
-    brand,
-  });
+  const [productsResult, brandResult, counts] = await Promise.all([
+    getAllProducts({
+      query: searchText,
+      page,
+      brand,
+    }),
+    getAllBrand(),
+    productCounter(),
+  ]);
 
-  const brandList = (await getAllBrand()).data;
-  const counts = await productCounter();
+  const products = productsResult
+    ? {
+        ...productsResult,
+        data: productsResult.data.map((product: any) => ({
+          ...product,
+          // Extract brand info if needed or flatten the structure
+          brandName: product.brand?.name,
+          brandId: product.brandId,
+          // Include all other product properties as needed
+        })),
+      }
+    : {
+        data: [],
+        totalPages: 0,
+        currentPage: 1,
+        totalCount: 0,
+      };
 
-  console.log(products, brandList, counts);
+  const brandList = brandResult?.data || [];
+  const productCounts = counts || 0;
 
-  return <Product />;
+  console.log(products, brandList, productCounts);
+  console.log("products", products);
+  console.log("brandList", brandList);
+  console.log("counts", productCounts);
+
+  return (
+    <Product products={products} brands={brandList} counts={productCounts} />
+  );
 }
