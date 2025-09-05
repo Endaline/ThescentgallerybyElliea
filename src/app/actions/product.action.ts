@@ -194,6 +194,17 @@ export async function getAllProducts({
   }
 }
 
+export async function getProductBySlug(slug: string) {
+  return await prisma.product.findFirst({
+    where: { slug: slug },
+    include: {
+      brand: {
+        select: { id: true, name: true },
+      },
+    },
+  });
+}
+
 export async function productCounter() {
   const [totalCount, activeCount, lowCount, outCount] =
     await prisma.$transaction([

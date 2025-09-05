@@ -44,7 +44,32 @@ export async function createBrand(data: { name: string }) {
 
     return {
       success: true,
-      message: "Category created successfully",
+      message: "Brand created successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function updateBrand(data: { name: string; id: string }) {
+  const { id, name } = data;
+  try {
+    const brandExists = await prisma.productBrand.findUnique({
+      where: { id },
+    });
+
+    if (!brandExists) throw new Error("Brand not found");
+
+    await prisma.productBrand.update({
+      where: { id },
+      data: { name },
+    });
+
+    revalidatePath("/admin/brand");
+
+    return {
+      success: true,
+      message: "Brand updated successfully",
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

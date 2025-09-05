@@ -37,6 +37,12 @@ export const authConfig = {
         return response;
       }
 
+      if (request.nextUrl.pathname === "/admin/settings") {
+        return NextResponse.redirect(
+          new URL("/admin/settings/basic-info", request.url)
+        );
+      }
+
       return true;
     },
   },

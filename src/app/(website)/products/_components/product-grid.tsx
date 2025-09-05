@@ -1,84 +1,37 @@
 "use client";
 
-import { useMemo } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { GenProduct } from "@/lib/types/type";
+import { GenCart, GenProduct } from "@/lib/types/type";
 import { ProductImage } from "@prisma/client";
+import AddToCart from "./add-to-cart";
 
 // Mock product data
 
 interface ProductGridProps {
   viewMode: "grid" | "list";
-  searchQuery: string;
-  filters: {
-    priceRange: string;
-    brand: string;
-  };
   products: GenProduct[];
+  cart: GenCart | undefined;
 }
 
 export default function ProductGrid({
   viewMode,
-  searchQuery,
-  filters,
   products,
+  cart,
 }: ProductGridProps) {
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      // Search filter
-      if (
-        searchQuery &&
-        !product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !product.brand.name.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // Category filter
-
-      // Brand filter
-      if (filters.brand && product.brand.name !== filters.brand) {
-        return false;
-      }
-
-      // Price range filter
-      if (filters.priceRange) {
-        const price = product.price;
-        switch (filters.priceRange) {
-          case "under-100":
-            if (price >= 100) return false;
-            break;
-          case "100-200":
-            if (price < 100 || price > 200) return false;
-            break;
-          case "200-300":
-            if (price < 200 || price > 300) return false;
-            break;
-          case "over-300":
-            if (price <= 300) return false;
-            break;
-        }
-      }
-
-      return true;
-    });
-  }, [searchQuery, filters]);
-
   if (viewMode === "list") {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <p className="text-gray-600">
-            Showing 1 - {filteredProducts.length} of {filteredProducts.length}{" "}
-            products
+            Showing 1 - {products.length} of {products.length} products
           </p>
         </div>
         <div className="space-y-4">
-          {filteredProducts.map((product, index) => {
+          {products.map((product, index) => {
             const images = product.images as ProductImage[];
 
             return (
@@ -126,9 +79,17 @@ export default function ProductGrid({
 
                       {/* Action Buttons - Right */}
                       <div className="flex flex-col gap-2 flex-shrink-0">
-                        <Button className="px-6 py-2 min-w-[140px] bg-[#512260] hover:bg-[#512260]/50 text-white cursor-pointer">
-                          Add to cart
-                        </Button>
+                        <AddToCart
+                          item={{
+                            productId: product.id,
+                            name: product.name,
+                            slug: product.slug,
+                            price: product.price,
+                            qty: 1,
+                            image: images![0].url,
+                          }}
+                          cart={cart}
+                        />
                         <Button
                           variant="outline"
                           className="px-6 py-2 min-w-[140px] border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
@@ -150,13 +111,11 @@ export default function ProductGrid({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-gray-600">
-          {filteredProducts.length} products found
-        </p>
+        <p className="text-gray-600">{products.length} products found</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.map((product, index) => {
+        {products.map((product, index) => {
           const images = product.images as ProductImage[];
           return (
             <motion.div
@@ -201,15 +160,25 @@ export default function ProductGrid({
                     </div>
 
                     <div className="space-y-2">
-                      <Button className="w-full bg-[#512260] hover:bg-[#512260]/50 text-white cursor-pointer">
-                        Add to cart
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
-                      >
-                        Quick view
-                      </Button>
+                      <AddToCart
+                        item={{
+                          productId: product.id,
+                          name: product.name,
+                          slug: product.slug,
+                          price: product.price,
+                          qty: 1,
+                          image: images![0].url,
+                        }}
+                        cart={cart}
+                      />
+                      <Link href={`/products/${product.slug}`}>
+                        <Button
+                          variant="outline"
+                          className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                        >
+                          Quick view
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </CardContent>

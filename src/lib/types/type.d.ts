@@ -1,10 +1,41 @@
 import { Order, Product } from "@prisma/client";
+import { CartItem } from "@/lib/validators";
 
 type GenProduct = Product & {
   brand: {
     id: string;
     name: string;
   };
+};
+
+type GenCart = {
+  items: CartItem[];
+  itemsPrice: number;
+  totalPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  id: string;
+  createdAt: Date;
+  userId: string | null;
+  sessionCartId: string;
+};
+
+type MainBrand = {
+  name: string;
+};
+
+type MainCompanyInfo = {
+  storeName: string;
+  storeDescription: string;
+  contactEmail: string;
+  supportEmail: string;
+  phone: string;
+  address: string;
+};
+
+type MainShipping = {
+  shippingRate: number;
+  taxRate: number;
 };
 
 type MainProduct = {

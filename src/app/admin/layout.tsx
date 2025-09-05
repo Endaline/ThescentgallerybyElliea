@@ -1,3 +1,4 @@
+import AdminLayout from "@/components/admin-layout";
 import { SessionProvider } from "next-auth/react";
 import type React from "react";
 export default function AdminLayoutWrapper({
@@ -5,5 +6,10 @@ export default function AdminLayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      {" "}
+      <AdminLayout>{children}</AdminLayout>
+    </SessionProvider>
+  );
 }

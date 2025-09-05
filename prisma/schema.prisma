@@ -145,6 +145,24 @@ model ProductBrand {
   Products  Product[]
 }
 
+model Shipping {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  shippingRate Float
+  taxRate      Float
+  createdAt    DateTime @default(now()) @db.Timestamp
+}
+
+model CompanyInfo {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeName        String?
+  address          String?
+  phone            String?
+  contactEmail     String?
+  storeDescription String?
+  supportEmail     String?
+  createdAt        DateTime @default(now()) @db.Timestamp
+}
+
 model Order {
   id              String      @id @default(auto()) @map("_id") @db.ObjectId
   userId          String      @db.ObjectId

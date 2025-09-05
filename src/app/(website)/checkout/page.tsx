@@ -322,7 +322,7 @@ export default function CheckoutPage() {
                                 2-3 business days
                               </p>
                             </div>
-                            <span className="font-medium">$15.00</span>
+                            <span className="font-medium">₦15.00</span>
                           </div>
 
                           <div className="flex items-center space-x-2 p-4 border rounded-lg">
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
                                 Next business day
                               </p>
                             </div>
-                            <span className="font-medium">$25.00</span>
+                            <span className="font-medium">₦25.00</span>
                           </div>
                         </RadioGroup>
                       </CardContent>
@@ -502,7 +502,7 @@ export default function CheckoutPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span>₦{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Shipping</span>
@@ -510,12 +510,12 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex justify-between">
                       <span>Tax</span>
-                      <span>${tax.toFixed(2)}</span>
+                      <span>₦{tax.toFixed(2)}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>₦{total.toFixed(2)}</span>
                     </div>
                   </div>
                 </CardContent>

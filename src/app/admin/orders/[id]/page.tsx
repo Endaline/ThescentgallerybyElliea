@@ -232,10 +232,10 @@ export default function OrderDetailPage() {
                         </div>
                         <div className="text-right">
                           <p className="font-medium">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            ₦{(item.price * item.quantity).toFixed(2)}
                           </p>
                           <p className="text-sm text-gray-600">
-                            ${item.price} each
+                            ₦{item.price} each
                           </p>
                         </div>
                       </div>
@@ -247,24 +247,24 @@ export default function OrderDetailPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
-                      <span>${orderDetail.subtotal.toFixed(2)}</span>
+                      <span>₦{orderDetail.subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Shipping</span>
                       <span>
                         {orderDetail.shipping === 0
                           ? "Free"
-                          : `$${orderDetail.shipping.toFixed(2)}`}
+                          : `₦${orderDetail.shipping.toFixed(2)}`}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Tax</span>
-                      <span>${orderDetail.tax.toFixed(2)}</span>
+                      <span>₦{orderDetail.tax.toFixed(2)}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>${orderDetail.total.toFixed(2)}</span>
+                      <span>₦{orderDetail.total.toFixed(2)}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -383,7 +383,7 @@ export default function OrderDetailPage() {
                   <div className="flex items-center justify-between">
                     <span>Total</span>
                     <span className="font-medium">
-                      ${orderDetail.total.toFixed(2)}
+                      ₦{orderDetail.total.toFixed(2)}
                     </span>
                   </div>
                 </CardContent>
