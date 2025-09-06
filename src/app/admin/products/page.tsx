@@ -47,11 +47,6 @@ export default async function AdminProductsPage(props: {
   const brandList = brandResult?.data || [];
   const productCounts = counts || 0;
 
-  console.log(products, brandList, productCounts);
-  console.log("products", products);
-  console.log("brandList", brandList);
-  console.log("counts", productCounts);
-
   return (
     <Product products={products} brands={brandList} counts={productCounts} />
   );

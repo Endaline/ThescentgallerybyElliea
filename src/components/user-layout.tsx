@@ -4,16 +4,18 @@ import type React from "react";
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Package, MapPin, LogOut, Menu, X } from "lucide-react";
+import { Package, LogOut, Menu, X, User } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { signOutUser } from "@/app/actions/user.actions";
 
 const navigation = [
   // { name: "Dashboard", href: "/account", icon: User },
   { name: "My Orders", href: "/account", icon: Package },
-  { name: "Addresses", href: "/account/addresses", icon: MapPin },
+  { name: "Profile", href: "/account/profile", icon: User },
   // { name: "Settings", href: "/account/settings", icon: Settings },
 ];
 
@@ -24,6 +26,13 @@ export default function UserLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+
+  const session = useSession();
+
+  const email = session.data?.user.email;
+  const name = session.data?.user.name;
+  const img = session.data?.user.image;
+  const router = useRouter();
 
   return (
     <div className="min-h-screen ">
@@ -75,13 +84,13 @@ export default function UserLayout({
 
           <div className="flex flex-col items-center py-6 px-6 border-b">
             <Avatar className="h-16 w-16 mb-3">
-              <AvatarImage src="/elegant-woman-profile.png" />
+              <AvatarImage src={img ?? "/elegant-woman-profile.png"} />
               <AvatarFallback className="bg-burgundy-100 text-burgundy-600 text-lg">
-                JD
+                {name?.charAt(0).toLocaleUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <h3 className="font-medium text-gray-900">Jane Doe</h3>
-            <p className="text-sm text-gray-500">jane.doe@example.com</p>
+            <h3 className="font-medium text-gray-900">{name}</h3>
+            <p className="text-sm text-gray-500">{email}</p>
           </div>
 
           <nav className="flex-1 px-3 py-6">
@@ -108,6 +117,11 @@ export default function UserLayout({
           <div className="p-3 border-t">
             <Button
               variant="ghost"
+              onClick={async () => {
+                await signOutUser();
+
+                router.push("/");
+              }}
               className="w-full justify-start text-gray-600 hover:text-gray-900"
             >
               <LogOut className="mr-3 h-5 w-5" />

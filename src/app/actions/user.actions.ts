@@ -7,6 +7,7 @@ import { signIn, signOut } from "../../services/auth";
 import { redirect } from "next/navigation";
 import { signInFormSchema, signUpFormSchema } from "@/lib/validators";
 import { prisma } from "@/app/db/prismadb";
+import { Prisma } from "@prisma/client";
 
 export async function signInWithCredentials(
   prevState: unknown,
@@ -90,4 +91,54 @@ export async function signOutUser() {
   await signOut();
 
   redirect("/login");
+}
+
+export async function getUserById(userId: string) {
+  const user = await prisma.user.findFirst({
+    where: { id: userId },
+  });
+  if (!user) throw new Error("User not found");
+  return user;
+}
+
+export async function getAllUsers({
+  limit = 10,
+  page,
+  query,
+}: {
+  limit?: number;
+  page: number;
+  query: string;
+}) {
+  const queryFilter: Prisma.UserWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
+
+  const data = await prisma.user.findMany({
+    where: {
+      ...queryFilter,
+      role: "user",
+    },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+
+  const dataCount = await prisma.user.count({
+    where: {
+      ...queryFilter,
+      role: "user",
+    },
+  });
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
 }

@@ -8,21 +8,17 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { GenCart } from "@/lib/types/type";
-import AddButton from "./add-btn";
-import DecreaseButton from "./decrease-btn";
-import RemoveBtn from "./remove-btn";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import AddToCart from "../../products/_components/add-to-cart";
+import RemoveBtn from "./remove-btn";
+import { Shipping } from "@prisma/client";
 
-export default function CartComp({ cart }: { cart?: GenCart }) {
-  console.log("cart", cart);
+export default function CartComp({
+  cart,
+  shippingInfo,
+}: {
+  cart?: GenCart;
+  shippingInfo?: Shipping | null;
+}) {
   if (!cart || cart.items.length === 0) {
     return (
       <main className="min-h-screen bg-gray-50">
@@ -146,7 +142,7 @@ export default function CartComp({ cart }: { cart?: GenCart }) {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span>
-                        Subtotal ( ({cart.items.reduce((a, c) => a + c.qty, 0)})
+                        Subtotal ({cart.items.reduce((a, c) => a + c.qty, 0)}
                         items)
                       </span>
                       <span>₦{cart.itemsPrice.toFixed(2)}</span>
@@ -155,27 +151,29 @@ export default function CartComp({ cart }: { cart?: GenCart }) {
                     {/* {savings > 0 && (
                       <div className="flex justify-between text-green-600">
                         <span>Savings</span>
-                        <span>-₦{savings.toFixed(2)}</span>
+                        <span>-${savings.toFixed(2)}</span>
                       </div>
                     )}
 
                     {promoApplied && (
                       <div className="flex justify-between text-green-600">
                         <span>Promo Code (WELCOME10)</span>
-                        <span>-₦{promoDiscount.toFixed(2)}</span>
+                        <span>-${promoDiscount.toFixed(2)}</span>
                       </div>
                     )} */}
 
                     <div className="flex justify-between">
                       <span>Shipping</span>
-                      {/* <span>
-                        {shipping === 0 ? "Free" : `₦₦{shipping.toFixed(2)}`}
-                      </span> */}
+                      <span>
+                        {shippingInfo?.shippingRate === 0
+                          ? "Free"
+                          : `₦${shippingInfo?.shippingRate.toFixed(2)}`}
+                      </span>
                     </div>
 
                     <div className="flex justify-between">
                       <span>Tax</span>
-                      {/* <span>₦{tax.toFixed(2)}</span> */}
+                      <span>%{shippingInfo?.taxRate.toFixed(2)}</span>
                     </div>
 
                     <Separator />
@@ -220,10 +218,10 @@ export default function CartComp({ cart }: { cart?: GenCart }) {
                     </Button>
                   </Link>
 
-                  <div className="text-center text-sm text-gray-500">
+                  {/* <div className="text-center text-sm text-gray-500">
                     <p>Free shipping on orders over ₦100</p>
                     <p>30-day return policy</p>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
             </motion.div>

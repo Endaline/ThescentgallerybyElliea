@@ -1,0 +1,158 @@
+import {
+  Body,
+  Column,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Img,
+  Preview,
+  Row,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
+import { formatCurrency } from "@/lib/utils";
+import { GenOrder } from "@/lib/types/type";
+
+PurchaseReceiptEmail.PreviewProps = {
+  order: {
+    id: crypto.randomUUID(),
+    userId: "123",
+    user: {
+      name: "John Doe",
+      email: "test@test.com",
+    },
+    paymentMethod: "Paystack",
+    shippingAddress: {
+      fullName: "John Doe",
+      streetAddress: "123 Main st",
+      city: "New York",
+      postalCode: "10001",
+      country: "US",
+    },
+    createdAt: new Date(),
+    totalPrice: 100,
+    taxPrice: 10,
+    shippingPrice: 10,
+    itemsPrice: 80,
+    orderitems: [
+      {
+        name: "x.name",
+        orderId: "123",
+        productId: "123",
+        slug: "x.slug",
+        qty: 2,
+        imageId: "",
+        price: 500,
+        id: "",
+      },
+    ],
+    isDelivered: true,
+    deliveredAt: new Date(),
+    isPaid: true,
+    paidAt: new Date(),
+    paymentResult: {
+      id: "123",
+      status: "succeeded",
+      pricePaid: "100",
+      email_address: "test@test.com",
+    },
+  },
+} satisfies OrderInformationProps;
+
+const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
+
+type OrderInformationProps = {
+  order: GenOrder;
+};
+
+export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
+  return (
+    <Html>
+      <Preview>View order receipt</Preview>
+      <Tailwind>
+        <Head />
+        <Body className="font-sans bg-white">
+          <Container className="max-w-xl">
+            <Heading>Purchase Receipt</Heading>
+            <Section>
+              <Row>
+                <Column>
+                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                    Order ID
+                  </Text>
+                  <Text className="mt-0 mr-4">{order.id.toString()}</Text>
+                </Column>
+                <Column>
+                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                    Purchase Date
+                  </Text>
+                  <Text className="mt-0 mr-4">
+                    {dateFormatter.format(order.createdAt)}
+                  </Text>
+                </Column>
+                <Column>
+                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                    Price Paid
+                  </Text>
+                  <Text className="mt-0 mr-4">
+                    {formatCurrency(order.totalPrice)}
+                  </Text>
+                </Column>
+              </Row>
+            </Section>
+            <Section className="border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4">
+              {order.orderitems.map(
+                (item: {
+                  name: string;
+                  id: string;
+                  productId: string;
+                  slug: string;
+                  qty: number;
+                  price: number;
+                  orderId: string;
+                  imageId: string | null;
+                }) => (
+                  <Row key={item.productId} className="mt-8">
+                    <Column className="w-20">
+                      <Img
+                        width="80"
+                        alt={item.name}
+                        className="rounded"
+                        src={
+                          item.imageId?.startsWith("/")
+                            ? `${process.env.NEXT_PUBLIC_APP_URL}${item.imageId}`
+                            : item.imageId!
+                        }
+                      />
+                    </Column>
+                    <Column className="align-top">
+                      {item.name} x {item.qty}
+                    </Column>
+                    <Column align="right" className="align-top">
+                      {formatCurrency(item.price)}
+                    </Column>
+                  </Row>
+                )
+              )}
+              {[
+                { name: "Items", price: order.itemsPrice },
+                { name: "Tax", price: order.taxPrice },
+                { name: "Shipping", price: order.shippingPrice },
+                { name: "Total", price: order.totalPrice },
+              ].map(({ name, price }) => (
+                <Row key={name} className="py-1">
+                  <Column align="right">{name}: </Column>
+                  <Column align="right" width={70} className="align-top">
+                    <Text className="m-0">{formatCurrency(price)}</Text>
+                  </Column>
+                </Row>
+              ))}
+            </Section>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
+}

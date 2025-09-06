@@ -3,7 +3,6 @@
 import type React from "react";
 
 import { use, useMemo, useState, useTransition } from "react";
-import AdminLayout from "@/components/admin-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,11 +20,16 @@ import { ArrowLeft, Upload, X, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useUploadThing } from "@/hooks/use-uploadthing";
-import { checkIfSlugExists, createProduct } from "@/app/actions/product.action";
+import {
+  checkIfSlugExists,
+  createProduct,
+  updateProduct,
+} from "@/app/actions/product.action";
 import ImageUploader from "./image-uploader";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { MainProduct } from "@/lib/types/type";
+import { GenProduct, MainProduct, ProductStatus } from "@/lib/types/type";
+import { ProductImage } from "@prisma/client";
 
 interface ImageFile {
   id: string;
@@ -34,11 +38,13 @@ interface ImageFile {
   name: string;
 }
 
-type ProductProps = Omit<MainProduct, "img">;
+type ProductProps = Omit<MainProduct, "img"> & { id: string };
 
-const AddProduct = ({
+const EditProduct = ({
+  product,
   brandList,
 }: {
+  product: GenProduct | null;
   brandList:
     | {
         name: string;
@@ -48,30 +54,37 @@ const AddProduct = ({
     | undefined;
 }) => {
   const [formData, setFormData] = useState<ProductProps>({
-    name: "",
-    brand: "",
-    description: "",
-    shortDescription: "",
-    price: "",
-    originalPrice: "",
-    stock: "",
-    sku: "",
-    weight: "",
-    dimensions: "",
-    concentration: "",
-    volume: "",
-    longevity: "",
-    sillage: "",
-    topNotes: [""],
-    middleNotes: [""],
-    baseNotes: [""],
-    status: "active",
-    featured: false,
-    newArrival: false,
-    limitedEdition: false,
-    slug: "",
+    id: product?.id || "",
+    name: product?.name || "",
+    brand: product?.brand.id || "",
+    description: product?.description || "",
+    shortDescription: product?.shortDescription || "",
+    price: product?.price?.toString() || "0",
+    originalPrice: product?.originalPrice?.toString() || "0",
+    stock: product?.stock?.toString() || "0",
+    sku: product?.sku || "",
+    weight: product?.weight?.toString() || "0",
+    dimensions: product?.dimensions?.toString() || "0",
+    concentration: product?.concentration || "",
+    volume: product?.volume || "",
+    longevity: product?.longevity || "",
+    sillage: product?.sillage || "",
+    topNotes: product?.topNotes || [],
+    middleNotes: product?.middleNotes || [],
+    baseNotes: product?.baseNotes || [],
+    status: product?.status as ProductStatus,
+    featured: product?.featured || false,
+    newArrival: product?.newArrival || false,
+    limitedEdition: product?.limitedEdition || false,
+    slug: product?.slug || "",
   });
+
+  const imageUrlList = product?.images as ProductImage[];
   const [images, setImages] = useState<ImageFile[]>([]);
+  const [uploadedImgInfo, setUploadedImgInfo] = useState<{
+    deletedImages: ProductImage[];
+    uploadedImages: ProductImage[];
+  }>({ deletedImages: [], uploadedImages: imageUrlList });
 
   const { uploadFile } = useUploadThing();
   const [isPending, startTransition] = useTransition();
@@ -112,24 +125,34 @@ const AddProduct = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     startTransition(async () => {
-      await checkIfSlugExists(formData.slug);
+      // Check if slug exists incase you are updating the product name to one that already exists in db
+      if (formData.slug !== product?.slug) {
+        await checkIfSlugExists(formData.slug);
+      }
 
-      const uploadedFileList = await Promise.all(
-        images.map(async (img) => await uploadFile(img.file))
+      let img: { key: string; imageName: string; image: string }[] = [];
+
+      if (images.length > 0) {
+        const uploadedFileList = await Promise.all(
+          images.map(async (img) => await uploadFile(img.file))
+        );
+
+        img = uploadedFileList.map((uploadedFile) => {
+          return {
+            key: uploadedFile?.key,
+            imageName: uploadedFile?.name,
+            image: uploadedFile?.ufsUrl,
+          };
+        });
+      }
+
+      const res = await updateProduct(
+        {
+          ...formData,
+          img,
+        },
+        uploadedImgInfo.deletedImages
       );
-
-      const img = uploadedFileList.map((uploadedFile) => {
-        return {
-          key: uploadedFile?.key,
-          imageName: uploadedFile?.name,
-          image: uploadedFile?.ufsUrl,
-        };
-      });
-
-      const res = await createProduct({
-        ...formData,
-        img,
-      });
 
       if (!res.success) {
         toast(res.message);
@@ -174,11 +197,9 @@ const AddProduct = ({
         </Link>
         <div>
           <h1 className="font-serif text-3xl font-bold text-purple-900">
-            Add New Product
+            Edit Product
           </h1>
-          <p className="text-gray-600 mt-1">
-            Create a new perfume product for your catalog.
-          </p>
+          <p className="text-gray-600 mt-1">Edit product for your catalog.</p>
         </div>
       </motion.div>
 
@@ -516,8 +537,8 @@ const AddProduct = ({
             <ImageUploader
               images={images}
               setImages={setImages}
-              uploadedImgInfo={{ deletedImages: [], uploadedImages: [] }}
-              setUploadedImgInfo={() => {}}
+              uploadedImgInfo={uploadedImgInfo}
+              setUploadedImgInfo={setUploadedImgInfo}
             />
           </motion.div>
 
@@ -598,7 +619,7 @@ const AddProduct = ({
               disabled={isPending}
               className="w-full bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
             >
-              {isPending ? "Creating" : " Create Product"}
+              {isPending ? "Updating" : " Update Product"}
             </Button>
             <Link href="/admin/products" className="block">
               <Button
@@ -616,4 +637,4 @@ const AddProduct = ({
   );
 };
 
-export default AddProduct;
+export default EditProduct;

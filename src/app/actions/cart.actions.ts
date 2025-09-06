@@ -46,13 +46,17 @@ export async function getMyCart() {
   });
 }
 
+const isShipping = await prisma.shipping.findFirst();
+const shipping = isShipping ? isShipping : { shippingRate: 0, taxRate: 0 };
+
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
     ),
-    shippingPrice = round2(itemsPrice > 100 ? 0 : 10),
-    taxPrice = round2(0.15 * itemsPrice),
+    // shippingPrice = round2(itemsPrice > 100 ? 0 : shipping.shippingRate),
+    shippingPrice = round2(shipping.shippingRate),
+    taxPrice = round2(shipping.taxRate * itemsPrice),
     totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
 
   return {
@@ -94,8 +98,6 @@ export async function addItemToCart(data: CartItem) {
         sessionCartId: sessionCartId,
         ...calcPrice([item]),
       });
-
-      console.log("newCart", newCart);
 
       // Add to database
       await prisma.cart.create({

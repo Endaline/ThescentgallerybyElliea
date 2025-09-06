@@ -1,4 +1,5 @@
 import UserLayout from "@/components/user-layout";
+import { SessionProvider } from "next-auth/react";
 import type React from "react";
 
 export default function AccountLayout({
@@ -6,5 +7,10 @@ export default function AccountLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <UserLayout>{children}</UserLayout>;
+  return (
+    <SessionProvider>
+      {" "}
+      <UserLayout>{children}</UserLayout>;
+    </SessionProvider>
+  );
 }

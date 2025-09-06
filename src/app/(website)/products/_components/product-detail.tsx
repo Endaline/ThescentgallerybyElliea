@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
@@ -8,8 +8,6 @@ import Image from "next/image";
 import { GenCart, GenProduct } from "@/lib/types/type";
 import { ProductImage } from "@prisma/client";
 import AddToCart from "./add-to-cart";
-import AddButton from "../../cart/_components/add-btn";
-import DecreaseButton from "../../cart/_components/decrease-btn";
 import { CartItem } from "@/lib/validators";
 
 export default function ProductDetailPage({
@@ -27,8 +25,6 @@ export default function ProductDetailPage({
   if (!product) {
     return <div>Product not found</div>;
   }
-
-  console.log("existItem4", existItem);
 
   const images = product.images as ProductImage[];
 
@@ -126,20 +122,7 @@ export default function ProductDetailPage({
                 {existItem ? (
                   <>
                     {" "}
-                    <DecreaseButton id={existItem.productId} />
-                    <span className="w-12 text-center font-medium">
-                      {existItem.qty}
-                    </span>
-                    <AddButton
-                      item={{
-                        productId: product.id,
-                        name: product.name,
-                        slug: product.slug,
-                        price: product.price,
-                        qty: quantity,
-                        image: images![0].url,
-                      }}
-                    />
+                    <AddToCart item={existItem} cart={cart} />
                   </>
                 ) : (
                   <>

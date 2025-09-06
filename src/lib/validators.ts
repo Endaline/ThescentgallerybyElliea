@@ -71,13 +71,19 @@ export const insertCartSchema = z.object({
 
 // Schema for the shipping address
 export const shippingAddressSchema = z.object({
-  fullName: z.string().min(3, "Name must be at least 3 characters"),
   streetAddress: z.string().min(3, "Address must be at least 3 characters"),
   city: z.string().min(3, "City must be at least 3 characters"),
   postalCode: z.string().min(3, "Postal code must be at least 3 characters"),
   country: z.string().min(3, "Country must be at least 3 characters"),
-  lat: z.number().optional(),
-  lng: z.number().optional(),
+  lga: z.string().nonempty("LGA is required"),
+});
+
+export const checkoutSchema = z.object({
+  name: z.string().nonempty("Name is required"),
+  email: z.string().email("Invalid email address"),
+  address: shippingAddressSchema,
+  phone: z.string().nonempty("Phone Number is required"),
+  paymentMethod: z.enum(["paymentOnDelivery", "paystack"]),
 });
 
 // Schema for payment method
@@ -148,3 +154,5 @@ export const insertReviewSchema = z.object({
 
 export type CartItem = z.infer<typeof cartItemSchema>;
 export type Cart = z.infer<typeof insertCartSchema>;
+export type ShippingAddressSchema = z.infer<typeof shippingAddressSchema>;
+export type CheckoutSchema = z.infer<typeof checkoutSchema>;
