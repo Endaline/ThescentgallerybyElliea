@@ -64,7 +64,7 @@ export const insertCartSchema = z.object({
   itemsPrice: z.coerce.number().min(1, "Price must be at least 1"),
   totalPrice: z.coerce.number().min(1, "Price must be at least 1"),
   shippingPrice: z.coerce.number().default(0),
-  taxPrice: z.coerce.number().min(1, "Price must be at least 1"),
+  taxPrice: z.coerce.number().default(0),
   sessionCartId: z.string().min(1, "Session cart id is required"),
   userId: z.string().optional().nullable(),
 });

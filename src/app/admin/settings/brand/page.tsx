@@ -2,11 +2,12 @@ import React from "react";
 import { getAllBrand } from "@/app/actions/brand.action";
 import AddBrand from "../_components/add-brand";
 import Brand from "../_components/brand";
+import { requireAdmin } from "@/services/auth-guard";
 
 const page = async () => {
   const brand = await getAllBrand();
 
-  console.log(brand);
+  await requireAdmin();
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

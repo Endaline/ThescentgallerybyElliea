@@ -16,15 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Upload, X, Plus } from "lucide-react";
+import { ArrowLeft, X, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useUploadThing } from "@/hooks/use-uploadthing";
-import {
-  checkIfSlugExists,
-  createProduct,
-  updateProduct,
-} from "@/app/actions/product.action";
+import { checkIfSlugExists, updateProduct } from "@/app/actions/product.action";
 import ImageUploader from "./image-uploader";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

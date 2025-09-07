@@ -1,6 +1,7 @@
 import { getAllUsers } from "@/app/actions/user.actions";
 import React from "react";
 import CustomersPage from "./_components/customers";
+import { requireAdmin } from "@/services/auth-guard";
 
 const page = async (props: {
   searchParams: Promise<{
@@ -12,6 +13,8 @@ const page = async (props: {
 
   const users = await getAllUsers({ page: Number(page), query: searchText });
   console.log("users", users);
+
+  await requireAdmin();
   return <CustomersPage />;
 };
 

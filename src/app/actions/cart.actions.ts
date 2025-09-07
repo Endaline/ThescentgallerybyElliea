@@ -117,7 +117,6 @@ export async function addItemToCart(data: CartItem) {
         (x) => x.productId === item.productId
       );
 
-      console.log("existItem", existItem);
       if (existItem) {
         // Check stock
         if (product.stock < existItem.qty + 1) {

@@ -22,6 +22,8 @@ PurchaseReceiptEmail.PreviewProps = {
     user: {
       name: "John Doe",
       email: "test@test.com",
+      phone: "123",
+      image: "test.jpg",
     },
     paymentMethod: "Paystack",
     shippingAddress: {
@@ -30,6 +32,7 @@ PurchaseReceiptEmail.PreviewProps = {
       city: "New York",
       postalCode: "10001",
       country: "US",
+      lga: "LGA",
     },
     createdAt: new Date(),
     totalPrice: 100,

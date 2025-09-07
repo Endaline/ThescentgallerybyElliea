@@ -1,10 +1,9 @@
 import { getOrderById } from "@/app/actions/order.actions";
-import { auth } from "@/services/auth";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React from "react";
 import OrderDetailPage from "../_components/order-detail";
-import { GenOrder } from "@/lib/types/type";
 import { ShippingAddressSchema } from "@/lib/validators";
+import { requireAdmin } from "@/services/auth-guard";
 
 const page = async (props: {
   params: Promise<{
@@ -16,12 +15,7 @@ const page = async (props: {
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  const session = await auth();
-
-  // Redirect the user if they don't own the order
-  // if (session?.user.role !== "admin") {
-  //   return redirect("/unauthorized");
-  // }
+  await requireAdmin();
   return (
     <OrderDetailPage
       order={{

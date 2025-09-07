@@ -2,6 +2,7 @@
 import { getAllBrand } from "@/app/actions/brand.action";
 import Product from "./_component/product";
 import { getAllProducts, productCounter } from "@/app/actions/product.action";
+import { requireAdmin } from "@/services/auth-guard";
 
 export default async function AdminProductsPage(props: {
   searchParams: Promise<{
@@ -11,6 +12,8 @@ export default async function AdminProductsPage(props: {
   }>;
 }) {
   const searchParams = await props.searchParams;
+
+  await requireAdmin();
 
   const page = Number(searchParams.page) || 1;
   const searchText = searchParams.name || "";
