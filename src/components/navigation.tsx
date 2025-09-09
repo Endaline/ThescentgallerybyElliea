@@ -9,7 +9,6 @@ import {
   User,
   LogIn,
   UserPlus,
-  Settings,
   Package,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,6 +38,8 @@ export default function Navigation({
   const name = session?.user.name;
   const role = session?.user.role;
 
+  console.log("role", role);
+
   return (
     <nav className="bg-gray-50 border-b border-gray-200 text-[#512260] sticky top-0 z-50">
       <div className="max-content padding-x py-2">
@@ -52,7 +53,7 @@ export default function Navigation({
               alt="logo"
               className="h-20 w-auto"
             />
-            <span className="text-2xl font-semibold text-[#512260] ">
+            <span className="text-2xl font-semibold text-[#512260] hidden lg:block ">
               ThescentgallerybyElliea
             </span>
           </Link>
@@ -102,13 +103,13 @@ export default function Navigation({
                     <DropdownMenuItem asChild>
                       <Link
                         href={role === "admin" ? "/admin" : "/account"}
-                        className="flex items-center"
+                        className="flex items-center cursor-pointer"
                       >
                         <User className="mr-2 h-4 w-4" />
-                        My Account
+                        {role === "admin" ? "Admin" : "My Account"}
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
+                    {/* <DropdownMenuItem asChild>
                       <Link
                         href={
                           role !== "admin" ? "/admin/orders" : "/account/orders"
@@ -118,21 +119,8 @@ export default function Navigation({
                         <Package className="mr-2 h-4 w-4" />
                         {role === "admin" ? "Orders" : "My Orders"}
                       </Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
 
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={
-                          role === "admin"
-                            ? "/admin/settings"
-                            : "/account/settings"
-                        }
-                        className="flex items-center"
-                      >
-                        <Settings className="mr-2 h-4 w-4" />
-                        Settings
-                      </Link>
-                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={async () => {
@@ -203,18 +191,7 @@ export default function Navigation({
               >
                 Fragrances
               </Link>
-              <Link
-                href="/collections"
-                className="text-charcoal hover:text-burgundy font-medium"
-              >
-                Collections
-              </Link>
-              <Link
-                href="/about"
-                className="text-charcoal hover:text-burgundy font-medium"
-              >
-                About
-              </Link>
+
               <Link
                 href="/contact"
                 className="text-charcoal hover:text-burgundy font-medium"
@@ -227,19 +204,19 @@ export default function Navigation({
                   <>
                     <Link
                       href={role === "admin" ? "/admin" : "/account"}
-                      className="block text-charcoal hover:text-burgundy font-medium mb-2"
+                      className="block text-charcoal hover:text-burgundy font-medium mb-2 cursor-pointer"
                     >
-                      My Account
+                      {role === "admin" ? "Admin" : "My Account"}
                     </Link>
-                    <Link
+                    {/* <Link
                       href={
                         role === "admin" ? "/admin/orders" : "/account/orders"
                       }
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
                       {role === "admin" ? "Orders" : "My Orders"}
-                    </Link>
-                    <Link
+                    </Link> */}
+                    {/* <Link
                       href={
                         role === "admin"
                           ? "/admin/settings"
@@ -248,7 +225,7 @@ export default function Navigation({
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
                       {role === "admin" ? "Settings" : "Wishlist"}
-                    </Link>
+                    </Link> */}
                     <button
                       onClick={async () => {
                         await signOutUser();

@@ -72,9 +72,9 @@ const FeaturedProducts = () => {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
           {products.map((product) => (
-            <Card
+            <div
               key={product.id}
-              className="group overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300"
+              className="group overflow-hidden  bg-white hover:shadow-lg  duration-300"
             >
               <Link href={`/products/${product.id}`}>
                 <div className="relative overflow-hidden bg-gray-50">
@@ -120,7 +120,7 @@ const FeaturedProducts = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           ))}
         </div>
 

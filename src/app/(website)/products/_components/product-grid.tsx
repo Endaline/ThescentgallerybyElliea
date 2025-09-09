@@ -124,9 +124,9 @@ export default function ProductGrid({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              <Card
+              <div
                 key={product.id}
-                className="group overflow-hidden border border-gray-200 bg-slate-100 hover:shadow-lg transition-shadow duration-300"
+                className="group overflow-hidden  bg-slate-100 hover:shadow-lg  duration-300"
               >
                 <Link href={`/products/${product.id}`}>
                   <div className="relative overflow-hidden bg-slate-100">
@@ -182,7 +182,7 @@ export default function ProductGrid({
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             </motion.div>
           );
         })}
