@@ -2,11 +2,12 @@
 import { ArrowRight, Star } from "lucide-react";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     setIsVisible(true);
 
@@ -72,9 +73,9 @@ const HeroSection = () => {
         <div className="space-y-4 mb-8">
           <h1
             className={`text-4xl md:text-6xl xl:text-8xl font-black leading-none transition-all duration-1000 delay-300 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-12"
+              isVisible ?
+                "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
             }`}
           >
             <span className="block text-white mb-2">Discover Your</span>
@@ -111,8 +112,9 @@ const HeroSection = () => {
           }`}
         >
           <Button
+            onClick={() => router.push("/products")}
             size="lg"
-            className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full text-lg font-semibold shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300"
+            className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full text-lg font-semibold shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             <span className="relative z-10 flex items-center">
               Explore Collection
@@ -122,11 +124,12 @@ const HeroSection = () => {
           </Button>
 
           <Button
+            onClick={() => router.push("/contact")}
             size="lg"
             variant="outline"
-            className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 hover:border-white/50 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105"
+            className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 hover:border-white/50 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 cursor-pointer"
           >
-            Watch Story
+            Contact us
           </Button>
         </div>
       </div>
@@ -136,7 +139,7 @@ const HeroSection = () => {
         <div className="flex flex-col gap-4 text-white/30">
           <div className="w-px h-16 bg-gradient-to-b from-transparent via-white/40 to-transparent" />
           <div className="text-xs writing-mode-vertical-rl transform rotate-180 tracking-widest">
-            LUXURY FRAGRANCES
+            THESCENTGALLERYBYELLIEA
           </div>
           <div className="w-px h-16 bg-gradient-to-b from-white/40 via-transparent to-transparent" />
         </div>

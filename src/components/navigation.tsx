@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ShoppingBag, Menu, X, User, LogIn, UserPlus } from "lucide-react";
+import {
+  ShoppingBag,
+  Menu,
+  X,
+  User,
+  LogIn,
+  UserPlus,
+  Package,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -101,7 +109,7 @@ export default function Navigation({
                         {role === "admin" ? "Admin" : "My Account"}
                       </Link>
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem asChild>
+                    <DropdownMenuItem asChild>
                       <Link
                         href={
                           role !== "admin" ? "/admin/orders" : "/account/orders"
@@ -111,7 +119,7 @@ export default function Navigation({
                         <Package className="mr-2 h-4 w-4" />
                         {role === "admin" ? "Orders" : "My Orders"}
                       </Link>
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -120,20 +128,26 @@ export default function Navigation({
 
                         router.push("/login");
                       }}
-                      className="text-red-600 focus:text-red-600"
+                      className="text-red-600 focus:text-red-600 cursor-pointer"
                     >
                       Sign Out
                     </DropdownMenuItem>
                   </>
                 : <div>
                     <DropdownMenuItem asChild>
-                      <Link href="/login" className="flex items-center">
+                      <Link
+                        href="/login"
+                        className="flex items-center cursor-pointer"
+                      >
                         <LogIn className="mr-2 h-4 w-4" />
                         Sign In
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/register" className="flex items-center">
+                      <Link
+                        href="/register"
+                        className="flex items-center cursor-pointer"
+                      >
                         <UserPlus className="mr-2 h-4 w-4" />
                         Create Account
                       </Link>
@@ -197,31 +211,31 @@ export default function Navigation({
                     >
                       {role === "admin" ? "Admin" : "My Account"}
                     </Link>
-                    {/* <Link
+                    <Link
                       href={
                         role === "admin" ? "/admin/orders" : "/account/orders"
                       }
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
                       {role === "admin" ? "Orders" : "My Orders"}
-                    </Link> */}
-                    {/* <Link
+                    </Link>
+                    <Link
                       href={
-                        role === "admin"
-                          ? "/admin/settings"
-                          : "/account/wishlist"
+                        role === "admin" ? "/admin/settings" : (
+                          "/account/wishlist"
+                        )
                       }
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
                       {role === "admin" ? "Settings" : "Wishlist"}
-                    </Link> */}
+                    </Link>
                     <button
                       onClick={async () => {
                         await signOutUser();
 
                         router.push("/login");
                       }}
-                      className="block text-red-600 hover:text-red-700 font-medium"
+                      className="block text-red-600 hover:text-red-700 font-medium cursor-pointer"
                     >
                       Sign Out
                     </button>
@@ -229,13 +243,13 @@ export default function Navigation({
                 : <>
                     <Link
                       href="/login"
-                      className="block text-charcoal hover:text-burgundy font-medium mb-2"
+                      className="block text-charcoal hover:text-burgundy font-medium mb-2 cursor-pointer"
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/register"
-                      className="block text-charcoal hover:text-burgundy font-medium"
+                      className="block text-charcoal hover:text-burgundy font-medium cursor-pointer"
                     >
                       Create Account
                     </Link>

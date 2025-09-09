@@ -1,9 +1,11 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
 
+import { CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { Input } from "./ui/input"; // 👈 add Input component
+import { useState } from "react";
 
 const products = [
   {
@@ -58,11 +60,18 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
+  const [search, setSearch] = useState("");
+
+  // filter products by name (case-insensitive)
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <section className="py-20 bg-white">
       <div className="max-content padding-x">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[">
+        <div className="text-center mb-8">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Featured Collection
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -70,58 +79,75 @@ const FeaturedProducts = () => {
           </p>
         </div>
 
+        {/* 🔎 Search Input */}
+        <div className="flex justify-center mb-10">
+          <Input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="max-w-md"
+          />
+        </div>
+
+        {/* Products Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="group overflow-hidden  bg-white hover:shadow-lg  duration-300"
-            >
-              <Link href={`/products/${product.id}`}>
-                <div className="relative overflow-hidden bg-gray-50">
-                  <Image
-                    width={300}
-                    height={300}
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-64 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </Link>
+          {filteredProducts.length > 0 ?
+            filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="group overflow-hidden bg-white hover:shadow-lg duration-300"
+              >
+                <Link href={`/products/${product.id}`}>
+                  <div className="relative overflow-hidden bg-gray-50">
+                    <Image
+                      width={300}
+                      height={300}
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      className="w-full h-64 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                </Link>
 
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <Link href={`/product/${product.id}`}>
-                    <h3 className="text-sm font-medium text-gray-900 leading-tight">
-                      {product.name}
-                    </h3>
-                  </Link>
+                <CardContent className="p-4">
+                  <div className="space-y-3">
+                    <Link href={`/product/${product.id}`}>
+                      <h3 className="text-sm font-medium text-gray-900 leading-tight">
+                        {product.name}
+                      </h3>
+                    </Link>
 
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg font-bold text-gray-900">
-                      {product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">
-                        {product.originalPrice}
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg font-bold text-gray-900">
+                        {product.price}
                       </span>
-                    )}
-                  </div>
+                      {product.originalPrice && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {product.originalPrice}
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="space-y-2">
-                    <Button className="w-full bg-[#512260] hover:bg-[#512260]/50 text-white cursor-pointer">
-                      Add to cart
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
-                    >
-                      Quick view
-                    </Button>
+                    <div className="space-y-2">
+                      <Button className="w-full bg-[#512260] hover:bg-[#512260]/50 text-white cursor-pointer">
+                        Add to cart
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                      >
+                        Quick view
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </div>
-          ))}
+                </CardContent>
+              </div>
+            ))
+          : <p className="col-span-full text-center text-gray-500">
+              No products found.
+            </p>
+          }
         </div>
 
         <div className="text-center mt-12">
