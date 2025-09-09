@@ -10,7 +10,7 @@ import Image from "next/image";
 import { GenCart } from "@/lib/types/type";
 import AddToCart from "../../products/_components/add-to-cart";
 import RemoveBtn from "./remove-btn";
-import { Shipping } from "@prisma/client";
+import Shipping from "@/app/admin/settings/_components/shipping";
 
 export default function CartComp({
   cart,
@@ -165,9 +165,9 @@ export default function CartComp({
                     <div className="flex justify-between">
                       <span>Shipping</span>
                       <span>
-                        {shippingInfo?.shippingRate === 0
-                          ? "Free"
-                          : `₦${shippingInfo?.shippingRate.toFixed(2)}`}
+                        {shippingInfo?.shippingRate === 0 ?
+                          "Free"
+                        : `₦${shippingInfo?.shippingRate.toFixed(2)}`}
                       </span>
                     </div>
 
