@@ -168,7 +168,7 @@ export async function createOrder(data: {
 
     const cart = await getMyCart();
     const userId = session?.user?.id;
-    if (!userId) redirect(`/login`);
+    if (!userId) redirect("/login");
 
     const user = await getUserById(userId);
 
