@@ -57,7 +57,7 @@ const BasicInfo = ({ info }: { info: CompanyInfo | null | undefined }) => {
     });
   };
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: string) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
 

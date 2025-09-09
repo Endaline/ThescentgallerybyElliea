@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PaymentResult } from "@/lib/types/type";
 import { Order } from "@prisma/client";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Mail, Package, Truck } from "lucide-react";
+import { CheckCircle, Mail, Package, Truck } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 

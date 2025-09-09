@@ -9,9 +9,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar,
-  ShoppingBag,
-  Star,
   Eye,
   Edit,
   Trash2,
@@ -40,7 +37,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AdminLayout from "@/components/admin-layout";
 
 // Mock customer data
 const customers = [

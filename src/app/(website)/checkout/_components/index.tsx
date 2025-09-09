@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import Script from "next/script";
 import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 declare global {
   interface Window {
@@ -317,9 +318,11 @@ const CheckoutComp = ({
                 {(cart?.items as CartItem[]).map((item) => (
                   <div key={item.productId} className="flex gap-3">
                     <div className="w-16 h-16 flex-shrink-0">
-                      <img
+                      <Image
                         src={item.image || "/placeholder.svg"}
                         alt={item.name}
+                        height={5000}
+                        width={5000}
                         className="w-full h-full object-cover rounded"
                       />
                     </div>

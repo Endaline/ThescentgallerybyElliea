@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { signUpDefaultValues } from "@/lib/constants";
 import { signUpUser } from "@/app/actions/user.actions";
@@ -32,9 +31,6 @@ const RegisterForm = () => {
     success: false,
     message: "",
   });
-
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const SignUpButton = () => {
     const { pending } = useFormStatus();

@@ -480,7 +480,7 @@ export async function getOrderSummary() {
 
   // You’ll need to map createdAt → month string manually
   const salesData: SalesDataType = salesDataRaw.map((entry) => {
-    const date = new Date(entry.createdAt as any);
+    const date = new Date(entry.createdAt as Date);
     const month = `${date.getMonth() + 1}/${date.getFullYear().toString().slice(-2)}`;
     return {
       month,

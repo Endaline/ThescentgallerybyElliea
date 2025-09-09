@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  TrendingUp,
-  TrendingDown,
   DollarSign,
   ShoppingCart,
   Users,
@@ -329,10 +327,10 @@ export default function AnalyticsPage() {
                           activity.type === "order"
                             ? "bg-green-500"
                             : activity.type === "customer"
-                            ? "bg-blue-500"
-                            : activity.type === "inventory"
-                            ? "bg-yellow-500"
-                            : "bg-purple-500"
+                              ? "bg-blue-500"
+                              : activity.type === "inventory"
+                                ? "bg-yellow-500"
+                                : "bg-purple-500"
                         }`}
                       />
                       <div>

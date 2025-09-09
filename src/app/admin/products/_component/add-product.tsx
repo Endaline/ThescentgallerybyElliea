@@ -2,8 +2,7 @@
 
 import type React from "react";
 
-import { use, useMemo, useState, useTransition } from "react";
-import AdminLayout from "@/components/admin-layout";
+import { useMemo, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Upload, X, Plus } from "lucide-react";
+import { ArrowLeft, X, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useUploadThing } from "@/hooks/use-uploadthing";

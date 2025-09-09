@@ -1,26 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import AdminLayout from "@/components/admin-layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { MoreHorizontal, Edit, Trash2, Eye, Package } from "lucide-react";
+import { MoreHorizontal, Edit, Trash2, Package } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProductBrand } from "@prisma/client";
 

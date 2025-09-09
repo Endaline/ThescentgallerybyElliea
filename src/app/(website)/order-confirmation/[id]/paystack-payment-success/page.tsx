@@ -5,21 +5,16 @@ import { PaymentResult } from "@/lib/types/type";
 import { ShippingAddressSchema } from "@/lib/validators";
 import { sendPurchaseReceipt } from "@/services/email";
 import { paystack } from "@/services/paystack";
-import { motion } from "framer-motion";
-import { Check, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConfirmationInfo from "./confirmation-info";
 
-const PaystackSuccessPage = async ({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: Promise<{ reference?: string }>;
+const PaystackSuccessPage = async (props: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ reference: string }>;
 }) => {
-  const { id } = await params;
-  const { reference } = await searchParams;
+  const { id } = await props.params;
+  const { reference } = await props.searchParams;
 
   // Fetch order
   const order = await getOrderById(id);

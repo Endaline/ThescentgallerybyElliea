@@ -53,7 +53,7 @@ const Shipping = ({ info }: { info: Shipping | null | undefined }) => {
     });
   };
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: string | number) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
 

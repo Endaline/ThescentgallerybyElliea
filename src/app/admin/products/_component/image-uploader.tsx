@@ -1,5 +1,6 @@
 import { deleteFile } from "@/hooks/delete-uploadthing";
 import { ProductImage } from "@prisma/client";
+import Image from "next/image";
 import { useState, useRef, ChangeEvent } from "react";
 
 interface ImageFile {
@@ -146,9 +147,11 @@ const ImageUploader = ({
                 key={`url-${index}`}
                 className="relative group rounded-lg overflow-hidden border border-gray-200"
               >
-                <img
+                <Image
                   src={img.url}
                   alt={`Uploaded ${index + 1}`}
+                  height={5000}
+                  width={5000}
                   className="w-full h-40 object-cover"
                 />
                 <button
@@ -172,9 +175,11 @@ const ImageUploader = ({
                 key={image.id}
                 className="relative group rounded-lg overflow-hidden border border-gray-200"
               >
-                <img
+                <Image
                   src={image.preview}
                   alt={`Preview ${index + 1}`}
+                  height={5000}
+                  width={5000}
                   className="w-full h-40 object-cover"
                 />
                 <button
