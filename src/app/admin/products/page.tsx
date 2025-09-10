@@ -29,8 +29,9 @@ export default async function AdminProductsPage(props: {
     productCounter(),
   ]);
 
-  const products = productsResult
-    ? {
+  const products =
+    productsResult ?
+      {
         ...productsResult,
         data: productsResult.data.map((product: any) => ({
           ...product,
@@ -49,7 +50,12 @@ export default async function AdminProductsPage(props: {
 
   const brandList = brandResult?.data || [];
   const productCounts = counts || 0;
-
+  console.log(
+    "products,brandList,productCounts",
+    products,
+    brandList,
+    productCounts
+  );
   return (
     <Product products={products} brands={brandList} counts={productCounts} />
   );

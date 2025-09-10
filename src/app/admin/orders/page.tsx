@@ -19,7 +19,14 @@ const page = async (props: {
   ]);
 
   console.log("orders", counts, ordersResult);
-  return <AdminOrdersPage />;
+  console.log("orderResult", ordersResult, counts);
+  return (
+    <AdminOrdersPage
+      ordersResult={ordersResult}
+      currentPage={Number(page)}
+      searchText={searchText}
+    />
+  );
 };
 
 export default page;

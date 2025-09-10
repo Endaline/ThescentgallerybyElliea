@@ -1,11 +1,11 @@
-import React from "react";
+import { getOrderSummary } from "../actions/order.actions";
 import AdminDashboard from "./_components/dashboard";
-import { getOrderSummary } from "@/app/actions/order.actions";
 
 const page = async () => {
   const summary = await getOrderSummary();
-  console.log(summary);
-  return <AdminDashboard />;
+  console.log("summary", summary);
+
+  return <AdminDashboard summary={summary} />;
 };
 
 export default page;

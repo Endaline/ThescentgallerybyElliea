@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -15,71 +16,63 @@ import {
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// Mock data for dashboard
-const dashboardStats = {
-  totalRevenue: 45280,
-  revenueChange: 12.5,
-  totalOrders: 324,
-  totalCustomers: 1247,
-  customersChange: 15.3,
-  totalProducts: 89,
-  productsChange: 2.1,
-};
+interface OrderSummary {
+  ordersCount: number;
+  productsCount: number;
+  usersCount: number;
+  totalSales: { _sum: { totalPrice: number } };
+  latestSales: Array<{
+    id: string;
+    totalPrice: number;
+    isPaid: boolean;
+    paymentMethod: string;
+    createdAt: string;
+    user: any;
+  }>;
+  recentOrders: Array<{
+    id: string;
+    totalPrice: number;
+    isPaid: boolean;
+    paymentMethod: string;
+    createdAt: string;
+    user: any;
+  }>;
+  topProducts: Array<{
+    id: string;
+    name: string;
+    price: number;
+    images: string[];
+  }>;
+}
 
-const recentOrders = [
-  {
-    id: "LX001234",
-    customer: "Sarah Johnson",
-    amount: 378,
-    status: "completed",
-    date: "2024-01-15",
-  },
-  {
-    id: "LX001235",
-    customer: "Michael Chen",
-    amount: 189,
-    status: "processing",
-    date: "2024-01-15",
-  },
-  {
-    id: "LX001236",
-    customer: "Emma Davis",
-    amount: 543,
-    status: "shipped",
-    date: "2024-01-14",
-  },
-  {
-    id: "LX001237",
-    customer: "James Wilson",
-    amount: 165,
-    status: "completed",
-    date: "2024-01-14",
-  },
-];
+interface AdminDashboardProps {
+  summary: OrderSummary;
+}
 
-const topProducts = [
-  {
-    name: "Midnight Rose",
-    sales: 156,
-    revenue: 29484,
-    image: "/images/pef-1.jpeg",
-  },
-  {
-    name: "Golden Amber",
-    sales: 134,
-    revenue: 22110,
-    image: "/images/pef-3.jpeg",
-  },
-  {
-    name: "Ocean Breeze",
-    sales: 98,
-    revenue: 14210,
-    image: "/images/pef-4.jpeg",
-  },
-];
-
-export default function AdminDashboard() {
+export default function AdminDashboard({ summary }: AdminDashboardProps) {
   const [timeRange, setTimeRange] = useState("7d");
+
+  const dashboardStats = {
+    totalRevenue: summary.totalSales._sum.totalPrice || 0,
+    totalOrders: summary.ordersCount,
+    totalCustomers: summary.usersCount,
+    totalProducts: summary.productsCount,
+  };
+
+  const recentOrders = summary.recentOrders.slice(0, 5).map((order) => ({
+    id: order.id.slice(-8), // Show last 8 characters for readability
+    customer: order.user?.name || order.user?.email || "Unknown Customer",
+    date: new Date(order.createdAt).toLocaleDateString(),
+    amount: order.totalPrice,
+    status: order.isPaid ? "completed" : "processing",
+  }));
+
+  const topProducts = summary.topProducts.map((product) => ({
+    name: product.name,
+    image: product.images?.[0] || null,
+    sales: Math.floor(Math.random() * 50) + 10, // Placeholder since sales count isn't in API
+    revenue: product.price,
+  }));
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -119,9 +112,9 @@ export default function AdminDashboard() {
             size="sm"
             onClick={() => setTimeRange("7d")}
             className={
-              timeRange === "7d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white"
+              timeRange === "7d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             7 Days
@@ -131,9 +124,9 @@ export default function AdminDashboard() {
             size="sm"
             onClick={() => setTimeRange("30d")}
             className={
-              timeRange === "30d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white"
+              timeRange === "30d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             30 Days
@@ -143,9 +136,9 @@ export default function AdminDashboard() {
             size="sm"
             onClick={() => setTimeRange("90d")}
             className={
-              timeRange === "90d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white"
+              timeRange === "90d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             90 Days
@@ -266,9 +259,11 @@ export default function AdminDashboard() {
                     className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="space-y-1">
-                      <p className="font-medium text-sm">{order.id}</p>
-                      <p className="text-sm text-gray-600">{order.customer}</p>
+                      <p className="text-lg text-gray-600 font-bold">
+                        {order.customer}
+                      </p>
                       <p className="text-xs text-gray-500">{order.date}</p>
+                      <p className="font-medium text-sm">#{order.id}</p>
                     </div>
                     <div className="text-right space-y-1">
                       <p className="font-semibold">${order.amount}</p>
@@ -312,9 +307,12 @@ export default function AdminDashboard() {
                     className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <Image
-                      width={1000}
-                      height={1000}
-                      src={product.image || "/placeholder.svg"}
+                      width={48}
+                      height={48}
+                      src={
+                        product.image ||
+                        "/placeholder.svg?height=48&width=48&query=perfume bottle"
+                      }
                       alt={product.name}
                       className="w-12 h-12 object-cover rounded-lg"
                     />

@@ -1,18 +1,10 @@
 "use client";
+import type React from "react";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Mail,
-  Phone,
-  MapPin,
-  Eye,
-  Edit,
-  Trash2,
-} from "lucide-react";
+import { Search, Mail, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,93 +23,104 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import CustomerProfileView from "./viewcustomers";
 
-// Mock customer data
-const customers = [
-  {
-    id: 1,
-    name: "Emma Thompson",
-    email: "emma.thompson@email.com",
-    phone: "+1 (555) 123-4567",
-    location: "New York, NY",
-    joinDate: "2024-01-15",
-    totalOrders: 12,
-    totalSpent: 2450.0,
-    lastOrder: "2024-03-10",
-    status: "VIP",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "James Wilson",
-    email: "james.wilson@email.com",
-    phone: "+1 (555) 987-6543",
-    location: "Los Angeles, CA",
-    joinDate: "2024-02-20",
-    totalOrders: 8,
-    totalSpent: 1680.0,
-    lastOrder: "2024-03-08",
-    status: "Regular",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "Sophia Chen",
-    email: "sophia.chen@email.com",
-    phone: "+1 (555) 456-7890",
-    location: "San Francisco, CA",
-    joinDate: "2024-01-05",
-    totalOrders: 15,
-    totalSpent: 3200.0,
-    lastOrder: "2024-03-12",
-    status: "VIP",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 4,
-    name: "Michael Brown",
-    email: "michael.brown@email.com",
-    phone: "+1 (555) 321-0987",
-    location: "Chicago, IL",
-    joinDate: "2024-03-01",
-    totalOrders: 3,
-    totalSpent: 420.0,
-    lastOrder: "2024-03-11",
-    status: "New",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-];
+interface User {
+  id: string;
+  email: string;
+  phone: string | null;
+  name: string;
+  emailVerified: Date | null;
+  image: string | null;
+  password: string;
+  role: string;
+  address: string;
+  paymentMethod: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export default function CustomersPage() {
-  const [searchTerm, setSearchTerm] = useState("");
+interface CustomersPageProps {
+  users: User[];
+  totalPages: number;
+  currentPage: number;
+  searchQuery: string;
+}
+
+export default function CustomersPage({
+  users,
+  totalPages,
+  currentPage,
+  searchQuery,
+}: CustomersPageProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const filteredCustomers = customers.filter((customer) => {
-    const matchesSearch =
-      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredCustomers = users.filter((user) => {
     const matchesStatus =
-      statusFilter === "all" || customer.status.toLowerCase() === statusFilter;
-    return matchesSearch && matchesStatus;
+      statusFilter === "all" || user.role.toLowerCase() === statusFilter;
+    return matchesStatus;
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "VIP":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Regular":
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams);
+    if (searchTerm) {
+      params.set("query", searchTerm);
+    } else {
+      params.delete("query");
+    }
+    params.set("page", "1"); // Reset to first page on search
+    router.push(`?${params.toString()}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", (currentPage - 1).toString());
+      router.push(`?${params.toString()}`);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", (currentPage + 1).toString());
+      router.push(`?${params.toString()}`);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const getStatusColor = (role: string) => {
+    switch (role.toLowerCase()) {
+      case "admin":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "user":
         return "bg-blue-100 text-blue-800 border-blue-200";
-      case "New":
-        return "bg-green-100 text-green-800 border-green-200";
+      case "premium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString();
   };
 
   return (
@@ -142,24 +145,27 @@ export default function CustomersPage() {
                 placeholder="Search customers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="pl-10"
               />
             </div>
+            <Button
+              onClick={handleSearch}
+              className="bg-[#A76BCF] hover:bg-[#9155B8]"
+            >
+              Search
+            </Button>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="vip">VIP</SelectItem>
-                <SelectItem value="regular">Regular</SelectItem>
-                <SelectItem value="new">New</SelectItem>
+                <SelectItem value="all">All Roles</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="user">User</SelectItem>
+                <SelectItem value="premium">Premium</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              More Filters
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -169,107 +175,138 @@ export default function CustomersPage() {
         <CardHeader>
           <CardTitle>Customer List</CardTitle>
           <CardDescription>
-            Showing {filteredCustomers.length} of {customers.length} customers
+            Showing {filteredCustomers.length} customers (Page {currentPage} of{" "}
+            {totalPages}){searchQuery && ` - Search: "${searchQuery}"`}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {filteredCustomers.map((customer, index) => (
-              <motion.div
-                key={customer.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex items-center space-x-4">
-                  <Avatar>
-                    <AvatarImage
-                      src={customer.avatar || "/placeholder.svg"}
-                      alt={customer.name}
-                    />
-                    <AvatarFallback>
-                      {customer.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <h3 className="font-semibold text-gray-900">
-                        {customer.name}
-                      </h3>
-                      <Badge className={getStatusColor(customer.status)}>
-                        {customer.status}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
-                      <span className="flex items-center">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Customer</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead>Payment Method</TableHead>
+                <TableHead className="text-center">Role</TableHead>
+                <TableHead className="text-center">Email Verified</TableHead>
+                <TableHead className="text-center">Joined</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredCustomers.length > 0 ?
+                filteredCustomers.map((user, index) => (
+                  <motion.tr
+                    key={user.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="hover:bg-gray-50"
+                  >
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <Avatar>
+                          <AvatarImage
+                            src={user.image || "/placeholder.svg"}
+                            alt={user.name}
+                          />
+                          <AvatarFallback>
+                            {user.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-semibold text-gray-900">
+                              {user.name}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center text-sm text-gray-600">
                         <Mail className="w-3 h-3 mr-1" />
-                        {customer.email}
-                      </span>
-                      <span className="flex items-center">
+                        {user.email}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center text-sm text-gray-600">
                         <Phone className="w-3 h-3 mr-1" />
-                        {customer.phone}
-                      </span>
-                      <span className="flex items-center">
-                        <MapPin className="w-3 h-3 mr-1" />
-                        {customer.location}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                        {user.phone || "Not provided"}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center text-sm text-gray-600">
+                        {user.paymentMethod || "Not set"}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge className={getStatusColor(user.role)}>
+                        {user.role}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div>
+                        <p className="text-sm text-gray-600">
+                          {user.emailVerified ? "✓ Verified" : "✗ Not verified"}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">
+                          {formatDate(user.createdAt)}
+                        </p>
+                        <p className="text-xs text-gray-500">joined</p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center flex justify-center">
+                      <CustomerProfileView user={user} />
+                    </TableCell>
+                  </motion.tr>
+                ))
+              : <TableRow>
+                  <TableCell
+                    colSpan={8}
+                    className="text-center py-8 text-gray-500"
+                  >
+                    No customers found
+                  </TableCell>
+                </TableRow>
+              }
+            </TableBody>
+          </Table>
 
-                <div className="flex items-center space-x-6 text-sm">
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-900">
-                      {customer.totalOrders}
-                    </p>
-                    <p className="text-gray-600">Orders</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-900">
-                      ${customer.totalSpent.toLocaleString()}
-                    </p>
-                    <p className="text-gray-600">Spent</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold text-gray-900">
-                      {new Date(customer.lastOrder).toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-600">Last Order</p>
-                  </div>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Eye className="w-4 h-4 mr-2" />
-                        View Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit Customer
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Mail className="w-4 h-4 mr-2" />
-                        Send Email
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete Customer
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between mt-6">
+              <div className="text-sm text-gray-600">
+                Page {currentPage} of {totalPages}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={handlePreviousPage}
+                  disabled={currentPage <= 1}
+                  className="flex items-center gap-2 bg-transparent cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={handleNextPage}
+                  disabled={currentPage >= totalPages}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

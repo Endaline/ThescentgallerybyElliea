@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -16,7 +15,6 @@ import {
 import {
   Search,
   Plus,
-  Trash2,
   Eye,
   Package,
   AlertTriangle,
@@ -28,6 +26,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import DeleteProductModal from "./deleteproduct";
 
 interface Brand {
   id: string;
@@ -104,7 +103,6 @@ export default function Product({ products, brands, counts }: ProductProps) {
     searchParams.get("brand") || "all"
   );
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
   const currentPage = products.currentPage;
   const totalPages = products.totalPages;
@@ -167,25 +165,9 @@ export default function Product({ products, brands, counts }: ProductProps) {
     }
   };
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedProducts(productList.map((p) => p.id));
-    } else {
-      setSelectedProducts([]);
-    }
-  };
-
-  const handleSelectProduct = (productId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedProducts([...selectedProducts, productId]);
-    } else {
-      setSelectedProducts(selectedProducts.filter((id) => id !== productId));
-    }
-  };
-
   const getStatusColor = (status: string) => {
-    return status === "active"
-      ? "bg-green-100 text-green-800"
+    return status === "active" ?
+        "bg-green-100 text-green-800"
       : "bg-gray-100 text-gray-800";
   };
 
@@ -311,30 +293,6 @@ export default function Product({ products, brands, counts }: ProductProps) {
                 </Select>
               </div>
             </div>
-
-            {selectedProducts.length > 0 && (
-              <div className="flex items-center gap-4 mt-4 p-3 bg-burgundy/10 rounded-lg">
-                <span className="text-sm font-medium">
-                  {selectedProducts.length} products selected
-                </span>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-burgundy border-burgundy bg-transparent"
-                  >
-                    Bulk Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-red-600 border-red-600 bg-transparent"
-                  >
-                    Delete Selected
-                  </Button>
-                </div>
-              </div>
-            )}
           </CardContent>
         </Card>
       </motion.div>
@@ -351,15 +309,6 @@ export default function Product({ products, brands, counts }: ProductProps) {
               <table className="w-full">
                 <thead className="border-b bg-gray-50">
                   <tr>
-                    <th className="text-left p-4 w-12">
-                      <Checkbox
-                        checked={
-                          selectedProducts.length === productList.length &&
-                          productList.length > 0
-                        }
-                        onCheckedChange={handleSelectAll}
-                      />
-                    </th>
                     <th className="text-left p-4 font-medium">Product</th>
                     <th className="text-left p-4 font-medium">Brand</th>
                     <th className="text-left p-4 font-medium">Price</th>
@@ -382,17 +331,6 @@ export default function Product({ products, brands, counts }: ProductProps) {
                         }}
                         className="border-b hover:bg-gray-50"
                       >
-                        <td className="p-4">
-                          <Checkbox
-                            checked={selectedProducts.includes(product.id)}
-                            onCheckedChange={(checked) =>
-                              handleSelectProduct(
-                                product.id,
-                                checked as boolean
-                              )
-                            }
-                          />
-                        </td>
                         <td className="p-4">
                           <div className="flex items-center gap-3">
                             <Image
@@ -448,21 +386,22 @@ export default function Product({ products, brands, counts }: ProductProps) {
                         </td>
                         <td className="p-4">
                           <Badge className={getStatusColor(product.status)}>
-                            {product.status === "active"
-                              ? "Active"
-                              : "Inactive"}
+                            {product.status === "active" ?
+                              "Active"
+                            : "Inactive"}
                           </Badge>
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-3">
-                            <Eye className="h-5 w-5 cursor-pointer text-neutral-800" />
+                            <Link href={`/admin/products/view/${product.id}`}>
+                              <Eye className="h-5 w-5 cursor-pointer text-neutral-800" />
+                            </Link>
+                            {/* <ProductViewPage product={product} /> */}
 
                             <Link href={`/admin/products/${product.slug}`}>
-                              {" "}
                               <Pencil className="h-5 w-5 cursor-pointer text-green-600" />
                             </Link>
-
-                            <Trash2 className="h-5 w-5 cursor-pointer text-red-600" />
+                            <DeleteProductModal product={product.id} />
                           </div>
                         </td>
                       </motion.tr>

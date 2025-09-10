@@ -131,8 +131,8 @@ export default function OrderDetailPage({
       >
         <div className="flex items-center gap-4">
           <Link href="/admin/orders">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="cursor-pointer">
+              <ArrowLeft className="h-5 w-5 cursor-pointer" />
             </Button>
           </Link>
           <div>
@@ -219,9 +219,9 @@ export default function OrderDetailPage({
                   <div className="flex justify-between">
                     <span>Shipping</span>
                     <span>
-                      {shippingPrice === 0
-                        ? "Free"
-                        : `₦${shippingPrice.toFixed(2)}`}
+                      {shippingPrice === 0 ?
+                        "Free"
+                      : `₦${shippingPrice.toFixed(2)}`}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -237,40 +237,6 @@ export default function OrderDetailPage({
               </CardContent>
             </Card>
           </motion.div>
-
-          {/* Order History */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-[#A76BCF]" />
-                  Order History
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {orderDetail.orderHistory.map((event, index) => (
-                    <div key={index} className="flex gap-4">
-                      <div className="w-2 h-2 bg-[#A76BCF] rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <p className="font-medium">{event.status}</p>
-                        <p className="text-sm text-gray-600">
-                          {event.description}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {formatDate(event.date)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div> */}
         </div>
 
         {/* Sidebar */}
@@ -303,7 +269,7 @@ export default function OrderDetailPage({
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm">{order.user.name}</span>
+                    <span className="text-sm">{order.user.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4 text-gray-400" />

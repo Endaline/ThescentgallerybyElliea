@@ -135,7 +135,7 @@ const ImageUploader = ({
       </div>
 
       {/* Image preview grid */}
-      {(images.length > 0 || uploadedImages.length > 0) && (
+      {(images.length > 0 || uploadedImages?.length > 0) && (
         <div className="mb-6">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Uploaded Images ({images.length + uploadedImages.length}/3)

@@ -1,17 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Select,
   SelectContent,
@@ -22,143 +17,138 @@ import {
 import {
   Search,
   Filter,
-  MoreHorizontal,
   Eye,
-  Truck,
   Package,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Link from "next/link";
 
-// Mock order data
-const orders = [
-  {
-    id: "LX001234",
-    customer: {
-      name: "Sarah Johnson",
-      email: "sarah.johnson@email.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    items: [
-      { name: "Midnight Rose", quantity: 2, price: 189 },
-      { name: "Golden Amber", quantity: 1, price: 165 },
-    ],
-    total: 543,
-    status: "processing",
-    paymentStatus: "paid",
-    shippingMethod: "Standard",
-    orderDate: "2024-01-15T10:30:00",
-    estimatedDelivery: "2024-01-22",
-    shippingAddress: "123 Main St, New York, NY 10001",
-  },
-  {
-    id: "LX001235",
-    customer: {
-      name: "Michael Chen",
-      email: "michael.chen@email.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    items: [{ name: "Ocean Breeze", quantity: 1, price: 145 }],
-    total: 145,
-    status: "shipped",
-    paymentStatus: "paid",
-    shippingMethod: "Express",
-    orderDate: "2024-01-14T15:45:00",
-    estimatedDelivery: "2024-01-18",
-    shippingAddress: "456 Oak Ave, Los Angeles, CA 90210",
-    trackingNumber: "1Z999AA1234567890",
-  },
-  {
-    id: "LX001236",
-    customer: {
-      name: "Emma Davis",
-      email: "emma.davis@email.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    items: [
-      { name: "Velvet Orchid", quantity: 1, price: 210 },
-      { name: "Spiced Cedar", quantity: 2, price: 175 },
-    ],
-    total: 560,
-    status: "delivered",
-    paymentStatus: "paid",
-    shippingMethod: "Standard",
-    orderDate: "2024-01-12T09:15:00",
-    estimatedDelivery: "2024-01-19",
-    shippingAddress: "789 Pine St, Chicago, IL 60601",
-    trackingNumber: "1Z999AA1234567891",
-  },
-  {
-    id: "LX001237",
-    customer: {
-      name: "James Wilson",
-      email: "james.wilson@email.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    items: [{ name: "Midnight Rose", quantity: 1, price: 189 }],
-    total: 189,
-    status: "pending",
-    paymentStatus: "pending",
-    shippingMethod: "Standard",
-    orderDate: "2024-01-15T16:20:00",
-    estimatedDelivery: "2024-01-25",
-    shippingAddress: "321 Elm St, Miami, FL 33101",
-  },
-  {
-    id: "LX001238",
-    customer: {
-      name: "Lisa Anderson",
-      email: "lisa.anderson@email.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    items: [
-      { name: "Golden Amber", quantity: 2, price: 165 },
-      { name: "Ocean Breeze", quantity: 1, price: 145 },
-    ],
-    total: 475,
-    status: "cancelled",
-    paymentStatus: "refunded",
-    shippingMethod: "Express",
-    orderDate: "2024-01-13T11:30:00",
-    estimatedDelivery: "2024-01-20",
-    shippingAddress: "654 Maple Dr, Seattle, WA 98101",
-  },
-];
+// Type definitions based on your API structure
+interface OrderItem {
+  id: string;
+  name: string;
+  price: number;
+  qty: number;
+}
 
-export default function AdminOrdersPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+interface PaymentResult {
+  id: string;
+  status: string;
+  update_time: string;
+  email_address: string;
+}
+
+interface Order {
+  id: string;
+  userId: string;
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  paymentResult: PaymentResult | null;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date | null;
+  isDelivered: boolean;
+  deliveredAt: Date | null;
+  createdAt: Date;
+  user: User;
+  orderitems: OrderItem[];
+}
+
+interface OrderCounts {
+  totalCount: number;
+  deliveredCount: number;
+  paidCount: number;
+  unpaidCount: number;
+}
+
+interface OrdersResult {
+  data: Order[];
+  totalPages: number;
+  totalCount: number;
+}
+
+interface AdminOrdersPageProps {
+  ordersResult: OrdersResult;
+  counts: OrderCounts;
+  currentPage: number;
+  searchText?: string;
+}
+
+export default function AdminOrdersPage({
+  ordersResult,
+  currentPage,
+  searchText = "",
+}: AdminOrdersPageProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [searchQuery, setSearchQuery] = useState(searchText);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("all");
-  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState("all");
 
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch =
-      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.customer.email.toLowerCase().includes(searchQuery.toLowerCase());
+  // Filter orders based on local filters (since API handles search)
+  const filteredOrders = ordersResult.data.filter((order) => {
     const matchesStatus =
-      selectedStatus === "all" || order.status === selectedStatus;
+      selectedStatus === "all" || getOrderStatus(order) === selectedStatus;
     const matchesPaymentStatus =
       selectedPaymentStatus === "all" ||
-      order.paymentStatus === selectedPaymentStatus;
-    return matchesSearch && matchesStatus && matchesPaymentStatus;
+      getPaymentStatus(order) === selectedPaymentStatus;
+    return matchesStatus && matchesPaymentStatus;
   });
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedOrders(filteredOrders.map((o) => o.id));
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams);
+    if (searchQuery.trim()) {
+      params.set("user", searchQuery.trim());
     } else {
-      setSelectedOrders([]);
+      params.delete("user");
+    }
+    params.set("page", "1"); // Reset to first page on search
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
   };
 
-  const handleSelectOrder = (orderId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedOrders([...selectedOrders, orderId]);
-    } else {
-      setSelectedOrders(selectedOrders.filter((id) => id !== orderId));
-    }
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  const getOrderStatus = (order: Order): string => {
+    if (order.isDelivered) return "delivered";
+    if (order.isPaid && !order.isDelivered) return "shipped";
+    if (order.isPaid) return "processing";
+    return "pending";
+  };
+
+  const getPaymentStatus = (order: Order): string => {
+    if (order.isPaid) return "paid";
+    if (order.paymentResult?.status === "failed") return "failed";
+    return "pending";
   };
 
   const getStatusColor = (status: string) => {
@@ -193,8 +183,8 @@ export default function AdminOrdersPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -203,6 +193,13 @@ export default function AdminOrdersPage() {
     });
   };
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(amount);
+  };
+  console.log("orderResult", ordersResult);
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -231,30 +228,32 @@ export default function AdminOrdersPage() {
       >
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-charcoal">{orders.length}</p>
-            <p className="text-sm text-gray-600">Total Orders</p>
+            <p className="text-2xl font-bold text-blue-600 ">
+              {ordersResult.totalCount}
+            </p>
+            <p className="text-sm ">Total Orders</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-blue-600">
-              {orders.filter((o) => o.status === "processing").length}
+              {ordersResult.data.filter((o) => o.isPaid).length}
             </p>
-            <p className="text-sm text-gray-600">Processing</p>
+            <p className="text-sm text-gray-600">Paid</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-purple-600">
-              {orders.filter((o) => o.status === "shipped").length}
+              {ordersResult.data.filter((o) => !o.isPaid).length}
             </p>
-            <p className="text-sm text-gray-600">Shipped</p>
+            <p className="text-sm text-gray-600">Unpaid</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-green-600">
-              {orders.filter((o) => o.status === "delivered").length}
+              {ordersResult.data.filter((o) => o.isDelivered).length}
             </p>
             <p className="text-sm text-gray-600">Delivered</p>
           </CardContent>
@@ -274,12 +273,19 @@ export default function AdminOrdersPage() {
                 <div className="relative flex-1 max-w-md">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
-                    placeholder="Search orders, customers..."
+                    placeholder="Search by customer name or email..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     className="pl-10"
                   />
                 </div>
+                <Button
+                  onClick={handleSearch}
+                  className="bg-[#A76BCF] hover:bg-[#A76BCF]/90"
+                >
+                  Search
+                </Button>
 
                 <Select
                   value={selectedStatus}
@@ -294,7 +300,6 @@ export default function AdminOrdersPage() {
                     <SelectItem value="processing">Processing</SelectItem>
                     <SelectItem value="shipped">Shipped</SelectItem>
                     <SelectItem value="delivered">Delivered</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -310,53 +315,16 @@ export default function AdminOrdersPage() {
                     <SelectItem value="paid">Paid</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
                     <SelectItem value="failed">Failed</SelectItem>
-                    <SelectItem value="refunded">Refunded</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="flex items-center gap-2">
-                <Select value={dateRange} onValueChange={setDateRange}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Date Range" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Time</SelectItem>
-                    <SelectItem value="today">Today</SelectItem>
-                    <SelectItem value="week">This Week</SelectItem>
-                    <SelectItem value="month">This Month</SelectItem>
-                  </SelectContent>
-                </Select>
-
                 <Button variant="outline" size="icon">
                   <Filter className="h-4 w-4" />
                 </Button>
               </div>
             </div>
-
-            {selectedOrders.length > 0 && (
-              <div className="flex items-center gap-4 mt-4 p-3 bg-[#A76BCF]/10 rounded-lg">
-                <span className="text-sm font-medium">
-                  {selectedOrders.length} orders selected
-                </span>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-[#A76BCF] border-[#A76BCF] bg-transparent"
-                  >
-                    Update Status
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-[#A76BCF] border-[#A76BCF] bg-transparent"
-                  >
-                    Export Selected
-                  </Button>
-                </div>
-              </div>
-            )}
           </CardContent>
         </Card>
       </motion.div>
@@ -373,15 +341,6 @@ export default function AdminOrdersPage() {
               <table className="w-full">
                 <thead className="border-b bg-gray-50">
                   <tr>
-                    <th className="text-left p-4 w-12">
-                      <Checkbox
-                        checked={
-                          selectedOrders.length === filteredOrders.length &&
-                          filteredOrders.length > 0
-                        }
-                        onCheckedChange={handleSelectAll}
-                      />
-                    </th>
                     <th className="text-left p-4 font-medium">Order</th>
                     <th className="text-left p-4 font-medium">Customer</th>
                     <th className="text-left p-4 font-medium">Items</th>
@@ -405,38 +364,26 @@ export default function AdminOrdersPage() {
                       className="border-b hover:bg-gray-50"
                     >
                       <td className="p-4">
-                        <Checkbox
-                          checked={selectedOrders.includes(order.id)}
-                          onCheckedChange={(checked) =>
-                            handleSelectOrder(order.id, checked as boolean)
-                          }
-                        />
-                      </td>
-                      <td className="p-4">
                         <div>
-                          <p className="font-medium">{order.id}</p>
-                          {order.trackingNumber && (
-                            <p className="text-xs text-gray-500">
-                              Tracking: {order.trackingNumber}
-                            </p>
-                          )}
+                          <p className="font-medium">
+                            #{order.id.slice(-8).toUpperCase()}
+                          </p>
+                          <p className="text-xs text-gray-500 capitalize">
+                            {order.paymentMethod}
+                          </p>
                         </div>
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <Image
-                            width={1000}
-                            height={1000}
-                            src={order.customer.avatar || "/placeholder.svg"}
-                            alt={order.customer.name}
-                            className="w-8 h-8 rounded-full"
-                          />
+                          <div className="w-8 h-8 rounded-full bg-[#A76BCF] flex items-center justify-center text-white text-sm font-medium">
+                            {order.user.name.charAt(0).toUpperCase()}
+                          </div>
                           <div>
                             <p className="font-medium text-sm">
-                              {order.customer.name}
+                              {order.user.name}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {order.customer.email}
+                              {order.user.email}
                             </p>
                           </div>
                         </div>
@@ -444,56 +391,51 @@ export default function AdminOrdersPage() {
                       <td className="p-4">
                         <div>
                           <p className="text-sm">
-                            {order.items.length} item
-                            {order.items.length > 1 ? "s" : ""}
+                            {order.orderitems.length} item
+                            {order.orderitems.length > 1 ? "s" : ""}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {order.items.map((item) => item.name).join(", ")}
+                            {order.orderitems
+                              .map((item) => item.name)
+                              .slice(0, 2)
+                              .join(", ")}
+                            {order.orderitems.length > 2 && "..."}
                           </p>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="font-medium">${order.total}</span>
+                        <span className="font-medium">
+                          {formatCurrency(order.totalPrice)}
+                        </span>
                       </td>
                       <td className="p-4">
-                        <Badge className={getStatusColor(order.status)}>
-                          {order.status.charAt(0).toUpperCase() +
-                            order.status.slice(1)}
+                        <Badge
+                          className={getStatusColor(getOrderStatus(order))}
+                        >
+                          {getOrderStatus(order).charAt(0).toUpperCase() +
+                            getOrderStatus(order).slice(1)}
                         </Badge>
                       </td>
                       <td className="p-4">
                         <Badge
-                          className={getPaymentStatusColor(order.paymentStatus)}
+                          className={getPaymentStatusColor(
+                            getPaymentStatus(order)
+                          )}
                         >
-                          {order.paymentStatus.charAt(0).toUpperCase() +
-                            order.paymentStatus.slice(1)}
+                          {getPaymentStatus(order).charAt(0).toUpperCase() +
+                            getPaymentStatus(order).slice(1)}
                         </Badge>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm">{formatDate(order.orderDate)}</p>
+                        <p className="text-sm">{formatDate(order.createdAt)}</p>
                       </td>
                       <td className="p-4">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Eye className="h-4 w-4 mr-2" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Package className="h-4 w-4 mr-2" />
-                              Update Status
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Truck className="h-4 w-4 mr-2" />
-                              Add Tracking
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Link
+                          href={`/admin/orders/${order.id}`}
+                          className="flex items-center text-gray-600 hover:text-gray-800"
+                        >
+                          <Eye className="h-5 w-5 mr-2 cursor-pointer" />
+                        </Link>
                       </td>
                     </motion.tr>
                   ))}
@@ -515,6 +457,40 @@ export default function AdminOrdersPage() {
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Pagination */}
+      {ordersResult.totalPages > 1 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="flex justify-center items-center gap-4"
+        >
+          <Button
+            variant="outline"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {ordersResult.totalPages}
+          </span>
+
+          <Button
+            variant="outline"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage >= ordersResult.totalPages}
+            className="flex items-center gap-2 cursor-pointer "
+          >
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </motion.div>
+      )}
     </div>
   );
 }
