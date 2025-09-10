@@ -1,10 +1,11 @@
-import { getOrderSummary } from "../actions/order.actions";
 import AdminDashboard from "./_components/dashboard";
+import { getOrderSummary } from "@/app/actions/order.actions";
+import { requireAdmin } from "@/services/auth-guard";
 
 const page = async () => {
   const summary = await getOrderSummary();
-  console.log("summary", summary);
-
+  console.log(summary);
+  await requireAdmin();
   return <AdminDashboard summary={summary} />;
 };
 

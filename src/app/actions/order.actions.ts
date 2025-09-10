@@ -14,6 +14,7 @@ import {
 } from "@/lib/validators";
 import { GenOrder, PaymentResult, SalesDataType } from "@/lib/types/type";
 import { sendPurchaseReceipt } from "@/services/email";
+import { redirect } from "next/navigation";
 
 // Get all orders
 export async function getAllOrders({
@@ -167,7 +168,7 @@ export async function createOrder(data: {
 
     const cart = await getMyCart();
     const userId = session?.user?.id;
-    if (!userId) throw new Error("User not found");
+    if (!userId) redirect("/login");
 
     const user = await getUserById(userId);
 
