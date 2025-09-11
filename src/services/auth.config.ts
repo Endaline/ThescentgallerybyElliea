@@ -8,9 +8,9 @@ export const authConfig = {
       // Array of regex patterns of paths we want to protect
       const protectedPaths = [
         /\/checkout/,
-        /\/user\/(.*)/,
+        /\/account\/(.*)/,
         /\/order\/(.*)/,
-        /\/dashboard\/(.*)/,
+        /\/admin\/(.*)/,
       ];
 
       // Get pathname from the req URL object

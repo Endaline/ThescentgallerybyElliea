@@ -33,21 +33,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CustomerProfileView from "./viewcustomers";
-
-interface User {
-  id: string;
-  email: string;
-  phone: string | null;
-  name: string;
-  emailVerified: Date | null;
-  image: string | null;
-  password: string;
-  role: string;
-  address: string;
-  paymentMethod: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "@prisma/client";
 
 interface CustomersPageProps {
   users: User[];
@@ -194,7 +180,7 @@ export default function CustomersPage({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCustomers.length > 0 ?
+              {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((user, index) => (
                   <motion.tr
                     key={user.id}
@@ -205,18 +191,20 @@ export default function CustomersPage({
                   >
                     <TableCell>
                       <div className="flex items-center space-x-3">
-                        <Avatar>
-                          <AvatarImage
-                            src={user.image || "/placeholder.svg"}
-                            alt={user.name}
-                          />
-                          <AvatarFallback>
-                            {user.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
+                        {user.name && (
+                          <Avatar>
+                            <AvatarImage
+                              src={user.image || "/placeholder.svg"}
+                              alt={user.name}
+                            />
+                            <AvatarFallback>
+                              {user?.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
                         <div>
                           <div className="flex items-center space-x-2">
                             <span className="font-semibold text-gray-900">
@@ -268,7 +256,8 @@ export default function CustomersPage({
                     </TableCell>
                   </motion.tr>
                 ))
-              : <TableRow>
+              ) : (
+                <TableRow>
                   <TableCell
                     colSpan={8}
                     className="text-center py-8 text-gray-500"
@@ -276,7 +265,7 @@ export default function CustomersPage({
                     No customers found
                   </TableCell>
                 </TableRow>
-              }
+              )}
             </TableBody>
           </Table>
 

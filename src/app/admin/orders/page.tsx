@@ -17,12 +17,10 @@ const page = async (props: {
     }),
     orderCounter(),
   ]);
-
-  console.log("orders", counts, ordersResult);
-  console.log("orderResult", ordersResult, counts);
   return (
     <AdminOrdersPage
       ordersResult={ordersResult}
+      counts={counts.counts}
       currentPage={Number(page)}
       searchText={searchText}
     />

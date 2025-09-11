@@ -15,34 +15,16 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Order, Product, ProductImage } from "@prisma/client";
 
 interface OrderSummary {
   ordersCount: number;
   productsCount: number;
   usersCount: number;
-  totalSales: { _sum: { totalPrice: number } };
-  latestSales: Array<{
-    id: string;
-    totalPrice: number;
-    isPaid: boolean;
-    paymentMethod: string;
-    createdAt: string;
-    user: any;
-  }>;
-  recentOrders: Array<{
-    id: string;
-    totalPrice: number;
-    isPaid: boolean;
-    paymentMethod: string;
-    createdAt: string;
-    user: any;
-  }>;
-  topProducts: Array<{
-    id: string;
-    name: string;
-    price: number;
-    images: string[];
-  }>;
+  totalSales: { _sum: { totalPrice: number | null } };
+  latestSales: (Order & { user: { name: string | null; email: string } })[];
+  recentOrders: (Order & { user: { name: string | null; email: string } })[];
+  topProducts: Product[];
 }
 
 interface AdminDashboardProps {
@@ -112,9 +94,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("7d")}
             className={
-              timeRange === "7d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "7d"
+                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             7 Days
@@ -124,9 +106,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("30d")}
             className={
-              timeRange === "30d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "30d"
+                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             30 Days
@@ -136,9 +118,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("90d")}
             className={
-              timeRange === "90d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "90d"
+                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             90 Days
@@ -298,41 +280,44 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {topProducts.map((product, index) => (
-                  <motion.div
-                    key={product.name}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
-                    className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <Image
-                      width={48}
-                      height={48}
-                      src={
-                        product.image ||
-                        "/placeholder.svg?height=48&width=48&query=perfume bottle"
-                      }
-                      alt={product.name}
-                      className="w-12 h-12 object-cover rounded-lg"
-                    />
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{product.name}</p>
-                      <p className="text-xs text-gray-600">
-                        {product.sales} sales
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">
-                        ${product.revenue.toLocaleString()}
-                      </p>
-                      <div className="flex items-center text-xs text-green-600">
-                        <ArrowUpRight className="h-3 w-3 mr-1" />
-                        Revenue
+                {topProducts.map((product, index) => {
+                  const productImg = product.image as ProductImage;
+                  return (
+                    <motion.div
+                      key={product.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
+                      className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <Image
+                        width={48}
+                        height={48}
+                        src={
+                          productImg.url ||
+                          "/placeholder.svg?height=48&width=48&query=perfume bottle"
+                        }
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{product.name}</p>
+                        <p className="text-xs text-gray-600">
+                          {product.sales} sales
+                        </p>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="text-right">
+                        <p className="font-semibold">
+                          ${product.revenue.toLocaleString()}
+                        </p>
+                        <div className="flex items-center text-xs text-green-600">
+                          <ArrowUpRight className="h-3 w-3 mr-1" />
+                          Revenue
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

@@ -27,16 +27,16 @@ export async function getAllOrders({
   query: string;
 }) {
   const queryFilter: Prisma.OrderWhereInput =
-    query && query !== "all" ?
-      {
-        user: {
-          name: {
-            contains: query,
-            mode: "insensitive",
-          } as Prisma.StringFilter,
-        },
-      }
-    : {};
+    query && query !== "all"
+      ? {
+          user: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        }
+      : {};
 
   const orders = await prisma.order.findMany({
     where: {
@@ -60,9 +60,9 @@ export async function getAllOrders({
   const data: GenOrder[] = orders.map((order) => ({
     ...order,
     paymentResult:
-      typeof order.paymentResult === "string" ?
-        JSON.parse(order.paymentResult) // if stored as stringified JSON
-      : (order.paymentResult as PaymentResult | null),
+      typeof order.paymentResult === "string"
+        ? JSON.parse(order.paymentResult) // if stored as stringified JSON
+        : (order.paymentResult as PaymentResult | null),
     shippingAddress: order.shippingAddress as ShippingAddressSchema,
   }));
 
@@ -423,9 +423,9 @@ export async function getMyOrders({
   const data: GenOrder[] = orders.map((order) => ({
     ...order,
     paymentResult:
-      typeof order.paymentResult === "string" ?
-        JSON.parse(order.paymentResult) // if stored as stringified JSON
-      : (order.paymentResult as PaymentResult | null), // if stored as actual JSON
+      typeof order.paymentResult === "string"
+        ? JSON.parse(order.paymentResult) // if stored as stringified JSON
+        : (order.paymentResult as PaymentResult | null), // if stored as actual JSON
     shippingAddress: order.shippingAddress as ShippingAddressSchema,
   }));
 
@@ -492,13 +492,13 @@ export async function getOrderSummary() {
   // Latest sales
   const latestSales = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
-    include: { user: { select: { name: true } } },
+    include: { user: { select: { name: true, email: true } } },
     take: 6,
   });
 
   const recentOrders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
-    include: { user: { select: { name: true } } },
+    include: { user: { select: { name: true, email: true } } },
     take: 10,
   });
 
