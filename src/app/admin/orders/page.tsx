@@ -17,9 +17,8 @@ const mapGenOrdersToOrders = (genOrders: any[]): any[] => {
       country: order.shippingAddress.country || "",
     },
     // Fix paymentResult
-    paymentResult:
-      order.paymentResult ?
-        {
+    paymentResult: order.paymentResult
+      ? {
           id: order.paymentResult.id || "",
           status: order.paymentResult.status || "",
           update_time: order.paymentResult.update_time || "",
@@ -56,6 +55,7 @@ const page = async (props: {
       ordersResult={mappedOrdersResult}
       currentPage={Number(page)}
       searchText={searchText}
+      counts={counts.counts}
     />
   );
 };
