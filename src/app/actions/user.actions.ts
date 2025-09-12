@@ -112,14 +112,14 @@ export async function getAllUsers({
   query: string;
 }) {
   const queryFilter: Prisma.UserWhereInput =
-    query && query !== "all" ?
-      {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        } as Prisma.StringFilter,
-      }
-    : {};
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
 
   const data = await prisma.user.findMany({
     where: {

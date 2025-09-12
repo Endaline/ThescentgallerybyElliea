@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { GenOrder } from "@/lib/types/type";
+import { Order } from "@prisma/client";
 
 // Type definitions based on your API structure
 interface OrderItem {
@@ -75,7 +77,7 @@ interface Order {
 }
 
 interface OrdersResult {
-  data: Order[];
+  data: GenOrder[];
   totalPages: number;
   totalCount: number;
 }
@@ -139,7 +141,7 @@ export default function AdminOrdersPage({
     return "pending";
   };
 
-  const getPaymentStatus = (order: Order): string => {
+  const getPaymentStatus = (order: GenOrder): string => {
     if (order.isPaid) return "paid";
     if (order.paymentResult?.status === "failed") return "failed";
     return "pending";
@@ -369,9 +371,11 @@ export default function AdminOrdersPage({
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-[#A76BCF] flex items-center justify-center text-white text-sm font-medium">
-                            {order.user.name.charAt(0).toUpperCase()}
-                          </div>
+                          {order.user.name && (
+                            <div className="w-8 h-8 rounded-full bg-[#A76BCF] flex items-center justify-center text-white text-sm font-medium">
+                              {order?.user?.name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <div>
                             <p className="font-medium text-sm">
                               {order.user.name}

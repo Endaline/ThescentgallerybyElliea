@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Order, Product, ProductImage } from "@prisma/client";
 
 interface OrderSummary {
   ordersCount: number;
@@ -317,21 +318,30 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
                       alt={product.name}
                       className="w-12 h-12 object-cover rounded-lg"
                     />
+
+                    {/* Product Info */}
                     <div className="flex-1">
                       <p className="font-medium text-sm">{product.name}</p>
                       <p className="text-xs text-gray-600">
                         {product.sales} sales
                       </p>
                     </div>
-                    <div className="text-right">
+
+                    {/* Revenue Info */}
+                    <motion.div
+                      className="text-right"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8 + index * 0.1 }}
+                    >
                       <p className="font-semibold">
                         ${product.revenue.toLocaleString()}
                       </p>
-                      <div className="flex items-center text-xs text-green-600">
+                      <div className="flex items-center justify-end text-xs text-green-600">
                         <ArrowUpRight className="h-3 w-3 mr-1" />
                         Revenue
                       </div>
-                    </div>
+                    </motion.div>
                   </motion.div>
                 ))}
               </div>

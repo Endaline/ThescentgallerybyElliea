@@ -1,63 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import {
   ArrowLeft,
-  Calendar,
-  Clock,
-  DollarSign,
-  Link,
   Package,
-  Palette,
+  DollarSign,
+  Calendar,
   Star,
+  Clock,
   Wind,
+  Palette,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { ProductImage } from "@prisma/client";
+import { GenProduct } from "@/lib/types/type";
 
-interface Brand {
-  id: string;
-  name: string;
-  createdAt: Date;
-}
-
-interface ProductData {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-  concentration: string;
-  sku: string;
-  status: string;
-  featured: boolean;
-  limitedEdition: boolean;
-  newArrival: boolean;
-  price: number;
-  originalPrice: number;
-  stock: number;
-  volume: string;
-  weight: string;
-  dimensions: string;
-  longevity: string;
-  sillage: string;
-  topNotes: string[];
-  middleNotes: string[];
-  baseNotes: string[];
-  images: ProductImage[];
-  createdAt: Date;
-  updatedAt: Date;
-  brandId: string;
-  brand: Brand;
-}
-
-export default async function ProductViewPage(product: ProductData) {
+export default async function ProductViewPage({
+  product,
+}: {
+  product: GenProduct;
+}) {
+  const productImg = product.images as ProductImage[];
   const getStatusColor = (status: string) => {
-    return status === "active" ?
-        "bg-green-100 text-green-800"
+    return status === "active"
+      ? "bg-green-100 text-green-800"
       : "bg-gray-100 text-gray-800";
   };
 
@@ -94,13 +63,13 @@ export default async function ProductViewPage(product: ProductData) {
           <CardContent className="p-6">
             <div className="aspect-square relative rounded-lg overflow-hidden bg-gray-100">
               <Image
-                src={product.images?.[0]?.url || "/placeholder.svg"}
+                src={productImg[0]?.url || "/placeholder.svg"}
                 alt={"hhh"}
                 fill
                 className="object-cover"
               />
             </div>
-            {product.images && product.images.length > 1 && (
+            {/* {product.images && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2 mt-4">
                 {product.images.slice(1, 5).map((image: any, index: number) => (
                   <div
@@ -116,7 +85,7 @@ export default async function ProductViewPage(product: ProductData) {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </CardContent>
         </Card>
 

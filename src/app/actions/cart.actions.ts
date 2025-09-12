@@ -72,6 +72,8 @@ export async function addItemToCart(data: CartItem) {
     // Check for cart cookie
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
 
+    console.log("sessionCartId", sessionCartId);
+
     if (!sessionCartId) throw new Error("Cart session not found");
 
     // Get session and user ID

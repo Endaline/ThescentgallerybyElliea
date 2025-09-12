@@ -11,7 +11,7 @@ import {
   CreditCard,
   CheckCircle,
   XCircle,
-  User,
+  User as UserIcon,
   Clock,
   Eye,
 } from "lucide-react";
@@ -26,21 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-
-interface User {
-  id: string;
-  email: string;
-  phone: string | null;
-  name: string;
-  emailVerified: Date | null;
-  image: string | null;
-  password: string;
-  role: string;
-  address: any;
-  paymentMethod: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "@prisma/client";
 
 interface CustomerProfileViewProps {
   user: User | null;
@@ -106,7 +92,7 @@ export default function CustomerProfileView({
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
-            <User className="w-5 h-5 text-[#A76BCF]" />
+            <UserIcon className="w-5 h-5 text-[#A76BCF]" />
             Customer Profile
           </DialogTitle>
         </DialogHeader>
@@ -118,15 +104,17 @@ export default function CustomerProfileView({
           className="space-y-6"
         >
           <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gradient-to-r from-[#A76BCF]/10 to-[#9155B8]/10 rounded-lg">
-            <Avatar className="w-20 h-20">
-              <AvatarImage
-                src={user.image || "/placeholder.svg"}
-                alt={user.name}
-              />
-              <AvatarFallback className="text-lg bg-[#A76BCF] text-white">
-                {getInitials(user.name)}
-              </AvatarFallback>
-            </Avatar>
+            {user.name && (
+              <Avatar className="w-20 h-20">
+                <AvatarImage
+                  src={user.image || "/placeholder.svg"}
+                  alt={user.name}
+                />
+                <AvatarFallback className="text-lg bg-[#A76BCF] text-white">
+                  {getInitials(user.name)}
+                </AvatarFallback>
+              </Avatar>
+            )}
             <div className="text-center sm:text-left flex-1">
               <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
               <p className="text-gray-600 mb-2">{user.email}</p>
@@ -135,21 +123,22 @@ export default function CustomerProfileView({
                 <Badge
                   variant={user.emailVerified ? "default" : "secondary"}
                   className={
-                    user.emailVerified ?
-                      "bg-green-100 text-green-800 border-green-200"
-                    : "bg-gray-100 text-gray-800 border-gray-200"
+                    user.emailVerified
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-gray-100 text-gray-800 border-gray-200"
                   }
                 >
-                  {user.emailVerified ?
+                  {user.emailVerified ? (
                     <>
                       <CheckCircle className="w-3 h-3 mr-1" />
                       Verified
                     </>
-                  : <>
+                  ) : (
+                    <>
                       <XCircle className="w-3 h-3 mr-1" />
                       Unverified
                     </>
-                  }
+                  )}
                 </Badge>
               </div>
             </div>
@@ -222,20 +211,21 @@ export default function CustomerProfileView({
             </h3>
             <div className="p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-2">
-                {user.emailVerified ?
+                {user.emailVerified ? (
                   <>
                     <CheckCircle className="w-5 h-5 text-green-500" />
                     <span className="text-green-700 font-medium">
                       Email Verified
                     </span>
                   </>
-                : <>
+                ) : (
+                  <>
                     <XCircle className="w-5 h-5 text-red-500" />
                     <span className="text-red-700 font-medium">
                       Email Not Verified
                     </span>
                   </>
-                }
+                )}
               </div>
               {user.emailVerified && (
                 <p className="text-sm text-gray-600 mt-1">
