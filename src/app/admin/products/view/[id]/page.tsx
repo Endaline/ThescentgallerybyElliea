@@ -99,7 +99,7 @@ export default async function ProductViewPage(product: ProductData) {
                 className="object-cover"
               />
             </div>
-            {/* {product.images && product.images.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2 mt-4">
                 {product.images.slice(1, 5).map((image: any, index: number) => (
                   <div
@@ -115,7 +115,7 @@ export default async function ProductViewPage(product: ProductData) {
                   </div>
                 ))}
               </div>
-            )} */}
+            )}
           </CardContent>
         </Card>
 

@@ -26,7 +26,7 @@ interface OrderSummary {
     totalPrice: number;
     isPaid: boolean;
     paymentMethod: string;
-    createdAt: string;
+    createdAt: Date; // Changed from string to Date
     user: any;
   }>;
   recentOrders: Array<{
@@ -34,7 +34,7 @@ interface OrderSummary {
     totalPrice: number;
     isPaid: boolean;
     paymentMethod: string;
-    createdAt: string;
+    createdAt: Date; // Changed from string to Date
     user: any;
   }>;
   topProducts: Array<{
@@ -43,6 +43,7 @@ interface OrderSummary {
     price: number;
     images: string[];
   }>;
+  salesData?: any; // Added optional salesData property that appears in actual data
 }
 
 interface AdminDashboardProps {
@@ -310,7 +311,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
                       width={48}
                       height={48}
                       src={
-                        product.image ||
+                        product?.image ||
                         "/placeholder.svg?height=48&width=48&query=perfume bottle"
                       }
                       alt={product.name}

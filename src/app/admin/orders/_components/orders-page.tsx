@@ -41,10 +41,11 @@ interface User {
 }
 
 interface ShippingAddress {
-  address: string;
+  streetAddress: string;
   city: string;
   postalCode: string;
   country: string;
+  lga: string;
 }
 
 interface PaymentResult {
@@ -73,13 +74,6 @@ interface Order {
   orderitems: OrderItem[];
 }
 
-interface OrderCounts {
-  totalCount: number;
-  deliveredCount: number;
-  paidCount: number;
-  unpaidCount: number;
-}
-
 interface OrdersResult {
   data: Order[];
   totalPages: number;
@@ -88,7 +82,7 @@ interface OrdersResult {
 
 interface AdminOrdersPageProps {
   ordersResult: OrdersResult;
-  counts: OrderCounts;
+  // counts: OrderCounts;
   currentPage: number;
   searchText?: string;
 }

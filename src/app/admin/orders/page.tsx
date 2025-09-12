@@ -1,8 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import AdminOrdersPage from "./_components/orders-page";
 import { getAllOrders } from "@/app/actions/order.actions";
 import { orderCounter } from "@/app/actions/order.actions";
 import { requireAdmin } from "@/services/auth-guard";
+
+// Map API result (GenOrder) to Order type expected by AdminOrdersPage
+const mapGenOrdersToOrders = (genOrders: any[]): any[] => {
+  return genOrders.map((order) => ({
+    ...order,
+    // Fix shippingAddress
+    shippingAddress: {
+      address: order.shippingAddress.streetAddress || "",
+      city: order.shippingAddress.city || "",
+      postalCode: order.shippingAddress.postalCode || "",
+      country: order.shippingAddress.country || "",
+    },
+    // Fix paymentResult
+    paymentResult:
+      order.paymentResult ?
+        {
+          id: order.paymentResult.id || "",
+          status: order.paymentResult.status || "",
+          update_time: order.paymentResult.update_time || "",
+          email_address: order.paymentResult.email_address || "",
+        }
+      : null,
+  }));
+};
 
 const page = async (props: {
   searchParams: Promise<{ page: string; user: string }>;
@@ -18,11 +43,17 @@ const page = async (props: {
     orderCounter(),
   ]);
 
-  console.log("orders", counts, ordersResult);
-  console.log("orderResult", ordersResult, counts);
+  // Map GenOrder[] → Order[]
+  const mappedOrdersResult = {
+    ...ordersResult,
+    data: mapGenOrdersToOrders(ordersResult.data),
+  };
+
+  console.log("Mapped Orders Result:", mappedOrdersResult, counts);
+
   return (
     <AdminOrdersPage
-      ordersResult={ordersResult}
+      ordersResult={mappedOrdersResult}
       currentPage={Number(page)}
       searchText={searchText}
     />
