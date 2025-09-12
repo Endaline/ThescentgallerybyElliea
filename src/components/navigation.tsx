@@ -41,19 +41,20 @@ export default function Navigation({
   console.log("role", role);
 
   return (
-    <nav className="bg-gray-50 border-b border-gray-200 text-[#512260] sticky top-0 z-50">
-      <div className="max-content padding-x py-2">
+    <nav className="bg-gray-50 border-b border-gray-200 color sticky top-0 z-50 ">
+      <div className="max-content padding-x py-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center ">
             <Image
               width={1000}
               height={1000}
-              src="/images/Logo.svg"
+              src="/images/logo-3.png"
               alt="logo"
-              className="h-20 w-auto"
+              className="h-20 w-auto object-contain"
             />
-            <span className="text-2xl font-semibold text-[#512260] hidden lg:block ">
+
+            <span className="text-2xl font-semibold color hidden lg:block ">
               ThescentgallerybyElliea
             </span>
           </Link>
@@ -87,7 +88,7 @@ export default function Navigation({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-charcoal hover:text-[#512260]/80 cursor-pointer"
+                  className="text-charcoal hover:color/80 cursor-pointer"
                 >
                   <User className="h-5 w-5" />
                 </Button>
@@ -161,7 +162,7 @@ export default function Navigation({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-charcoal hover:text-[#512260]/90 relative cursor-pointer"
+                className="text-charcoal hover:color/90 relative cursor-pointer"
               >
                 <ShoppingBag className="h-5 w-5" />
                 <span className="absolute -top-1 -right-1 bg-slate-100 text-[#9b59b6] text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
