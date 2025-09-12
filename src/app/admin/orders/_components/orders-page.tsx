@@ -43,10 +43,11 @@ interface User {
 }
 
 interface ShippingAddress {
-  address: string;
+  streetAddress: string;
   city: string;
   postalCode: string;
   country: string;
+  lga: string;
 }
 
 interface PaymentResult {
@@ -56,11 +57,23 @@ interface PaymentResult {
   email_address: string;
 }
 
-interface OrderCounts {
-  totalCount: number;
-  deliveredCount: number;
-  paidCount: number;
-  unpaidCount: number;
+interface Order {
+  id: string;
+  userId: string;
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  paymentResult: PaymentResult | null;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date | null;
+  isDelivered: boolean;
+  deliveredAt: Date | null;
+  createdAt: Date;
+  user: User;
+  orderitems: OrderItem[];
 }
 
 interface OrdersResult {
@@ -71,7 +84,7 @@ interface OrdersResult {
 
 interface AdminOrdersPageProps {
   ordersResult: OrdersResult;
-  counts: OrderCounts;
+  // counts: OrderCounts;
   currentPage: number;
   searchText?: string;
 }
