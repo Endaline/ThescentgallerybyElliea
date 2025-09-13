@@ -1,8 +1,6 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, ArrowLeft } from "lucide-react";
@@ -17,20 +15,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// ✅ Zod schema
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
+type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate password reset process
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
-    setIsSubmitted(true);
-    // Handle password reset logic here
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ForgotPasswordForm>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
+  const onSubmit = async (data: ForgotPasswordForm) => {
+    console.log("data", data);
+    reset();
   };
 
   if (isSubmitted) {
@@ -60,7 +72,7 @@ export default function ForgotPasswordPage() {
                 Check Your Email
               </CardTitle>
               <CardDescription className="text-gray-600">
-                We&apos;ve sent a password reset link to {email}
+                We&apos;ve sent a password reset link to {submittedEmail}
               </CardDescription>
             </CardHeader>
 
@@ -120,9 +132,6 @@ export default function ForgotPasswordPage() {
                 ThescentgallerybyElliea
               </span>
             </Link>
-            {/* <CardTitle className="text-2xl font-serif text-charcoal">
-              Reset Password
-            </CardTitle> */}
             <CardDescription className="text-gray-600">
               Enter your email address and we&apos;ll send you a link to reset
               your password
@@ -130,7 +139,7 @@ export default function ForgotPasswordPage() {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <div className="relative flex items-center">
@@ -139,20 +148,23 @@ export default function ForgotPasswordPage() {
                     id="email"
                     type="email"
                     placeholder="Enter your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-12"
-                    required
+                    {...register("email")}
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <Button
                 type="submit"
                 className="w-full h-12 bg-[#512260] hover:bg-[#512260]/80 text-white cursor-pointer"
-                disabled={isLoading}
+                disabled={isSubmitting}
               >
-                {isLoading ? "Sending..." : "Send Reset Link"}
+                {isSubmitting ? "Sending..." : "Send Reset Link"}
               </Button>
             </form>
 

@@ -64,7 +64,7 @@ export default function ProductGrid({
                             {product.name}
                           </h3>
                         </Link>
-                        {/* <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1">
                           <span className="font-bold text-lg text-gray-900">
                             {product.hasVariants ? "From " : ""}₦
                             {product.price.toLocaleString()}.00
@@ -74,7 +74,7 @@ export default function ProductGrid({
                               ₦{product.originalPrice.toLocaleString()}.00
                             </span>
                           )}
-                        </div> */}
+                        </div>
                       </div>
 
                       {/* Action Buttons - Right */}
@@ -90,12 +90,14 @@ export default function ProductGrid({
                           }}
                           cart={cart}
                         />
-                        <Button
-                          variant="outline"
-                          className="px-6 py-2 min-w-[140px] border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
-                        >
-                          Quick view
-                        </Button>
+                        <Link href={`/products/${product.slug}`}>
+                          <Button
+                            variant="outline"
+                            className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                          >
+                            Quick view
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </CardContent>

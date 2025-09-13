@@ -75,3 +75,28 @@ export async function updateBrand(data: { name: string; id: string }) {
     return { success: false, message: formatError(error) };
   }
 }
+
+export async function deleteBrand(id: string) {
+  try {
+    const brandExists = await prisma.productBrand.findUnique({
+      where: { id },
+    });
+
+    if (!brandExists) {
+      throw new Error("Brand not found");
+    }
+
+    await prisma.productBrand.delete({
+      where: { id },
+    });
+
+    revalidatePath("/admin/brand");
+
+    return {
+      success: true,
+      message: "Brand deleted successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
