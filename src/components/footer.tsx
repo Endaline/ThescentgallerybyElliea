@@ -111,24 +111,6 @@ export default function Footer() {
               </div>
             </div>
           </div>
-
-          {/* Newsletter / Call to Action */}
-          <div className="space-y-4">
-            <h4 className="text-xl font-semibold color">Stay Updated</h4>
-            <p className="color leading-relaxed">
-              Subscribe to our newsletter to get the latest updates and offers.
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#512260]"
-              />
-              <Button className="bg-[#512260] hover:bg-[#512260]/80 text-white px-6 py-2 rounded-md">
-                Subscribe
-              </Button>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Section */}

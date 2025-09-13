@@ -54,7 +54,7 @@ interface ProductData {
   brand: Brand;
 }
 
-export default async function ProductViewPage(product: ProductData) {
+export default function ProductViewPage(product: ProductData) {
   const getStatusColor = (status: string) => {
     return status === "active" ?
         "bg-green-100 text-green-800"
