@@ -180,7 +180,7 @@ export default function CustomersPage({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCustomers.length > 0 ? (
+              {filteredCustomers.length > 0 ?
                 filteredCustomers.map((user, index) => (
                   <motion.tr
                     key={user.id}
@@ -248,7 +248,6 @@ export default function CustomersPage({
                         <p className="font-semibold text-gray-900">
                           {formatDate(user.createdAt)}
                         </p>
-                        <p className="text-xs text-gray-500">joined</p>
                       </div>
                     </TableCell>
                     <TableCell className="text-center flex justify-center">
@@ -256,8 +255,7 @@ export default function CustomersPage({
                     </TableCell>
                   </motion.tr>
                 ))
-              ) : (
-                <TableRow>
+              : <TableRow>
                   <TableCell
                     colSpan={8}
                     className="text-center py-8 text-gray-500"
@@ -265,7 +263,7 @@ export default function CustomersPage({
                     No customers found
                   </TableCell>
                 </TableRow>
-              )}
+              }
             </TableBody>
           </Table>
 

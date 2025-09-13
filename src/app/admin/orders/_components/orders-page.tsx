@@ -88,39 +88,7 @@ export default function AdminOrdersPage({
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("all");
 
-  // Filter orders based on local filters (since API handles search)
-  const filteredOrders = ordersResult.data.filter((order) => {
-    const matchesStatus =
-      selectedStatus === "all" || getOrderStatus(order) === selectedStatus;
-    const matchesPaymentStatus =
-      selectedPaymentStatus === "all" ||
-      getPaymentStatus(order) === selectedPaymentStatus;
-    return matchesStatus && matchesPaymentStatus;
-  });
-
-  const handleSearch = () => {
-    const params = new URLSearchParams(searchParams);
-    if (searchQuery.trim()) {
-      params.set("user", searchQuery.trim());
-    } else {
-      params.delete("user");
-    }
-    params.set("page", "1"); // Reset to first page on search
-    router.push(`?${params.toString()}`);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", newPage.toString());
-    router.push(`?${params.toString()}`);
-  };
-
+  // Helper functions moved BEFORE their usage
   const getOrderStatus = (order: Order): string => {
     if (order.isDelivered) return "delivered";
     if (order.isPaid && !order.isDelivered) return "shipped";
@@ -182,7 +150,43 @@ export default function AdminOrdersPage({
       currency: "NGN",
     }).format(amount);
   };
+
+  // Filter orders based on local filters (since API handles search)
+  const filteredOrders = ordersResult.data.filter((order) => {
+    const matchesStatus =
+      selectedStatus === "all" || getOrderStatus(order) === selectedStatus;
+    const matchesPaymentStatus =
+      selectedPaymentStatus === "all" ||
+      getPaymentStatus(order) === selectedPaymentStatus;
+
+    return matchesStatus && matchesPaymentStatus;
+  });
+
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams);
+    if (searchQuery.trim()) {
+      params.set("user", searchQuery.trim());
+    } else {
+      params.delete("user");
+    }
+    params.set("page", "1"); // Reset to first page on search
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   console.log("orderResult", ordersResult);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -265,7 +269,7 @@ export default function AdminOrdersPage({
                 </div>
                 <Button
                   onClick={handleSearch}
-                  className="bg-[#A76BCF] hover:bg-[#A76BCF]/90"
+                  className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
                 >
                   Search
                 </Button>
@@ -300,12 +304,6 @@ export default function AdminOrdersPage({
                     <SelectItem value="failed">Failed</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon">
-                  <Filter className="h-4 w-4" />
-                </Button>
               </div>
             </div>
           </CardContent>

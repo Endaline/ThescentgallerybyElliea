@@ -94,9 +94,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("7d")}
             className={
-              timeRange === "7d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "7d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             7 Days
@@ -106,9 +106,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("30d")}
             className={
-              timeRange === "30d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "30d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             30 Days
@@ -118,9 +118,9 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             size="sm"
             onClick={() => setTimeRange("90d")}
             className={
-              timeRange === "90d"
-                ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-                : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+              timeRange === "90d" ?
+                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
             }
           >
             90 Days
@@ -140,11 +140,12 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
               <CardTitle className="text-sm font-medium">
                 Total Revenue
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-[#A76BCF]" />
+              <span className="h-4 w-4 text-[#A76BCF]">₦</span>
+              {/* < className="h-4 w-4 text-[#A76BCF]" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                ${dashboardStats.totalRevenue.toLocaleString()}
+                ₦{dashboardStats.totalRevenue.toLocaleString()}
               </div>
             </CardContent>
           </Card>
@@ -248,7 +249,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
                       <p className="font-medium text-sm">#{order.id}</p>
                     </div>
                     <div className="text-right space-y-1">
-                      <p className="font-semibold">${order.amount}</p>
+                      <p className="font-semibold">₦{order.amount}</p>
                       <Badge className={getStatusColor(order.status)}>
                         {order.status}
                       </Badge>
@@ -317,7 +318,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
                         transition={{ delay: 0.8 + index * 0.1 }}
                       >
                         <p className="font-semibold">
-                          ${product.revenue.toLocaleString()}
+                          ₦{product.revenue.toLocaleString()}
                         </p>
                         <div className="flex items-center justify-end text-xs text-green-600">
                           <ArrowUpRight className="h-3 w-3 mr-1" />

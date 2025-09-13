@@ -359,11 +359,11 @@ export default function Product({ products, brands, counts }: ProductProps) {
                         </td>
                         <td className="p-4">
                           <div>
-                            <p className="font-medium">${product.price}</p>
+                            <p className="font-medium">₦{product.price}</p>
                             {product.originalPrice &&
                               product.originalPrice > product.price && (
                                 <p className="text-sm text-gray-500 line-through">
-                                  ${product.originalPrice}
+                                  ₦{product.originalPrice}
                                 </p>
                               )}
                           </div>

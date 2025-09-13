@@ -137,4 +137,11 @@
   body {
     @apply bg-slate-100 text-slate-800;
   }
+
+  .color {
+    @apply text-[#770a10];
+  }
+  .color-2 {
+    @apply text-[#335235];
+  }
 }

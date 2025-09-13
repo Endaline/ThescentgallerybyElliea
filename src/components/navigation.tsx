@@ -41,19 +41,20 @@ export default function Navigation({
   console.log("role", role);
 
   return (
-    <nav className="bg-gray-50 border-b border-gray-200 text-[#512260] sticky top-0 z-50">
-      <div className="max-content padding-x py-2">
+    <nav className="bg-gray-50 border-b border-gray-200 color sticky top-0 z-50 ">
+      <div className="max-content padding-x py-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center ">
             <Image
               width={1000}
               height={1000}
-              src="/images/Logo.svg"
+              src="/images/logo-3.png"
               alt="logo"
-              className="h-20 w-auto"
+              className="h-20 w-auto object-contain"
             />
-            <span className="text-2xl font-semibold text-[#512260] hidden lg:block ">
+
+            <span className="text-2xl font-semibold color hidden lg:block ">
               ThescentgallerybyElliea
             </span>
           </Link>
@@ -87,13 +88,13 @@ export default function Navigation({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-charcoal hover:text-[#512260]/80 cursor-pointer"
+                  className="text-charcoal hover:color/80 cursor-pointer"
                 >
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-gray-50">
-                {session ? (
+                {session ?
                   <>
                     <div className="px-3 py-2">
                       <p className="text-sm font-medium">{name}</p>
@@ -131,8 +132,7 @@ export default function Navigation({
                       Sign Out
                     </DropdownMenuItem>
                   </>
-                ) : (
-                  <div>
+                : <div>
                     <DropdownMenuItem asChild>
                       <Link
                         href="/login"
@@ -152,7 +152,7 @@ export default function Navigation({
                       </Link>
                     </DropdownMenuItem>
                   </div>
-                )}
+                }
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -160,7 +160,7 @@ export default function Navigation({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-charcoal hover:text-[#512260]/90 relative cursor-pointer"
+                className="text-charcoal hover:color/90 relative cursor-pointer"
               >
                 <ShoppingBag className="h-5 w-5" />
                 <span className="absolute -top-1 -right-1 bg-slate-100 text-[#9b59b6] text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
@@ -176,11 +176,9 @@ export default function Navigation({
               className="md:hidden text-charcoal hover:text-burgundy"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? (
+              {isMenuOpen ?
                 <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
@@ -204,7 +202,7 @@ export default function Navigation({
               </Link>
 
               <div className="border-t border-gray-100 pt-4 mt-4">
-                {session ? (
+                {session ?
                   <>
                     <Link
                       href={role === "admin" ? "/admin" : "/account"}
@@ -222,9 +220,9 @@ export default function Navigation({
                     </Link>
                     {/* <Link
                       href={
-                        role === "admin"
-                          ? "/admin/settings"
-                          : "/account/wishlist"
+                        role === "admin" ? "/admin/settings" : (
+                          "/account/wishlist"
+                        )
                       }
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
@@ -241,8 +239,7 @@ export default function Navigation({
                       Sign Out
                     </button>
                   </>
-                ) : (
-                  <>
+                : <>
                     <Link
                       href="/login"
                       className="block text-charcoal hover:text-burgundy font-medium mb-2 cursor-pointer"
@@ -256,7 +253,7 @@ export default function Navigation({
                       Create Account
                     </Link>
                   </>
-                )}
+                }
               </div>
             </div>
           </div>
