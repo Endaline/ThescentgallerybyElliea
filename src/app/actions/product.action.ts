@@ -198,6 +198,32 @@ export async function getAllProducts({
   }
 }
 
+export async function getAllFeaturedProducts({
+  query = "",
+}: {
+  query?: string;
+}) {
+  try {
+    const filters: Prisma.ProductWhereInput = {};
+
+    if (query && query !== "all") {
+      filters.name = {
+        contains: query,
+        mode: "insensitive",
+      };
+    }
+    filters.featured = true;
+
+    const products = await prisma.product.findMany({
+      where: filters,
+    });
+    return products;
+  } catch (error) {
+    console.error("[getAllFeaturedProducts]", error);
+    throw new Error("Failed to fetch featured products.");
+  }
+}
+
 export async function getProductBySlug(slug: string) {
   return await prisma.product.findFirst({
     where: { slug: slug },

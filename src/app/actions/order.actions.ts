@@ -243,17 +243,6 @@ export async function createOrder(data: {
 
         if (!insertedOrderItem) throw new Error("Order not created");
       }
-      // Clear cart
-      await tx.cart.update({
-        where: { id: cart.id },
-        data: {
-          items: [],
-          totalPrice: 0,
-          taxPrice: 0,
-          shippingPrice: 0,
-          itemsPrice: 0,
-        },
-      });
 
       return insertedOrder.id;
     });

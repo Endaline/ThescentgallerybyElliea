@@ -10,6 +10,10 @@ export default async function page(props: { params: Promise<{ id: string }> }) {
   const brandList = (await getAllBrand()).data;
   const product = await getProductBySlug(id);
 
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
   await requireAdmin();
 
   return <EditProduct product={product} brandList={brandList} />;

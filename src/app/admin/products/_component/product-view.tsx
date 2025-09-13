@@ -24,6 +24,7 @@ export default async function ProductViewPage({
   product: GenProduct;
 }) {
   const productImg = product.images as ProductImage[];
+
   const getStatusColor = (status: string) => {
     return status === "active"
       ? "bg-green-100 text-green-800"
@@ -69,9 +70,9 @@ export default async function ProductViewPage({
                 className="object-cover"
               />
             </div>
-            {/* {product.images && product.images.length > 1 && (
+            {productImg && productImg.length > 1 && (
               <div className="grid grid-cols-4 gap-2 mt-4">
-                {product.images.slice(1, 5).map((image: any, index: number) => (
+                {productImg.slice(1, 5).map((image: any, index: number) => (
                   <div
                     key={image.id}
                     className="aspect-square relative rounded-md overflow-hidden bg-gray-100"
@@ -85,7 +86,7 @@ export default async function ProductViewPage({
                   </div>
                 ))}
               </div>
-            )} */}
+            )}
           </CardContent>
         </Card>
 

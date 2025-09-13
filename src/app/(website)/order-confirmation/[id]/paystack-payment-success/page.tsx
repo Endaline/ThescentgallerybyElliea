@@ -1,20 +1,20 @@
 import { getOrderById } from "@/app/actions/order.actions";
 import { prisma } from "@/app/db/prismadb";
 import { Button } from "@/components/ui/button";
-import { PaymentResult } from "@/lib/types/type";
-import { ShippingAddressSchema } from "@/lib/validators";
-import { sendPurchaseReceipt } from "@/services/email";
 import { paystack } from "@/services/paystack";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConfirmationInfo from "./confirmation-info";
+import { sendPurchaseReceipt } from "@/services/email";
+import { ShippingAddressSchema } from "@/lib/validators";
+import { PaymentResult } from "@/lib/types/type";
 
 const PaystackSuccessPage = async (props: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ reference: string }>;
+  params: Promise<{ id: any }>;
+  searchParams: Promise<{ reference: string; cartId: string }>;
 }) => {
   const { id } = await props.params;
-  const { reference } = await props.searchParams;
+  const { reference, cartId } = await props.searchParams;
 
   // Fetch order
   const order = await getOrderById(id);
@@ -45,28 +45,64 @@ const PaystackSuccessPage = async (props: {
     if (paymentResult.status === "COMPLETED") {
       // Update order in database if not already paid
       if (!order.isPaid) {
-        const updatedOrder = await prisma.order.update({
-          where: { id: order.id },
+        const updatedOrder = await prisma.$transaction(
+          async (tx) => {
+            await Promise.all(
+              order.orderitems.map((item) =>
+                tx.product.update({
+                  where: { id: item.productId },
+                  data: { stock: { increment: -item.qty } },
+                })
+              )
+            );
+            const updatedOrder = await prisma.order.update({
+              where: { id: order.id },
+              data: {
+                isPaid: true,
+                paidAt: new Date(),
+                paymentResult: paymentResult,
+              },
+              include: {
+                orderitems: true,
+                user: {
+                  select: {
+                    name: true,
+                    email: true,
+                    phone: true,
+                    image: true,
+                  },
+                },
+              },
+            });
+
+            return updatedOrder;
+          },
+          {
+            timeout: 10000, // 10 seconds
+            maxWait: 10000, // optional, queue wait before failing
+          }
+        );
+
+        // Clear cart
+        await prisma.cart.update({
+          where: { id: cartId },
           data: {
-            isPaid: true,
-            paidAt: new Date(),
-            paymentResult: paymentResult,
-          },
-          include: {
-            orderitems: true,
-            user: {
-              select: { name: true, email: true, phone: true, image: true },
-            },
-          },
-        }); // Send purchase receipt email
-        await sendPurchaseReceipt({
-          order: {
-            ...updatedOrder,
-            shippingAddress:
-              updatedOrder.shippingAddress as ShippingAddressSchema,
-            paymentResult: updatedOrder.paymentResult as PaymentResult,
+            items: [],
+            totalPrice: 0,
+            taxPrice: 0,
+            shippingPrice: 0,
+            itemsPrice: 0,
           },
         });
+        // Send purchase receipt email
+        // await sendPurchaseReceipt({
+        //   order: {
+        //     ...updatedOrder,
+        //     shippingAddress:
+        //       updatedOrder.shippingAddress as ShippingAddressSchema,
+        //     paymentResult: updatedOrder.paymentResult as PaymentResult,
+        //   },
+        // });
       }
 
       return (
@@ -93,7 +129,7 @@ const PaystackSuccessPage = async (props: {
                 support.
               </p>
               <Button asChild>
-                <Link href={`/order/${id}`}>Return to Order</Link>
+                <Link href={`/account/order/${id}`}>Return to Order</Link>
               </Button>
             </div>
           </div>

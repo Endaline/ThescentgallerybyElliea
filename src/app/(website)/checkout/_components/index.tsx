@@ -43,6 +43,7 @@ const CheckoutComp = ({
   cart: Cart | undefined;
   userInfo: User;
 }) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: userInfo.email || "",
     name: userInfo.name || "",
@@ -65,17 +66,21 @@ const CheckoutComp = ({
     setPaystackReady(true);
   };
 
-  const handlePaymentSuccess = (
-    response: { reference: string },
-    id: string
-  ) => {
+  const handlePaymentSuccess = async (response: { reference: string }) => {
+    const res = await createOrder({
+      data: formData,
+    });
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
     router.push(
-      `order-confirmation/${id}/paystack-payment-success?reference=${response.reference}`
+      `order-confirmation/${res.id}/paystack-payment-success?reference=${response.reference}&cartId=${cart?.id}`
     );
     // Send reference to your backend to verify & activate subscription
   };
 
-  const getPaystackConfig = (id: string) => {
+  const getPaystackConfig = () => {
     return {
       key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
       email: formData.email,
@@ -88,20 +93,20 @@ const CheckoutComp = ({
         subscriptionId: "",
       },
       callback: (response: { reference: string }) =>
-        handlePaymentSuccess(response, id),
+        handlePaymentSuccess(response),
       onClose: () => {
         console.log("Payment window closed");
       },
     };
   };
 
-  const handleSubscribe = (id: string) => {
+  const handleSubscribe = () => {
     if (!paystackReady || !window.PaystackPop) {
       toast.error("Payment system is not ready yet. Please try again.");
       return;
     }
 
-    const config = getPaystackConfig(id);
+    const config = getPaystackConfig();
     if (!config) return;
 
     const handler = window.PaystackPop.setup(config);
@@ -128,15 +133,8 @@ const CheckoutComp = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     startTransition(async () => {
-      const res = await createOrder({
-        data: formData,
-      });
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-
-      handleSubscribe(res.id ?? "");
+      setLoading(true);
+      handleSubscribe();
     });
   };
   return (
@@ -288,15 +286,19 @@ const CheckoutComp = ({
                     <Button
                       type="submit"
                       disabled={
-                        formData.paymentMethod === "paystack" && !paystackReady
+                        (formData.paymentMethod === "paystack" &&
+                          !paystackReady) ||
+                        isPending
                       }
                       className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white ml-auto"
                       size="lg"
                     >
                       Place Order
-                      {isPending ?
+                      {isPending || loading ? (
                         <Loader className="w-4 h-4 animate-spin" />
-                      : <ArrowRightCircleIcon />}
+                      ) : (
+                        <ArrowRightCircleIcon />
+                      )}
                     </Button>
                   </div>
                 </>

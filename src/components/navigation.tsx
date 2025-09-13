@@ -102,7 +102,7 @@ export default function Navigation({
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link
-                        href={role === "admin" ? "/admin" : "/account"}
+                        href={role === "admin" ? "/admin" : "/account/profile"}
                         className="flex items-center cursor-pointer"
                       >
                         <User className="mr-2 h-4 w-4" />
@@ -111,9 +111,7 @@ export default function Navigation({
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link
-                        href={
-                          role !== "admin" ? "/admin/orders" : "/account/orders"
-                        }
+                        href={role !== "admin" ? "/admin/orders" : "/account"}
                         className="flex items-center"
                       >
                         <Package className="mr-2 h-4 w-4" />
@@ -222,7 +220,7 @@ export default function Navigation({
                     >
                       {role === "admin" ? "Orders" : "My Orders"}
                     </Link>
-                    <Link
+                    {/* <Link
                       href={
                         role === "admin"
                           ? "/admin/settings"
@@ -231,7 +229,7 @@ export default function Navigation({
                       className="block text-charcoal hover:text-burgundy font-medium mb-2"
                     >
                       {role === "admin" ? "Settings" : "Wishlist"}
-                    </Link>
+                    </Link> */}
                     <button
                       onClick={async () => {
                         await signOutUser();

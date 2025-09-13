@@ -48,8 +48,6 @@ const page = async (props: {
     data: mapGenOrdersToOrders(ordersResult.data),
   };
 
-  console.log("Mapped Orders Result:", mappedOrdersResult, counts);
-
   return (
     <AdminOrdersPage
       ordersResult={mappedOrdersResult}

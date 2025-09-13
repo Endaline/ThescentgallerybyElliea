@@ -166,8 +166,8 @@ export default function Product({ products, brands, counts }: ProductProps) {
   };
 
   const getStatusColor = (status: string) => {
-    return status === "active" ?
-        "bg-green-100 text-green-800"
+    return status === "active"
+      ? "bg-green-100 text-green-800"
       : "bg-gray-100 text-gray-800";
   };
 
@@ -386,14 +386,14 @@ export default function Product({ products, brands, counts }: ProductProps) {
                         </td>
                         <td className="p-4">
                           <Badge className={getStatusColor(product.status)}>
-                            {product.status === "active" ?
-                              "Active"
-                            : "Inactive"}
+                            {product.status === "active"
+                              ? "Active"
+                              : "Inactive"}
                           </Badge>
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-3">
-                            <Link href={`/admin/products/view/${product.id}`}>
+                            <Link href={`/admin/products/view/${product.slug}`}>
                               <Eye className="h-5 w-5 cursor-pointer text-neutral-800" />
                             </Link>
                             {/* <ProductViewPage product={product} /> */}
