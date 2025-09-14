@@ -82,6 +82,49 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
   }
 }
 
+export async function changePassword(prevState: unknown, formData: FormData) {
+  try {
+    const user = signUpFormSchema.parse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    let plainPassword = user.password;
+
+    const userExists = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+
+    if (!userExists) {
+      return { success: false, message: "User not found" };
+    }
+
+    const saltRounds = 10;
+
+    plainPassword = await bcrypt.hash(plainPassword, saltRounds);
+
+    await prisma.user.update({
+      where: { id: userExists.id },
+      data: { password: plainPassword },
+    });
+
+    return { success: true, message: "Password Changed successfully" };
+  } catch (error) {
+    // Handle redirect errors by re-throwing them
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+    return { success: false, message: formatError(error) };
+  }
+}
+
 export async function signOutUser() {
   // get current users cart and delete it so it does not persist to next user
   const currentCart = await getMyCart();

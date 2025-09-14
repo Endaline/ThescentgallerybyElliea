@@ -11,6 +11,11 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/order-confirmation/${orderId}/paystack-payment-success`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/order-confirmation/${orderId}/paystack-payment-success`
+    );
+
     // Call Paystack initialize endpoint
     const response = await fetch(
       "https://api.paystack.co/transaction/initialize",

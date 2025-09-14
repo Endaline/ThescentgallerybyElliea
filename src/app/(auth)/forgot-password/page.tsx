@@ -3,7 +3,7 @@
 import type React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowLeft, Lock, EyeOff, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,100 +15,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-// ✅ Zod schema
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-});
-
-type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
+import { useActionState, useState } from "react";
+import { changePassword } from "@/app/actions/user.actions";
+import { useFormStatus } from "react-dom";
 
 export default function ForgotPasswordPage() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<ForgotPasswordForm>({
-    resolver: zodResolver(forgotPasswordSchema),
+  const [data, action] = useActionState(changePassword, {
+    success: false,
+    message: "",
   });
 
-  const onSubmit = async (data: ForgotPasswordForm) => {
-    console.log("data", data);
-    reset();
-  };
+  const ForgotPasswordButton = () => {
+    const { pending } = useFormStatus();
 
-  if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md"
-        >
-          <Card className="shadow-xl border-0 bg-slate-100 text-slate-700 ">
-            <CardHeader className="text-center pb-6">
-              <Link href="/" className="flex items-center space-x-2">
-                <Image
-                  width={1000}
-                  height={1000}
-                  src="/images/Logo.svg"
-                  alt="logo"
-                  className="h-20 w-auto"
-                />
-                <span className="text-2xl font-semibold text-[#512260] ">
-                  ThescentgallerybyElliea
-                </span>
-              </Link>
-              <CardTitle className="text-2xl font-serif text-charcoal">
-                Check Your Email
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                We&apos;ve sent a password reset link to {submittedEmail}
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent className="space-y-6">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-green-600" />
-                </div>
-                <p className="text-sm text-gray-600 mb-6">
-                  Please check your email and click on the link to reset your
-                  password. If you don&apos;t see the email, check your spam
-                  folder.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <Button
-                  onClick={() => setIsSubmitted(false)}
-                  variant="outline"
-                  className="w-full h-12"
-                >
-                  Try Different Email
-                </Button>
-
-                <Link href="/login" className="block">
-                  <Button className="w-full h-12 bg-burgundy hover:bg-burgundy/90 text-white">
-                    Back to Sign In
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
+      <Button
+        disabled={pending}
+        className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+      >
+        {pending ? "Submitting..." : "Submit"}
+      </Button>
     );
-  }
+  };
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
@@ -133,39 +63,57 @@ export default function ForgotPasswordPage() {
               </span>
             </Link>
             <CardDescription className="text-gray-600">
-              Enter your email address and we&apos;ll send you a link to reset
-              your password
+              Enter your email address and password
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form action={action} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <div className="relative flex items-center">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
                   <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                   <Input
                     id="email"
+                    name="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Enter your email"
+                    autoComplete="email"
                     className="pl-10 h-12"
-                    {...register("email")}
+                    required
                   />
                 </div>
-                {errors.email && (
-                  <p className="text-sm text-red-600 mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a password"
+                    autoComplete="password"
+                    className="pl-10 pr-10 h-12"
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-12 w-12"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full h-12 bg-[#512260] hover:bg-[#512260]/80 text-white cursor-pointer"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Sending..." : "Send Reset Link"}
-              </Button>
+              <ForgotPasswordButton />
             </form>
 
             <div className="text-center">
