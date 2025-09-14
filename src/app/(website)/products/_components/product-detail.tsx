@@ -55,9 +55,9 @@ export default function ProductDetailPage({
                   key={index}
                   onClick={() => setSelectedImage(index)}
                   className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
-                    selectedImage === index
-                      ? "border-[#9b59b6]"
-                      : "border-gray-200"
+                    selectedImage === index ? "border-[#9b59b6]" : (
+                      "border-gray-200"
+                    )
                   }`}
                 >
                   <Image
@@ -119,13 +119,12 @@ export default function ProductDetailPage({
             <div className="space-y-3">
               <h3 className="font-semibold text-charcoal">Quantity</h3>
               <div className="flex items-center gap-3">
-                {existItem ? (
+                {existItem ?
                   <>
                     {" "}
                     <AddToCart item={existItem} cart={cart} />
                   </>
-                ) : (
-                  <>
+                : <>
                     {" "}
                     <Button
                       variant="outline"
@@ -149,7 +148,7 @@ export default function ProductDetailPage({
                       <Plus className="h-4 w-4" />
                     </Button>
                   </>
-                )}
+                }
                 <span className="text-sm text-gray-500 ml-4">
                   {product.stock} in stock
                 </span>

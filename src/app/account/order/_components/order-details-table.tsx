@@ -72,6 +72,7 @@ const OrderDetailsTable = ({
     return (
       <Button
         type="button"
+        className="cursor-pointer"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -110,18 +111,17 @@ const OrderDetailsTable = ({
               <p className="text-xs font-semibold">{paymentMethod}</p>
 
               <div className="mt-2">
-                {isPaid ? (
+                {isPaid ?
                   <Badge variant="secondary" className="text-xs">
                     Paid at {formatDateTime(paidAt!).dateTime}
                   </Badge>
-                ) : (
-                  <Badge
+                : <Badge
                     variant="destructive"
                     className="text-xs text-red-500 bg-red-50"
                   >
                     Not paid
                   </Badge>
-                )}
+                }
               </div>
             </div>
           </div>
@@ -152,18 +152,17 @@ const OrderDetailsTable = ({
                 {shippingAddress.postalCode}, {shippingAddress.country}
               </p>
               <div className="mt-2">
-                {isDelivered ? (
+                {isDelivered ?
                   <Badge variant="secondary">
                     Delivered at {formatDateTime(deliveredAt!).dateTime}
                   </Badge>
-                ) : (
-                  <Badge
+                : <Badge
                     variant="destructive"
                     className="text-xs text-red-500 bg-red-50"
                   >
                     Not Delivered
                   </Badge>
-                )}
+                }
               </div>
             </div>
           </div>

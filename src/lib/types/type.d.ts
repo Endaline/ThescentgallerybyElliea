@@ -7,6 +7,7 @@ type GenProduct = Product & {
     id: string;
     name: string;
   };
+  hasVariants?: boolean;
 };
 
 type GenCart = {

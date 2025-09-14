@@ -75,7 +75,7 @@ export default function OrdersList({
           </TableHeader>
 
           <TableBody>
-            {data.length > 0 ? (
+            {data.length > 0 ?
               data.map((order) => (
                 <TableRow key={order.id} className="hover:bg-gray-50">
                   <TableCell className="font-medium">
@@ -115,15 +115,18 @@ export default function OrdersList({
                   </TableCell>
                   <TableCell>
                     <Link href={`/account/order/${order.id}`}>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="cursor-pointer"
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
                     </Link>
                   </TableCell>
                 </TableRow>
               ))
-            ) : (
-              <TableRow>
+            : <TableRow>
                 <TableCell colSpan={6}>
                   <div className="text-center py-12">
                     <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -136,7 +139,7 @@ export default function OrdersList({
                   </div>
                 </TableCell>
               </TableRow>
-            )}
+            }
           </TableBody>
         </Table>
       </motion.div>
