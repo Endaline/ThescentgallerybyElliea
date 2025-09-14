@@ -243,7 +243,7 @@ export async function productCounter() {
       prisma.product.count({
         where: {
           stock: {
-            lt: 5,
+            lt: 10,
           },
         },
       }),
@@ -380,6 +380,34 @@ export async function updateProduct(
     return {
       success: true,
       message: "Product updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function deleteProduct(id: string) {
+  try {
+    const productExists = await prisma.product.findFirst({
+      where: { id },
+    });
+
+    if (!productExists) throw new Error("Product not found");
+
+    if (productExists?.images?.length > 0) {
+      const images = productExists.images as ProductImage[];
+      await prisma.productImage.deleteMany({
+        where: { id: { in: images.map((img) => img.id) } },
+      });
+    }
+
+    await prisma.product.delete({ where: { id } });
+
+    revalidatePath("/dashboard/products");
+
+    return {
+      success: true,
+      message: "Product deleted successfully",
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

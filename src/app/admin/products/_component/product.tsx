@@ -27,51 +27,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import DeleteProductModal from "./deleteproduct";
-
-interface Brand {
-  id: string;
-  name: string;
-  createdAt: Date;
-}
-
-interface ProductImage {
-  id: string;
-  url: string;
-  name: string;
-  key: string;
-}
-interface ProductData {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-  concentration: string;
-  sku: string;
-  status: string;
-  featured: boolean;
-  limitedEdition: boolean;
-  newArrival: boolean;
-  price: number;
-  originalPrice: number;
-  stock: number;
-  volume: string;
-  weight: string;
-  dimensions: string;
-  longevity: string;
-  sillage: string;
-  topNotes: string[];
-  middleNotes: string[];
-  baseNotes: string[];
-  images: ProductImage[];
-  createdAt: Date;
-  updatedAt: Date;
-  brandId: string;
-  brand: Brand;
-}
+import { GenProduct } from "@/lib/types/type";
+import { ProductBrand, ProductImage } from "@prisma/client";
 
 interface ProductsResponse {
-  data: ProductData[];
+  data: GenProduct[];
   totalPages: number;
   currentPage: number;
   totalCount: number;
@@ -88,7 +48,7 @@ interface CountsResponse {
 
 interface ProductProps {
   products: ProductsResponse;
-  brands: Brand[];
+  brands: ProductBrand[];
   counts: CountsResponse;
 }
 
@@ -320,6 +280,7 @@ export default function Product({ products, brands, counts }: ProductProps) {
                 <tbody>
                   {productList.map((product, index) => {
                     const stockStatus = getStockStatus(product.stock);
+                    const imageUrlList = product?.images as ProductImage[];
                     return (
                       <motion.tr
                         key={product.id}
@@ -337,10 +298,8 @@ export default function Product({ products, brands, counts }: ProductProps) {
                               key={product.id}
                               width={48}
                               height={48}
-                              src={
-                                product.images?.[0]?.url || "/placeholder.svg"
-                              }
-                              alt={product.images?.[0]?.name || product.name}
+                              src={imageUrlList[0].url || "/placeholder.svg"}
+                              alt={product.name}
                               className="w-12 h-12 object-cover rounded-lg"
                             />
                             <div>
@@ -401,7 +360,7 @@ export default function Product({ products, brands, counts }: ProductProps) {
                             <Link href={`/admin/products/${product.slug}`}>
                               <Pencil className="h-5 w-5 cursor-pointer text-green-600" />
                             </Link>
-                            <DeleteProductModal product={product.id} />
+                            <DeleteProductModal product={product} />
                           </div>
                         </td>
                       </motion.tr>

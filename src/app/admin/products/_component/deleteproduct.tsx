@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,9 +13,48 @@ import {
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Trash2 } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
+import { deleteProduct } from "@/app/actions/product.action";
+import { GenProduct } from "@/lib/types/type";
+import { ProductImage } from "@prisma/client";
+import { deleteFile } from "@/hooks/delete-uploadthing";
 
-export default function DeleteProductModal(product: any) {
+export default function DeleteProductModal({
+  product,
+}: {
+  product: GenProduct;
+}) {
   const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const imageUrlList = product?.images as ProductImage[];
+  function deleteSelectedProduct() {
+    startTransition(async () => {
+      let deleted: {
+        success: boolean;
+      }[];
+
+      if (imageUrlList.length > 0) {
+        deleted = await Promise.all(
+          imageUrlList.map((img) => deleteFile(img.key))
+        );
+
+        if (!deleted.every((res) => res.success)) {
+          toast.error("Failed to delete product images");
+          return;
+        }
+      }
+
+      const res = await deleteProduct(product?.id);
+
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        setOpen(false);
+        toast.success(res.message);
+      }
+    });
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -49,7 +87,7 @@ export default function DeleteProductModal(product: any) {
         <div className="py-4">
           <div className="flex items-center gap-4 p-4  rounded-lg">
             <Image
-              src={product.images?.[0]?.url}
+              src={imageUrlList[0]?.url}
               alt={product?.name}
               width={60}
               height={60}
@@ -80,9 +118,11 @@ export default function DeleteProductModal(product: any) {
           </Button>
           <Button
             variant="destructive"
+            onClick={deleteSelectedProduct}
+            disabled={isPending}
             className="min-w-[100px] cursor-pointer"
           >
-            Delete
+            {isPending ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>
