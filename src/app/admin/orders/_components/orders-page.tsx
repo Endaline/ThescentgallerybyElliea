@@ -14,47 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Search,
-  Filter,
-  Eye,
-  Package,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Search, Eye, Package, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { GenOrder } from "@/lib/types/type";
 import { Order } from "@prisma/client";
 
 // Type definitions based on your API structure
-interface OrderItem {
-  id: string;
-  name: string;
-  price: number;
-  qty: number;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-}
-
-interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-interface PaymentResult {
-  id: string;
-  status: string;
-  update_time: string;
-  email_address: string;
-}
 
 interface OrderCounts {
   totalCount: number;

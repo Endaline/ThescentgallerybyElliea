@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Instagram, Mail, Phone, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export default function Footer() {

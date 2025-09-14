@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getOrderById } from "@/app/actions/order.actions";
 import { prisma } from "@/app/db/prismadb";
 import { Button } from "@/components/ui/button";
@@ -5,9 +6,6 @@ import { paystack } from "@/services/paystack";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConfirmationInfo from "./confirmation-info";
-import { sendPurchaseReceipt } from "@/services/email";
-import { ShippingAddressSchema } from "@/lib/validators";
-import { PaymentResult } from "@/lib/types/type";
 
 const PaystackSuccessPage = async (props: {
   params: Promise<{ id: any }>;
