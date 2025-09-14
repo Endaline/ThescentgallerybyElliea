@@ -66,21 +66,19 @@ const CheckoutComp = ({
     setPaystackReady(true);
   };
 
-  const handlePaymentSuccess = async (response: { reference: string }) => {
-    const res = await createOrder({
-      data: formData,
+  const handlePaymentSuccess = async (
+    response: { reference: string },
+    orderId: string
+  ) => {
+    startTransition(() => {
+      router.push(
+        `order-confirmation/${orderId}/paystack-payment-success?reference=${response.reference}&cartId=${cart?.id}`
+      );
     });
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    router.push(
-      `order-confirmation/${res.id}/paystack-payment-success?reference=${response.reference}&cartId=${cart?.id}`
-    );
     // Send reference to your backend to verify & activate subscription
   };
 
-  const getPaystackConfig = () => {
+  const getPaystackConfig = (orderId: string) => {
     return {
       key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
       email: formData.email,
@@ -89,24 +87,24 @@ const CheckoutComp = ({
       ref: `sub_${new Date().getTime()}`,
       metadata: {
         plan: "Online Payment",
-        // order id goes here
-        subscriptionId: "",
+        id: orderId,
       },
       callback: (response: { reference: string }) =>
-        handlePaymentSuccess(response),
+        handlePaymentSuccess(response, orderId),
       onClose: () => {
         console.log("Payment window closed");
+        setLoading(false); //
       },
     };
   };
 
-  const handleSubscribe = () => {
+  const handleSubscribe = (orderId: string) => {
     if (!paystackReady || !window.PaystackPop) {
       toast.error("Payment system is not ready yet. Please try again.");
       return;
     }
 
-    const config = getPaystackConfig();
+    const config = getPaystackConfig(orderId);
     if (!config) return;
 
     const handler = window.PaystackPop.setup(config);
@@ -132,9 +130,52 @@ const CheckoutComp = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     startTransition(async () => {
-      setLoading(true);
-      handleSubscribe();
+      // 1. Create order in your DB
+      const res = await createOrder({
+        data: formData,
+      });
+
+      if (!res.success || !res.id) {
+        toast.error(res.message ?? "Could not create order");
+        setLoading(false);
+        return;
+      }
+
+      if (formData.paymentMethod === "paystack") {
+        try {
+          // 2. Call your Paystack service endpoint (server action or /api/paystack/initialize)
+          const response = await fetch("/api/paystack/initialize", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId: res.id,
+              email: formData.email,
+              amount: cart?.totalPrice,
+            }),
+          });
+
+          const { authorizationUrl } = await response.json();
+
+          if (!authorizationUrl) {
+            toast.error("Failed to start Paystack payment");
+            setLoading(false);
+            return;
+          }
+
+          // 3. Redirect user to Paystack checkout page
+          window.location.href = authorizationUrl;
+        } catch (err) {
+          console.error(err);
+          toast.error("Payment initialization failed");
+          setLoading(false);
+        }
+      } else {
+        // payment on delivery → direct confirm page
+        router.push(`/order-confirmation/${res.id}`);
+      }
     });
   };
   return (
