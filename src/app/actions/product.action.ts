@@ -225,7 +225,7 @@ export async function getAllFeaturedProducts({
 }
 
 export async function getProductBySlug(slug: string) {
-  return await prisma.product.findFirst({
+  return await prisma.product.findUnique({
     where: { slug: slug },
     include: {
       brand: {
