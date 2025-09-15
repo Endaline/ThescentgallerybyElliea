@@ -18,6 +18,7 @@ import {
   MessageCircle,
   Heart,
 } from "lucide-react";
+import Link from "next/link";
 
 // Zod schema for form validation
 const contactSchema = z.object({
@@ -154,9 +155,9 @@ export default function ContactUsPage() {
                       Visit Our Boutique
                     </h3>
                     <p className="text-gray-600">
-                      123 Fragrance Avenue
+                      No 2 geodetic road Rumuobiakani beside shell IA
                       <br />
-                      New York, NY 10001
+                      Port harcourt, Rivers State
                     </p>
                   </div>
                 </motion.div>
@@ -185,12 +186,14 @@ export default function ContactUsPage() {
                   <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
-                  <div>
+                  <Link href="mailto:Thescentgallerybyelliea@gmail.com">
                     <h3 className="text-lg font-medium text-gray-800 mb-2">
                       Email Us
                     </h3>
-                    <p className="text-gray-600">hello@thescentgallery.com</p>
-                  </div>
+                    <p className="text-gray-600">
+                      Thescentgallerybyelliea@gmail.com
+                    </p>
+                  </Link>
                 </motion.div>
 
                 {/* Hours */}
