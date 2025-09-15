@@ -12,7 +12,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
 import { useActionState, useState } from "react";
@@ -104,11 +103,9 @@ export default function ForgotPasswordPage() {
                     className="absolute right-0 top-0 h-12 w-12"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? (
+                    {showPassword ?
                       <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
+                    : <Eye className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>

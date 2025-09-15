@@ -335,11 +335,9 @@ const CheckoutComp = ({
                       size="lg"
                     >
                       Place Order
-                      {isPending || loading ? (
+                      {isPending || loading ?
                         <Loader className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <ArrowRightCircleIcon />
-                      )}
+                      : <ArrowRightCircleIcon />}
                     </Button>
                   </div>
                 </>
