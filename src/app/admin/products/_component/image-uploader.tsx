@@ -157,12 +157,12 @@ const ImageUploader = ({
                 <button
                   type="button"
                   onClick={() => removeImageUrl(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-[#770a10] text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   ✕
                 </button>
                 {index === 0 && (
-                  <div className="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-md">
+                  <div className="absolute top-2 left-2 bg-[#770a10] text-white text-xs px-2 py-1 rounded-md">
                     Main Image
                   </div>
                 )}
@@ -185,12 +185,12 @@ const ImageUploader = ({
                 <button
                   type="button"
                   onClick={() => removeImage(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-[#770a10] text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   ✕
                 </button>
                 {index === 0 && uploadedImages.length === 0 && (
-                  <div className="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-md">
+                  <div className="absolute top-2 left-2 bg-[#770a10] text-white text-xs px-2 py-1 rounded-md">
                     Main Image
                   </div>
                 )}

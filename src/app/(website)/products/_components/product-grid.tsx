@@ -41,30 +41,31 @@ export default function ProductGrid({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                <Card className="hover:shadow-lg transition-shadow bg-slate-100">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-6">
-                      {/* Product Image - Left */}
-                      <div className="flex-shrink-0">
-                        <Link href={`/products/${product.id}`}>
-                          <Image
-                            width={120}
-                            height={120}
-                            src={images[0].url || "/placeholder.svg"}
-                            alt={product.name}
-                            className="w-[120px] h-[120px] object-cover rounded-lg hover:scale-105 transition-transform duration-300"
-                          />
-                        </Link>
-                      </div>
-
-                      {/* Product Details - Center */}
+                <div className=" bg-slate-100 border p-4">
+                  {/* <div className="p-4 border"> */}
+                  <div className="flex items-center md:gap-10 gap-2  ">
+                    {/* Product Image - Left */}
+                    <div className="flex-shrink-0">
+                      <Link href={`/products/${product.slug}`}>
+                        <Image
+                          width={120}
+                          height={120}
+                          src={images[0].url || "/placeholder.svg"}
+                          alt={product.name}
+                          className="md:w-30 md:h-30 w-20 h-20 object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
+                    </div>
+                    <div className="flex w-full flex-col md:flex-row items-start md:items-start justify-between gap-4">
+                      {/* Product Details - Left */}
                       <div className="flex-1">
-                        <Link href={`/products/${product.id}`}>
-                          <h3 className="font-semibold text-lg text-gray-900 hover:text-[#512260] mb-2">
+                        <Link href={`/products/${product.slug}`}>
+                          <h3 className="font-semibold text-lg text-gray-900 hover:text-[#770a10] mb-2">
                             {product.name}
                           </h3>
                         </Link>
-                        <div className="flex items-center gap-2 mb-1">
+
+                        <div className="flex md:flex-row flex-col items-center gap-2 mb-1">
                           <span className="font-bold text-lg text-gray-900">
                             {product.hasVariants ? "From " : ""}₦
                             {product.price.toLocaleString()}.00
@@ -78,7 +79,7 @@ export default function ProductGrid({
                       </div>
 
                       {/* Action Buttons - Right */}
-                      <div className="flex flex-col gap-2 flex-shrink-0">
+                      <div className="flex flex-col gap-2 md:w-40">
                         <AddToCart
                           item={{
                             productId: product.id,
@@ -93,15 +94,16 @@ export default function ProductGrid({
                         <Link href={`/products/${product.slug}`}>
                           <Button
                             variant="outline"
-                            className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                            className="w-full border-gray-300 text-gray-700 hover:border-[#770a10] bg-transparent cursor-pointer"
                           >
                             Quick view
                           </Button>
                         </Link>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    {/* </div> */}
+                  </div>
+                </div>
               </motion.div>
             );
           })}
@@ -116,7 +118,7 @@ export default function ProductGrid({
         <p className="text-gray-600">{products.length} products found</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3  p-2">
         {products.map((product, index) => {
           const images = product.images as ProductImage[];
           return (
@@ -128,29 +130,28 @@ export default function ProductGrid({
             >
               <div
                 key={product.id}
-                className="group overflow-hidden  bg-slate-100 hover:shadow-lg  duration-300"
+                className="group overflow-hidden bg-slate-100 hover:shadow-lg duration-300 rounded-lg border border-gray-200 m-2"
+                // 👆 added margin so borders won’t touch
               >
-                <Link href={`/products/${product.id}`}>
-                  <div className="relative overflow-hidden bg-slate-100">
+                <Link href={`/products/${product.slug}`}>
+                  <div className="flex items-center justify-center gap-y-4 p-4">
                     <Image
                       width={300}
                       height={300}
                       src={images[0].url || "/placeholder.svg"}
                       alt={product.name}
-                      className="w-full h-64 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                      className="w-30 h-40 object-cover group-hover:scale-105 transition-transform duration-300 rounded-md"
                     />
                   </div>
                 </Link>
-
                 <CardContent className="p-4">
-                  <div className="space-y-3">
-                    <Link href={`/product/${product.id}`}>
+                  <div>
+                    <Link href={`/product/${product.slug}`}>
                       <h3 className="text-sm font-medium text-gray-900 leading-tight">
                         {product.name}
                       </h3>
                     </Link>
-
-                    <div className="flex items-center space-x-2">
+                    <div className="flex md:flex-row flex-col items-center md:space-x-2 space-x-0">
                       <span className="text-lg font-bold text-gray-900">
                         {product.price}
                       </span>
@@ -160,8 +161,7 @@ export default function ProductGrid({
                         </span>
                       )}
                     </div>
-
-                    <div className="space-y-2">
+                    <div className="space-y-2 mt-2">
                       <AddToCart
                         item={{
                           productId: product.id,
@@ -176,7 +176,7 @@ export default function ProductGrid({
                       <Link href={`/products/${product.slug}`}>
                         <Button
                           variant="outline"
-                          className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                          className="w-full border-gray-300 text-gray-700 hover:border-[#770a10] bg-transparent cursor-pointer rounded-md"
                         >
                           Quick view
                         </Button>

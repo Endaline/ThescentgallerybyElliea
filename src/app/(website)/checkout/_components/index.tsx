@@ -191,7 +191,7 @@ const CheckoutComp = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-charcoal hover:text-[#A76BCF]"
+                className="text-charcoal hover:text-[#770a10]"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -209,16 +209,16 @@ const CheckoutComp = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#A76BCF] text-white rounded-full flex items-center justify-center text-sm">
+                <div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 bg-[#770a10] text-white rounded-full flex items-center justify-center text-sm">
                         1
                       </span>
                       Contact Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+                    </div>
+                  </div>
+                  <div className="space-y-4">
                     <div>
                       <Label htmlFor="email">Email Address</Label>
                       <Input
@@ -311,8 +311,8 @@ const CheckoutComp = ({
                         required
                       />
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
 
               <div className="flex justify-between">
@@ -331,7 +331,7 @@ const CheckoutComp = ({
                           !paystackReady) ||
                         isPending
                       }
-                      className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white ml-auto"
+                      className="bg-[#770a10] hover:bg-[#770a10]/90 text-white ml-auto"
                       size="lg"
                     >
                       Place Order
@@ -349,11 +349,11 @@ const CheckoutComp = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <Card className="sticky top-8">
-              <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div className="sticky top-8">
+              <div>
+                <span>Order Summary</span>
+              </div>
+              <div className="space-y-4">
                 {(cart?.items as CartItem[]).map((item) => (
                   <div key={item.productId} className="flex gap-3">
                     <div className="w-16 h-16 flex-shrink-0">
@@ -398,8 +398,8 @@ const CheckoutComp = ({
                     <span>{formatCurrency(cart?.totalPrice ?? 0)}</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

@@ -38,7 +38,7 @@ const LoginForm = () => {
     return (
       <Button
         disabled={pending}
-        className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+        className="w-full h-12 bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
       >
         {pending ? "Signing In..." : "Sign In"}
       </Button>
@@ -59,11 +59,11 @@ const LoginForm = () => {
               <Image
                 width={1000}
                 height={1000}
-                src="/images/Logo.svg"
+                src="/images/logo-3.png"
                 alt="logo"
                 className="h-20 w-auto"
               />
-              <span className="text-2xl font-semibold text-[#512260] ">
+              <span className="text-2xl font-semibold text-[#770a10] ">
                 ThescentgallerybyElliea
               </span>
             </Link>
@@ -124,7 +124,7 @@ const LoginForm = () => {
               <div className="flex items-end justify-end">
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-[#512260] hover:underline"
+                  className="text-sm text-[#770a10] hover:underline"
                 >
                   Forgot password?
                 </Link>
@@ -143,7 +143,7 @@ const LoginForm = () => {
                 Don&apos;t have an account?
                 <Link
                   href="/register"
-                  className="text-[#512260] hover:underline font-medium"
+                  className="text-[#770a10] hover:underline font-medium"
                 >
                   Sign up
                 </Link>

@@ -423,11 +423,11 @@ const AddProduct = ({
                 {["topNotes", "middleNotes", "baseNotes"].map((noteType) => (
                   <div key={noteType}>
                     <Label className="capitalize">
-                      {noteType === "topNotes"
-                        ? "Top Notes"
-                        : noteType === "middleNotes"
-                          ? "Middle Notes"
-                          : "Base Notes"}
+                      {noteType === "topNotes" ?
+                        "Top Notes"
+                      : noteType === "middleNotes" ?
+                        "Middle Notes"
+                      : "Base Notes"}
                     </Label>
                     <div className="space-y-2 mt-2">
                       {Array.isArray(
@@ -452,11 +452,9 @@ const AddProduct = ({
                                 )
                               }
                               placeholder={`${
-                                noteType === "topNotes"
-                                  ? "Top"
-                                  : noteType === "middleNotes"
-                                    ? "Middle"
-                                    : "Base"
+                                noteType === "topNotes" ? "Top"
+                                : noteType === "middleNotes" ? "Middle"
+                                : "Base"
                               } note`}
                             />
                             {(
@@ -595,7 +593,7 @@ const AddProduct = ({
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
+              className="w-full bg-[#770a10] hover:bg-[#770a10]/90 text-white"
             >
               {isPending ? "Creating" : " Create Product"}
             </Button>

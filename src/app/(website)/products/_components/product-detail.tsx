@@ -29,15 +29,15 @@ export default function ProductDetailPage({
   const images = product.images as ProductImage[];
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main className="">
+      <div className="max-content padding-x">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
           {/* Product Images */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-4"
+            className="space-y-4 border p-3"
           >
             <div className="relative">
               <Image
@@ -45,7 +45,7 @@ export default function ProductDetailPage({
                 height={1000}
                 src={images[selectedImage].url || "/placeholder.svg"}
                 alt={product.name}
-                className="w-full h-96 lg:h-[500px] object-cover rounded-lg shadow-lg"
+                className="w-full h-96 lg:h-[500px] object-cover rounded-lg "
               />
             </div>
 
@@ -55,7 +55,7 @@ export default function ProductDetailPage({
                   key={index}
                   onClick={() => setSelectedImage(index)}
                   className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
-                    selectedImage === index ? "border-[#9b59b6]" : (
+                    selectedImage === index ? "border-[#770a10]" : (
                       "border-gray-200"
                     )
                   }`}
@@ -77,10 +77,10 @@ export default function ProductDetailPage({
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-6 border p-3"
           >
             <div>
-              <p className="text-[#9b59b6] font-medium text-sm uppercase tracking-wide mb-2">
+              <p className="text-[#770a10] font-medium text-sm uppercase tracking-wide mb-2">
                 {product.brand.name}
               </p>
               <h1 className="font-serif text-4xl font-bold text-charcoal mb-4">
@@ -89,11 +89,11 @@ export default function ProductDetailPage({
 
               <div className="flex items-center gap-4 mb-6">
                 <span className="font-bold text-3xl text-charcoal">
-                  ${product.price}
+                  ₦{product.price}
                 </span>
                 {product.originalPrice && (
                   <span className="text-xl text-gray-500 line-through">
-                    ${product.originalPrice}
+                    ₦{product.originalPrice}
                   </span>
                 )}
                 {product.originalPrice && (
@@ -101,14 +101,11 @@ export default function ProductDetailPage({
                     variant="secondary"
                     className="bg-green-100 text-green-800"
                   >
-                    Save ${product.originalPrice - product.price}
+                    Save ₦{product.originalPrice - product.price}
                   </Badge>
                 )}
               </div>
 
-              <p className="text-gray-600 leading-relaxed mb-6">
-                {product.description}
-              </p>
               {/* <div className="flex">
                 <h3 className="font-semibold text-charcoal">Size--</h3>
                 <p>{product.size}</p>
@@ -187,21 +184,26 @@ export default function ProductDetailPage({
             )}
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t">
-              <div className="text-center">
-                <Truck className="h-6 w-6 text-[#9b59b6] mx-auto mb-2" />
-                <p className="text-sm font-medium">Free Shipping</p>
-                <p className="text-xs text-gray-500">On orders over $100</p>
-              </div>
-              <div className="text-center">
-                <Shield className="h-6 w-6 text-[#9b59b6] mx-auto mb-2" />
-                <p className="text-sm font-medium">Authentic</p>
-                <p className="text-xs text-gray-500">100% genuine</p>
-              </div>
-              <div className="text-center">
-                <RotateCcw className="h-6 w-6 text-[#9b59b6] mx-auto mb-2" />
-                <p className="text-sm font-medium">Easy Returns</p>
-                <p className="text-xs text-gray-500">10-day policy</p>
+            <div className=" pt-6 border-t">
+              <p className="text-gray-600 leading-relaxed mb-6">
+                {product.description}
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <Truck className="h-6 w-6 text-[#770a10] mx-auto mb-2" />
+                  <p className="text-sm font-medium">Free Shipping</p>
+                  <p className="text-xs text-gray-500">On orders over $100</p>
+                </div>
+                <div className="text-center">
+                  <Shield className="h-6 w-6 text-[#770a10] mx-auto mb-2" />
+                  <p className="text-sm font-medium">Authentic</p>
+                  <p className="text-xs text-gray-500">100% genuine</p>
+                </div>
+                <div className="text-center">
+                  <RotateCcw className="h-6 w-6 text-[#770a10] mx-auto mb-2" />
+                  <p className="text-sm font-medium">Easy Returns</p>
+                  <p className="text-xs text-gray-500">10-day policy</p>
+                </div>
               </div>
             </div>
           </motion.div>

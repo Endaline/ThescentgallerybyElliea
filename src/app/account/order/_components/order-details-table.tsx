@@ -94,7 +94,7 @@ const OrderDetailsTable = ({
             Order #{formatId(id)}
           </h1>
 
-          <p className="bg-[#A76BCF]/60 w-fit text-white px-3 py-0.5 rounded font-semibold text-xs">
+          <p className="bg-[#770a10]/60 w-fit text-white px-3 py-0.5 rounded font-semibold text-xs">
             {paymentMethod}
           </p>
         </div>
@@ -102,7 +102,7 @@ const OrderDetailsTable = ({
         <div className="grid py-10 md:grid-cols-3 gap-7 lg:gap-0 relative">
           <div className="border-t hidden md:block absolute top-12 left-0 w-full"></div>
           <div className="flex items-center relative md:items-start flex-col gap-2">
-            <div className="p-1 bg-[#A76BCF] rounded-full">
+            <div className="p-1 bg-[#770a10] rounded-full">
               <CheckCheckIcon className="w-4 h-4 text-white" />
             </div>
 
@@ -127,7 +127,7 @@ const OrderDetailsTable = ({
           </div>
 
           <div className="flex items-center relative flex-col gap-2">
-            <div className="p-1 bg-[#A76BCF] rounded-full">
+            <div className="p-1 bg-[#770a10] rounded-full">
               <CheckCheckIcon className="w-4 h-4 text-white" />
             </div>
 
@@ -140,7 +140,7 @@ const OrderDetailsTable = ({
           </div>
 
           <div className="flex items-center relative md:items-end flex-col gap-2">
-            <div className="p-1 bg-[#A76BCF] rounded-full">
+            <div className="p-1 bg-[#770a10] rounded-full">
               <CheckCheckIcon className="w-4 h-4 text-white" />
             </div>
 
@@ -168,7 +168,7 @@ const OrderDetailsTable = ({
           </div>
         </div>
 
-        <div className="mx-auto mt-4 max-w-6xl rounded dark:bg-dark-main bg-white">
+        <div className="mx-content padding-x mt-4  rounded dark:bg-dark-main bg-white">
           <div className="col-span-2 space-4-y overlow-x-auto">
             <Card className="border-none bg-transparent">
               <CardContent className="p-4 gap-4">

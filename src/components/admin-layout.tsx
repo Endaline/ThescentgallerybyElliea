@@ -83,11 +83,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <Image
               width={1000}
               height={1000}
-              src="/images/Logo.svg"
+              src="/images/logo-3.png"
               alt="logo"
-              className="h-16 w-auto"
+              className="h-12 w-auto"
             />
-            <span className="text-xs font-semibold text-[#512260] ">
+            <span className="text-xs font-semibold text-[#770a10] ">
               ThescentgallerybyElliea
             </span>
           </Link>
@@ -110,9 +110,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   <Button
                     variant={isActive ? "default" : "ghost"}
                     className={`w-full justify-start cursor-pointer ${
-                      isActive
-                        ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white "
-                        : "text-gray-700 hover:bg-gray-100"
+                      isActive ?
+                        "bg-[#770a10] hover:bg-[#770a10]/90 text-white "
+                      : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
                     <item.icon className="h-5 w-5 mr-3" />
@@ -132,7 +132,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
               router.push("/");
             }}
-            className="w-full justify-start text-gray-700 hover:bg-gray-100"
+            className="w-full justify-start text-white bg-[#770a10] hover:border-[#770a10] hover:border cursor-pointer"
           >
             <LogOut className="h-5 w-5 mr-3" />
             Sign Out
@@ -157,7 +157,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-[#A76BCF] rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-[#770a10] rounded-full flex items-center justify-center">
                 <span className="text-white text-sm font-medium">A</span>
               </div>
               <div className="hidden md:block">

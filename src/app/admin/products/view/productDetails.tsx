@@ -209,7 +209,7 @@ export default function ProductDetails({ product }: { product: ProductData }) {
                         Original Price
                       </p>
                       <p className="text-lg text-gray-500 line-through">
-                        ${product.originalPrice}
+                        ₦{product.originalPrice}
                       </p>
                     </div>
                   )}

@@ -163,7 +163,7 @@ export default function AdminOrdersPage({
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Orders
           </h1>
           <p className="text-gray-600 mt-1">
@@ -235,7 +235,7 @@ export default function AdminOrdersPage({
                 </div>
                 <Button
                   onClick={handleSearch}
-                  className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+                  className="bg-[#770a10] hover:bg-[#770a10]/90 cursor-pointer"
                 >
                   Search
                 </Button>
@@ -323,7 +323,7 @@ export default function AdminOrdersPage({
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           {order.user.name && (
-                            <div className="w-8 h-8 rounded-full bg-[#A76BCF] flex items-center justify-center text-white text-sm font-medium">
+                            <div className="w-8 h-8 rounded-full bg-[#770a10] flex items-center justify-center text-white text-sm font-medium">
                               {order?.user?.name.charAt(0).toUpperCase()}
                             </div>
                           )}

@@ -46,7 +46,7 @@ const FeaturedProducts = ({
               placeholder="Search Product..."
               className="max-w-md"
             />
-            <Button className="bg-[#A76BCF] absolute top-0 right-0">
+            <Button className="bg-[#770a10] absolute top-0 right-0">
               <SearchIcon />
             </Button>
           </div>
@@ -54,7 +54,7 @@ const FeaturedProducts = ({
 
         {/* Products Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
-          {products.length > 0 ? (
+          {products.length > 0 ?
             products.map((product) => {
               const images = product.images as ProductImage[];
               return (
@@ -62,7 +62,7 @@ const FeaturedProducts = ({
                   key={product.id}
                   className="group overflow-hidden bg-white hover:shadow-lg duration-300"
                 >
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.slug}`}>
                     <div className="relative overflow-hidden bg-gray-50">
                       <Image
                         width={300}
@@ -76,7 +76,7 @@ const FeaturedProducts = ({
 
                   <CardContent className="p-4">
                     <div className="space-y-3">
-                      <Link href={`/product/${product.id}`}>
+                      <Link href={`/product/${product.slug}`}>
                         <h3 className="text-sm font-medium text-gray-900 leading-tight">
                           {product.name}
                         </h3>
@@ -84,8 +84,9 @@ const FeaturedProducts = ({
 
                       <div className="flex items-center space-x-2">
                         <span className="text-lg font-bold text-gray-900">
-                          {product.price}
+                          ₦{product.price}
                         </span>
+                        ₦
                         {product.originalPrice && (
                           <span className="text-sm text-gray-500 line-through">
                             {product.originalPrice}
@@ -108,7 +109,7 @@ const FeaturedProducts = ({
                         <Link href={`/products/${product.slug}`}>
                           <Button
                             variant="outline"
-                            className="w-full border-gray-300 text-gray-700 hover:border-[#512260] bg-transparent cursor-pointer"
+                            className="w-full border-gray-300 text-gray-700 hover:border-[#770a10] bg-transparent cursor-pointer"
                           >
                             Quick view
                           </Button>
@@ -119,11 +120,10 @@ const FeaturedProducts = ({
                 </div>
               );
             })
-          ) : (
-            <p className="col-span-full text-center text-gray-500">
+          : <p className="col-span-full text-center text-gray-500">
               No products found.
             </p>
-          )}
+          }
         </div>
 
         <div className="text-center mt-12">
@@ -131,7 +131,7 @@ const FeaturedProducts = ({
             <Button
               variant="outline"
               size="lg"
-              className="cursor-pointer border-[#512260] text-[#512260] hover:bg-[#512260] hover:text-white"
+              className="cursor-pointer border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white"
             >
               View All Products
             </Button>

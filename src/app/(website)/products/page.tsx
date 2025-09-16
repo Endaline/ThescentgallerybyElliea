@@ -117,7 +117,7 @@ export default async function ProductsPage(props: {
             <div className="flex items-center justify-between">
               <h1 className="font-bold font-serif text-lg">Filters</h1>
               <Link href={"/products"}>
-                <Button className="text-white hover:text-white/80 hover:bg-[#512260]/80 bg-[#512260] cursor-pointer">
+                <Button className="text-white hover:text-white/80 hover:bg-[#770a10]/80 bg-[#770a10] cursor-pointer">
                   Clear All Filters
                 </Button>
               </Link>
@@ -137,25 +137,25 @@ export default async function ProductsPage(props: {
                       <div
                         className={cn(
                           "rounded-full border",
-                          brand === item.toLowerCase()
-                            ? "border-[#512260]"
-                            : "border-neutral-400"
+                          brand === item.toLowerCase() ?
+                            "border-[#770a10]"
+                          : "border-neutral-400"
                         )}
                       >
                         <div
                           className={cn(
                             "h-2 w-2 rounded-full m-0.5",
-                            brand === item.toLowerCase()
-                              ? "bg-[#512260]"
-                              : "bg-transparent border border-neutral-400"
+                            brand === item.toLowerCase() ?
+                              "bg-[#770a10]"
+                            : "bg-transparent border border-neutral-400"
                           )}
                         ></div>
                       </div>
 
                       <p
-                        className={`text-sm hover:text-[#512260] transition-all ${
+                        className={`text-sm hover:text-[#770a10] transition-all ${
                           brand === item.toLowerCase() &&
-                          "font-bold text-[#512260]"
+                          "font-bold text-[#770a10]"
                         }`}
                       >
                         {item}
@@ -180,23 +180,23 @@ export default async function ProductsPage(props: {
                       <div
                         className={cn(
                           "rounded-full border",
-                          price === item.value
-                            ? "border-[#512260]"
-                            : "border-neutral-400"
+                          price === item.value ?
+                            "border-[#770a10]"
+                          : "border-neutral-400"
                         )}
                       >
                         <div
                           className={cn(
                             "h-2 w-2 rounded-full m-0.5",
-                            price === item.value
-                              ? "bg-[#512260]"
-                              : "bg-transparent border border-neutral-400"
+                            price === item.value ?
+                              "bg-[#770a10]"
+                            : "bg-transparent border border-neutral-400"
                           )}
                         ></div>
                       </div>
                       <p
-                        className={`text-sm hover:text-[#512260] transition-all ${
-                          price === item.value && "font-bold text-[#512260]"
+                        className={`text-sm hover:text-[#770a10] transition-all ${
+                          price === item.value && "font-bold text-[#770a10]"
                         }`}
                       >
                         {item.label}
@@ -221,23 +221,23 @@ export default async function ProductsPage(props: {
                       <div
                         className={cn(
                           "rounded-full border",
-                          sort === item
-                            ? "border-[#512260]"
-                            : "border-neutral-400"
+                          sort === item ? "border-[#770a10]" : (
+                            "border-neutral-400"
+                          )
                         )}
                       >
                         <div
                           className={cn(
                             "h-2 w-2 rounded-full m-0.5",
-                            sort === item
-                              ? "bg-[#512260]"
-                              : "bg-transparent border border-neutral-400"
+                            sort === item ? "bg-[#770a10]" : (
+                              "bg-transparent border border-neutral-400"
+                            )
                           )}
                         ></div>
                       </div>
                       <p
-                        className={`text-sm hover:text-[#512260] transition-all ${
-                          sort === item && "font-bold text-[#512260]"
+                        className={`text-sm hover:text-[#770a10] transition-all ${
+                          sort === item && "font-bold text-[#770a10]"
                         }`}
                       >
                         {item}

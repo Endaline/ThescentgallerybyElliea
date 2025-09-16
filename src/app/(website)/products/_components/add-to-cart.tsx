@@ -80,10 +80,10 @@ const AddToCart = ({
         type="button"
         disabled={isPending}
         className={cn(
-          "flex-1 border  h-12 cursor-pointer w-full py-3",
+          "flex-1 border h-12 cursor-pointer w-full py-3",
           isBuy ?
-            " border-[#9b59b6] hover:bg-[#9b59b6]/90 bg-white hover:text-white text-[#512260]"
-          : "bg-[#9b59b6] hover:border-[#9b59b6] hover:text-slate-700 hover:bg-white text-white "
+            " border-[#770a10] hover:bg-[#770a10]/90 bg-white hover:text-white text-[#512260]"
+          : "bg-[#770a10] hover:border-[#770a10] hover:text-slate-700 hover:bg-white text-white "
         )}
         onClick={handleAddToCart}
       >

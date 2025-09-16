@@ -174,7 +174,7 @@ export default function ContactUsPage() {
                     <h3 className="text-lg font-medium text-gray-800 mb-2">
                       Call Us
                     </h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-gray-600">09069521083, 08163541047</p>
                   </div>
                 </motion.div>
 

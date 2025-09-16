@@ -35,7 +35,7 @@ const RegisterForm = () => {
     return (
       <Button
         disabled={pending}
-        className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+        className="w-full h-12 bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
       >
         {pending ? "Submitting..." : "Sign Up"}
       </Button>
@@ -56,11 +56,11 @@ const RegisterForm = () => {
               <Image
                 width={1000}
                 height={1000}
-                src="/images/Logo.svg"
+                src="/images/logo-3.png"
                 alt="logo"
                 className="h-20 w-auto"
               />
-              <span className="text-2xl font-semibold text-[#512260] ">
+              <span className="text-2xl font-semibold text-[#770a10] ">
                 ThescentgallerybyElliea
               </span>
             </Link>
@@ -150,7 +150,7 @@ const RegisterForm = () => {
                 Already have an account?
                 <Link
                   href="/login"
-                  className="text-[#512260] hover:underline font-medium"
+                  className="text-[#770a10] hover:underline font-medium"
                 >
                   Sign in
                 </Link>

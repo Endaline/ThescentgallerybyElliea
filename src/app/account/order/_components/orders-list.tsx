@@ -111,7 +111,7 @@ export default function OrdersList({
                     <Badge>{order.paymentResult?.status ?? "PENDING"}</Badge>
                   </TableCell>
                   <TableCell className="font-semibold">
-                    ${order.totalPrice}
+                    ₦{order.totalPrice}
                   </TableCell>
                   <TableCell>
                     <Link href={`/account/order/${order.id}`}>

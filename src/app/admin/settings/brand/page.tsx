@@ -12,7 +12,7 @@ const page = async () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-xl font-bold text-[#9b59b6]">Brand</h1>
+          <h1 className="font-serif text-xl font-bold text-[#770a10]">Brand</h1>
           <p className="text-gray-600 mt-1">Manage your brand.</p>
         </div>
         <AddBrand />

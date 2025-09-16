@@ -18,7 +18,7 @@ const ProductViewMode = ({
           size="sm"
           onClick={() => setViewMode("grid")}
           className={
-            viewMode === "grid" ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90" : ""
+            viewMode === "grid" ? "bg-[#770a10] hover:bg-[#770a10]/90" : ""
           }
         >
           <Grid className="h-4 w-4" />
@@ -28,7 +28,7 @@ const ProductViewMode = ({
           size="sm"
           onClick={() => setViewMode("list")}
           className={
-            viewMode === "list" ? "bg-[#A76BCF] hover:bg-[#A76BCF]/90" : ""
+            viewMode === "list" ? "bg-[#770a10] hover:bg-[#770a10]/90" : ""
           }
         >
           <List className="h-4 w-4" />
