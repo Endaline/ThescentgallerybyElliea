@@ -34,7 +34,7 @@ export default function CartComp({
             <Link href="/products">
               <Button
                 size="lg"
-                className="bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+                className="bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
               >
                 Shop Fragrances
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -197,7 +197,7 @@ export default function CartComp({
                         <Button
                           variant="outline"
                           onClick={applyPromoCode}
-                          className="border-[#512260] text-[#512260] hover:bg-[#512260] hover:text-white bg-transparent"
+                          className="border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white bg-transparent"
                         >
                           Apply
                         </Button>
@@ -211,7 +211,7 @@ export default function CartComp({
                   <Link href="/checkout" className="block">
                     <Button
                       size="lg"
-                      className="w-full bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+                      className="w-full bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
                     >
                       Proceed to Checkout
                       <ArrowRight className="ml-2 h-5 w-5" />

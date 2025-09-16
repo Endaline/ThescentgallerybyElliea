@@ -211,16 +211,17 @@ const CheckoutComp = ({
               >
                 <div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#770a10] text-white rounded-full flex items-center justify-center text-sm">
-                        1
+                    <div className="flex items-center my-4">
+                      <span className=" font-bold text-xl">
+                        Contact Information
                       </span>
-                      Contact Information
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email" className="my-2">
+                        Email Address
+                      </Label>
                       <Input
                         id="email"
                         type="email"
@@ -233,7 +234,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="name">First Name</Label>
+                      <Label htmlFor="name" className="pb-2">
+                        First Name
+                      </Label>
                       <Input
                         id="name"
                         value={formData.name}
@@ -245,7 +248,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone" className="pb-2">
+                        Phone Number
+                      </Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -258,7 +263,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="address.streetAddress">Address</Label>
+                      <Label htmlFor="address.streetAddress" className="pb-2">
+                        Address
+                      </Label>
                       <Input
                         id="address"
                         value={formData.address.streetAddress}
@@ -274,7 +281,9 @@ const CheckoutComp = ({
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="city">City</Label>
+                        <Label htmlFor="city" className="pb-2">
+                          City
+                        </Label>
                         <Input
                           id="city"
                           value={formData.address.city}
@@ -285,7 +294,9 @@ const CheckoutComp = ({
                         />
                       </div>
                       <div>
-                        <Label htmlFor="state">State</Label>
+                        <Label htmlFor="state" className="pb-2">
+                          State
+                        </Label>
                         <Input
                           id="state"
                           value={formData.address.lga}
@@ -298,7 +309,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="zipCode">ZIP Code</Label>
+                      <Label htmlFor="zipCode" className="pb-2">
+                        ZIP Code
+                      </Label>
                       <Input
                         id="zipCode"
                         value={formData.address.postalCode}

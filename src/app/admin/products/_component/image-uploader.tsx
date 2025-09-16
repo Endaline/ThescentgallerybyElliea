@@ -115,7 +115,7 @@ const ImageUploader = ({
 
       {/* Upload area */}
       <div
-        className="border-2 border-dashed border-purple-400 rounded-lg p-8 text-center mb-6 cursor-pointer hover:bg-purple-50 transition-colors"
+        className="border-2 border-dashed border-[#770a10]  rounded-lg p-8 text-center mb-6 cursor-pointer hover:bg-purple-50 transition-colors"
         onClick={triggerFileInput}
       >
         <input
