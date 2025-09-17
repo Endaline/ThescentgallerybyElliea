@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
 
     if (payment.status && payment.data.status === "success") {
       const orderId = payment.data.metadata?.orderId;
+      console.log("payment", payment);
 
       if (orderId) {
         try {
