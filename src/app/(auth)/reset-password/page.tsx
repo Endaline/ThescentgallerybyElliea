@@ -14,13 +14,17 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { requestPasswordReset } from "@/app/actions/user.actions";
-import { redirect } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { resetPassword } from "@/app/actions/user.actions";
 
-export default function ForgotPasswordPage() {
-  const [data, action] = useActionState(requestPasswordReset, {
+export default function ResetPasswordPage() {
+  const params = useSearchParams();
+  const token = params.get("token") || "";
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [data, action] = useActionState(resetPassword, {
     success: false,
     message: "",
   });
@@ -37,8 +41,6 @@ export default function ForgotPasswordPage() {
       </Button>
     );
   };
-
-  data?.success && redirect("/login");
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
@@ -63,29 +65,14 @@ export default function ForgotPasswordPage() {
               </span>
             </Link>
             <CardDescription className="text-gray-600">
-              Enter your email address an email was sent to your email address
-              with a link to reset your password.
+              Enter your email address and password
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
             <form action={action} className="space-y-4">
+              <input type="hidden" name="token" value={token} />
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    autoComplete="email"
-                    className="pl-10 h-12"
-                    required
-                  />
-                </div>
-              </div>
-              {/* <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
@@ -112,14 +99,12 @@ export default function ForgotPasswordPage() {
                     )}
                   </Button>
                 </div>
-              </div> */}
+              </div>
               <ForgotPasswordButton />
-              {data && !data.success ? (
+              {data && !data.success && (
                 <div className="text-center text-destructive">
                   {data.message}
                 </div>
-              ) : (
-                <div className="text-center text-green-500">{data.message}</div>
               )}
             </form>
 

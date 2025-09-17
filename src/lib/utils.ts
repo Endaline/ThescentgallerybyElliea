@@ -1,13 +1,13 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ZodError } from "zod";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 type ErrorWithMessage = {
   message: string;
-};
-
-type ZodError = {
-  name: string;
-  errors: Record<string, { message: string }>;
 };
 
 type PrismaError = {
@@ -27,26 +27,17 @@ function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
   );
 }
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
 export function formatError(error: unknown): string {
   // Handle Zod errors
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "name" in error &&
-    (error as ZodError).name === "ZodError"
-  ) {
-    const zodError = error as ZodError;
-    const fieldErrors = Object.values(zodError.errors).map(
-      (err) => err.message
-    );
-    return fieldErrors.join(". ");
+  if (error instanceof ZodError) {
+    const fieldErrors = error.issues.map((issue) => {
+      const field = issue.path.join(".");
+      return field ? `${field}: ${issue.message}` : issue.message;
+    });
+    return fieldErrors.join(" | ");
   }
 
-  // Handle Prisma errors
+  // Handle Prisma unique constraint errors
   if (typeof error === "object" && error !== null && "code" in error) {
     const prismaError = error as PrismaError;
     if (
@@ -58,12 +49,12 @@ export function formatError(error: unknown): string {
     }
   }
 
-  // Handle errors with message property
+  // Handle generic errors with message property
   if (isErrorWithMessage(error)) {
     return error.message;
   }
 
-  // Handle other error types
+  // Handle everything else (fallback)
   try {
     return typeof error === "string" ? error : JSON.stringify(error);
   } catch {

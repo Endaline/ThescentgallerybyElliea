@@ -15,24 +15,26 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email         String    @unique
-  phone         String?
-  name          String?
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          String    @default("user")
-  address       Json?     @db.Json
-  paymentMethod String?
-  createdAt     DateTime  @default(now()) @db.Timestamp
-  updatedAt     DateTime  @updatedAt
-  otp           OTP[]
-  session       Session[]
-  Order         Order[]
-  Review        Review[]
-  Cart          Cart[]
-  Account       Account[]
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
+  phone            String?
+  name             String?
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  role             String    @default("user")
+  address          Json?     @db.Json
+  paymentMethod    String?
+  createdAt        DateTime  @default(now()) @db.Timestamp
+  updatedAt        DateTime  @updatedAt
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  otp              OTP[]
+  session          Session[]
+  Order            Order[]
+  Review           Review[]
+  Cart             Cart[]
+  Account          Account[]
 }
 
 model Account {
