@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     }
 
     console.log(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/order-confirmation/${orderId}/paystack-payment-success`,
-      `${process.env.NEXT_PUBLIC_BASE_URL}/order-confirmation/${orderId}/paystack-payment-success`
+      `${process.env.NEXT_PUBLIC_APP_URL}/order-confirmation/${orderId}/paystack-payment-success`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/order-confirmation/${orderId}/paystack-payment-success`
     );
 
     // Call Paystack initialize endpoint
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
           email,
           amount: Math.round(amount * 100), // Paystack expects kobo
           reference: `order_${orderId}_${Date.now()}`,
-          callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/order-confirmation/${orderId}/paystack-payment-success`,
+          callback_url: `${process.env.NEXT_PUBLIC_APP_URL}/order-confirmation/${orderId}/paystack-payment-success`,
           metadata: { orderId },
         }),
       }

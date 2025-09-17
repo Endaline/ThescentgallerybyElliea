@@ -2,7 +2,6 @@
 
 import { createOrder } from "@/app/actions/order.actions";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -64,51 +63,6 @@ const CheckoutComp = ({
 
   const handleScriptLoad = () => {
     setPaystackReady(true);
-  };
-
-  const handlePaymentSuccess = async (
-    response: { reference: string },
-    orderId: string
-  ) => {
-    startTransition(() => {
-      router.push(
-        `order-confirmation/${orderId}/paystack-payment-success?reference=${response.reference}&cartId=${cart?.id}`
-      );
-    });
-    // Send reference to your backend to verify & activate subscription
-  };
-
-  const getPaystackConfig = (orderId: string) => {
-    return {
-      key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-      email: formData.email,
-      amount: Number(cart?.totalPrice.toFixed()),
-      currency: "NGN",
-      ref: `sub_${new Date().getTime()}`,
-      metadata: {
-        plan: "Online Payment",
-        id: orderId,
-      },
-      callback: (response: { reference: string }) =>
-        handlePaymentSuccess(response, orderId),
-      onClose: () => {
-        console.log("Payment window closed");
-        setLoading(false); //
-      },
-    };
-  };
-
-  const handleSubscribe = (orderId: string) => {
-    if (!paystackReady || !window.PaystackPop) {
-      toast.error("Payment system is not ready yet. Please try again.");
-      return;
-    }
-
-    const config = getPaystackConfig(orderId);
-    if (!config) return;
-
-    const handler = window.PaystackPop.setup(config);
-    handler.openIframe();
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -348,9 +302,11 @@ const CheckoutComp = ({
                       size="lg"
                     >
                       Place Order
-                      {isPending || loading ?
+                      {isPending || loading ? (
                         <Loader className="w-4 h-4 animate-spin" />
-                      : <ArrowRightCircleIcon />}
+                      ) : (
+                        <ArrowRightCircleIcon />
+                      )}
                     </Button>
                   </div>
                 </>
