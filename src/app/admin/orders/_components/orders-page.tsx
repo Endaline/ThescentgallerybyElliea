@@ -14,47 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Search,
-  Filter,
-  Eye,
-  Package,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Search, Eye, Package, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { GenOrder } from "@/lib/types/type";
 import { Order } from "@prisma/client";
 
 // Type definitions based on your API structure
-interface OrderItem {
-  id: string;
-  name: string;
-  price: number;
-  qty: number;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-}
-
-interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-interface PaymentResult {
-  id: string;
-  status: string;
-  update_time: string;
-  email_address: string;
-}
 
 interface OrderCounts {
   totalCount: number;
@@ -197,7 +163,7 @@ export default function AdminOrdersPage({
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Orders
           </h1>
           <p className="text-gray-600 mt-1">
@@ -269,7 +235,7 @@ export default function AdminOrdersPage({
                 </div>
                 <Button
                   onClick={handleSearch}
-                  className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
+                  className="bg-[#770a10] hover:bg-[#770a10]/90 cursor-pointer"
                 >
                   Search
                 </Button>
@@ -357,7 +323,7 @@ export default function AdminOrdersPage({
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           {order.user.name && (
-                            <div className="w-8 h-8 rounded-full bg-[#A76BCF] flex items-center justify-center text-white text-sm font-medium">
+                            <div className="w-8 h-8 rounded-full bg-[#770a10] flex items-center justify-center text-white text-sm font-medium">
                               {order?.user?.name.charAt(0).toUpperCase()}
                             </div>
                           )}

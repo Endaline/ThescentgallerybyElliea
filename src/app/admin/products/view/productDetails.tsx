@@ -79,7 +79,7 @@ export default function ProductDetails({ product }: { product: ProductData }) {
           </Button>
         </Link>
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10] ">
             Product Details
           </h1>
           <p className="text-gray-600 mt-1">
@@ -140,7 +140,7 @@ export default function ProductDetails({ product }: { product: ProductData }) {
                     </Badge>
                   )}
                   {product?.limitedEdition && (
-                    <Badge className="bg-purple-100 text-purple-800">
+                    <Badge className="bg-purple-100 text-[#770a10] ">
                       Limited Edition
                     </Badge>
                   )}
@@ -209,7 +209,7 @@ export default function ProductDetails({ product }: { product: ProductData }) {
                         Original Price
                       </p>
                       <p className="text-lg text-gray-500 line-through">
-                        ${product.originalPrice}
+                        ₦{product.originalPrice}
                       </p>
                     </div>
                   )}

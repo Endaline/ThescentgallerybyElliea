@@ -126,8 +126,8 @@ export default function Product({ products, brands, counts }: ProductProps) {
   };
 
   const getStatusColor = (status: string) => {
-    return status === "active"
-      ? "bg-green-100 text-green-800"
+    return status === "active" ?
+        "bg-green-100 text-green-800"
       : "bg-gray-100 text-gray-800";
   };
 
@@ -147,7 +147,7 @@ export default function Product({ products, brands, counts }: ProductProps) {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Products
           </h1>
           <p className="text-gray-600 mt-1">
@@ -156,7 +156,7 @@ export default function Product({ products, brands, counts }: ProductProps) {
         </div>
 
         <Link href="/admin/products/new">
-          <Button className="bg-burgundy hover:bg-burgundy/90 text-purple-900 cursor-pointer">
+          <Button className="bg-burgundy hover:bg-burgundy/90 text-white bg-[#770a10] cursor-pointer">
             <Plus className="h-4 w-4 mr-2" />
             Add Product
           </Button>
@@ -345,9 +345,9 @@ export default function Product({ products, brands, counts }: ProductProps) {
                         </td>
                         <td className="p-4">
                           <Badge className={getStatusColor(product.status)}>
-                            {product.status === "active"
-                              ? "Active"
-                              : "Inactive"}
+                            {product.status === "active" ?
+                              "Active"
+                            : "Inactive"}
                           </Badge>
                         </td>
                         <td className="p-4">

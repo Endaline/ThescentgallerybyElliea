@@ -36,7 +36,7 @@ const ProductList = ({
             placeholder="Search fragrances..."
             className="pl-10 h-12"
           />
-          <Button className="bg-[#A76BCF] absolute top-2 right-2">
+          <Button className="bg-[#770a10] absolute top-2 right-2">
             <SearchIcon />
           </Button>
         </form>

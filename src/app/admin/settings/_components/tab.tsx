@@ -20,10 +20,10 @@ const Tab = () => {
           key={link.href}
           href={link.href}
           className={cn(
-            "px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#9b59b6]",
-            pathname === link.href
-              ? "bg-[#9b59b6] hover:bg-[#9b59b6]/90 hover:text-white text-white rounded"
-              : ""
+            "px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#770a10]",
+            pathname === link.href ?
+              "bg-[#770a10] hover:bg-[#770a10]/90 hover:text-white text-white rounded"
+            : ""
           )}
         >
           {link.label}

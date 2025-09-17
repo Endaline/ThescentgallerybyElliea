@@ -18,7 +18,7 @@ export async function generateMetadata(props: {
     };
   } else {
     return {
-      title: "Our Products",
+      title: "The Scent gallery by Elliea",
     };
   }
 }

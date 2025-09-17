@@ -64,9 +64,9 @@ const AddBrand = ({ isDashboard = false }: Props) => {
         <button
           className={cn(
             "px-4 cursor-pointer flex gap-2 py-[6px] text-sm rounded font-semibold",
-            isDashboard
-              ? "rounded bg-transparent border border-[#9b59b6] text-[#9b59b6]"
-              : "bg-[#9b59b6] hover:bg-[#9b59b6]/90 text-white cursor-pointer"
+            isDashboard ?
+              "rounded bg-transparent border border-[#770a10] text-[#770a10]"
+            : "bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
           )}
         >
           <Plus className="w-4 h-4" />
@@ -109,7 +109,7 @@ const AddBrand = ({ isDashboard = false }: Props) => {
             >
               Cancel
             </Button>
-            <Button disabled={isPending} className="bg-[#9b59b6] rounded">
+            <Button disabled={isPending} className="bg-[#770a10] rounded">
               {isPending ? "Submitting..." : "Submit"}
             </Button>
           </div>

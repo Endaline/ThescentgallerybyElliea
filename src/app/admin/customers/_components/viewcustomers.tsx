@@ -94,7 +94,7 @@ export default function CustomerProfileView({
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
-            <UserIcon className="w-5 h-5 text-[#A76BCF]" />
+            <UserIcon className="w-5 h-5 text-[#770a10]" />
             Customer Profile
           </DialogTitle>
         </DialogHeader>
@@ -105,14 +105,14 @@ export default function CustomerProfileView({
           transition={{ duration: 0.3 }}
           className="space-y-6"
         >
-          <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gradient-to-r from-[#A76BCF]/10 to-[#9155B8]/10 rounded-lg">
+          <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gradient-to-r from-[#770a10]/10 to-[#9155B8]/10 rounded-lg">
             {user.name && (
               <Avatar className="w-20 h-20">
                 <AvatarImage
                   src={user.image || "/placeholder.svg"}
                   alt={user.name}
                 />
-                <AvatarFallback className="text-lg bg-[#A76BCF] text-white">
+                <AvatarFallback className="text-lg bg-[#770a10] text-white">
                   {getInitials(user.name)}
                 </AvatarFallback>
               </Avatar>
@@ -147,7 +147,7 @@ export default function CustomerProfileView({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Mail className="w-4 h-4 text-[#A76BCF]" />
+              <Mail className="w-4 h-4 text-[#770a10]" />
               Contact Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -170,7 +170,7 @@ export default function CustomerProfileView({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#A76BCF]" />
+              <MapPin className="w-4 h-4 text-[#770a10]" />
               Address Information
             </h3>
             <div className="p-4 bg-gray-50 rounded-lg">
@@ -180,7 +180,7 @@ export default function CustomerProfileView({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Shield className="w-4 h-4 text-[#A76BCF]" />
+              <Shield className="w-4 h-4 text-[#770a10]" />
               Account Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -207,7 +207,7 @@ export default function CustomerProfileView({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#A76BCF]" />
+              <CheckCircle className="w-4 h-4 text-[#770a10]" />
               Verification Status
             </h3>
             <div className="p-4 bg-gray-50 rounded-lg">
@@ -237,7 +237,7 @@ export default function CustomerProfileView({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#A76BCF]" />
+              <Clock className="w-4 h-4 text-[#770a10]" />
               Account Timeline
             </h3>
             <div className="space-y-3">
@@ -266,7 +266,7 @@ export default function CustomerProfileView({
 
           <div className="flex flex-col sm:flex-row gap-3 justify-end">
             <Button
-              className="bg-[#A76BCF] hover:bg-[#9155B8] flex items-center gap-2"
+              className="bg-[#770a10] hover:bg-[#770a10]/90 flex items-center gap-2"
               onClick={() => {
                 window.location.href = `mailto:${user.email}`;
               }}

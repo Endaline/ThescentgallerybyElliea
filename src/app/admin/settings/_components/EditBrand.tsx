@@ -84,7 +84,7 @@ const EditBrand = ({ brandId, brandName }: Props) => {
             </Button>
             <Button
               disabled={isPending}
-              className="bg-[#9b59b6] text-white cursor-pointer"
+              className="bg-[#770a10] text-white cursor-pointer"
             >
               {isPending ? "Saving..." : "Save"}
             </Button>

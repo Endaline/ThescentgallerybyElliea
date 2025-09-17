@@ -38,18 +38,18 @@ export default function ProductFilters({
           variant="ghost"
           size="sm"
           onClick={clearFilters}
-          className="text-white hover:text-[#512260]/80 bg-[#512260] cursor-pointer"
+          className="text-white hover:text-[#770a10]/80 bg-[#770a10] cursor-pointer"
         >
           Clear All
         </Button>
       </div>
 
       {/* Price Range */}
-      <Card className="bg-slate-100 text-slate-900">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">Price Range</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-slate-100 text-slate-900">
+        <div className="pb-3">
+          <span className="text-base">Price Range</span>
+        </div>
+        <div>
           <RadioGroup
             className="text-slate-800"
             value={filters.priceRange}
@@ -98,15 +98,15 @@ export default function ProductFilters({
               </Label>
             </div>
           </RadioGroup>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Brand Filter */}
-      <Card className="bg-slate-100 text-slate-900">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">Brand</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
+      <div className="bg-slate-100 text-slate-900">
+        <div className="pb-3">
+          <span className="text-base">Brand</span>
+        </div>
+        <div className="space-y-3">
           {brands.map((brand) => (
             <div key={brand} className="flex items-center space-x-2">
               <Checkbox
@@ -125,8 +125,8 @@ export default function ProductFilters({
               </Label>
             </div>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

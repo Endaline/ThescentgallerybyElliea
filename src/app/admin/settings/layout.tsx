@@ -6,7 +6,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-[#9b59b6]">Settings</h1>
+        <h1 className="text-3xl font-bold text-[#770a10]">Settings</h1>
         <p className="text-gray-600">
           Manage your store configuration and preferences
         </p>

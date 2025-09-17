@@ -1,21 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  ShoppingBag,
-  Users,
-  DollarSign,
-  Package,
-  Eye,
-  ArrowUpRight,
-} from "lucide-react";
+import { ShoppingBag, Users, Package, Eye, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Order, Product, ProductImage } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface OrderSummary {
   ordersCount: number;
@@ -33,7 +26,7 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ summary }: AdminDashboardProps) {
   const [timeRange, setTimeRange] = useState("7d");
-
+  const router = useRouter();
   const dashboardStats = {
     totalRevenue: summary.totalSales._sum.totalPrice || 0,
     totalOrders: summary.ordersCount,
@@ -79,7 +72,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Dashboard
           </h1>
           <p className="text-gray-600 mt-1">
@@ -95,8 +88,8 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             onClick={() => setTimeRange("7d")}
             className={
               timeRange === "7d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+                "bg-[#770a10] hover:bg-[#770a10]/90 cursor-pointer"
+              : "border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white cursor-pointer"
             }
           >
             7 Days
@@ -107,8 +100,8 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             onClick={() => setTimeRange("30d")}
             className={
               timeRange === "30d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+                "bg-[#770a10] hover:bg-[#770a10]/90 cursor-pointer"
+              : "border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white cursor-pointer"
             }
           >
             30 Days
@@ -119,8 +112,8 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             onClick={() => setTimeRange("90d")}
             className={
               timeRange === "90d" ?
-                "bg-[#A76BCF] hover:bg-[#A76BCF]/90 cursor-pointer"
-              : "border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white cursor-pointer"
+                "bg-[#770a10] hover:bg-[#770a10]/90 cursor-pointer"
+              : "border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white cursor-pointer"
             }
           >
             90 Days
@@ -140,8 +133,8 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
               <CardTitle className="text-sm font-medium">
                 Total Revenue
               </CardTitle>
-              <span className="h-4 w-4 text-[#A76BCF]">₦</span>
-              {/* < className="h-4 w-4 text-[#A76BCF]" /> */}
+              <span className="h-4 w-4 text-[#770a10]">₦</span>
+              {/* < className="h-4 w-4 text-[#770a10]" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -161,7 +154,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
               <CardTitle className="text-sm font-medium">
                 Total Orders
               </CardTitle>
-              <ShoppingBag className="h-4 w-4 text-[#A76BCF]" />
+              <ShoppingBag className="h-4 w-4 text-[#770a10]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -181,7 +174,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
               <CardTitle className="text-sm font-medium">
                 Total Customers
               </CardTitle>
-              <Users className="h-4 w-4 text-[#A76BCF]" />
+              <Users className="h-4 w-4 text-[#770a10]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -201,7 +194,7 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
               <CardTitle className="text-sm font-medium">
                 Total Products
               </CardTitle>
-              <Package className="h-4 w-4 text-[#A76BCF]" />
+              <Package className="h-4 w-4 text-[#770a10]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -223,9 +216,10 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Recent Orders</CardTitle>
               <Button
+                onClick={() => router.push("/admin/orders")}
                 variant="ghost"
                 size="sm"
-                className="text-[#A76BCF] hover:text-[#A76BCF]/80"
+                className="text-[#770a10] hover:text-[#770a10]/80 cursor-pointer"
               >
                 <Eye className="h-4 w-4 mr-2" />
                 View All
@@ -271,9 +265,10 @@ export default function AdminDashboard({ summary }: AdminDashboardProps) {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Top Products</CardTitle>
               <Button
+                onClick={() => router.push("/admin/products")}
                 variant="ghost"
                 size="sm"
-                className="text-[#A76BCF] hover:text-[#A76BCF]/80"
+                className="text-[#770a10] hover:text-[#770a10]/80 cursor-pointer"
               >
                 <Eye className="h-4 w-4 mr-2" />
                 View All

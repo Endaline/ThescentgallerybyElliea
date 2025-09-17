@@ -170,7 +170,7 @@ export default function OrderDetailPage({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Package className="h-5 w-5 text-[#A76BCF]" />
+                  <Package className="h-5 w-5 text-[#770a10]" />
                   Order Items
                 </CardTitle>
               </CardHeader>
@@ -289,7 +289,7 @@ export default function OrderDetailPage({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <CreditCard className="h-5 w-5 text-[#A76BCF]" />
+                  <CreditCard className="h-5 w-5 text-[#770a10]" />
                   Payment
                 </CardTitle>
               </CardHeader>
@@ -328,7 +328,7 @@ export default function OrderDetailPage({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Truck className="h-5 w-5 text-[#A76BCF]" />
+                  <Truck className="h-5 w-5 text-[#770a10]" />
                   Shipping
                 </CardTitle>
               </CardHeader>

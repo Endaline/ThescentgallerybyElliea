@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prisma } from "@/app/db/prismadb";
 import ConfirmationInfo from "./confirmation-info";
 import { PaymentResult } from "@/lib/types/type";

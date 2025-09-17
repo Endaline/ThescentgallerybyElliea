@@ -13,10 +13,8 @@ import { useSession } from "next-auth/react";
 import { signOutUser } from "@/app/actions/user.actions";
 
 const navigation = [
-  // { name: "Dashboard", href: "/account", icon: User },
   { name: "My Orders", href: "/account", icon: Package },
   { name: "Profile", href: "/account/profile", icon: User },
-  // { name: "Settings", href: "/account/settings", icon: Settings },
 ];
 
 export default function UserLayout({
@@ -61,9 +59,9 @@ export default function UserLayout({
                 key={item.name}
                 href={item.href}
                 className={`flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-[#512660] text-slate-50"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  isActive ?
+                    "bg-[#770a10] text-slate-50"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
@@ -102,9 +100,9 @@ export default function UserLayout({
                   key={item.name}
                   href={item.href}
                   className={`flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? "bg-[#512660] text-slate-50"
-                      : "hover:bg-[#512660]/10 text-slate-800"
+                    isActive ?
+                      "bg-[#770a10] text-slate-50"
+                    : "hover:bg-[#770a10]/10 text-slate-800"
                   }`}
                 >
                   <Icon className="mr-3 h-5 w-5" />

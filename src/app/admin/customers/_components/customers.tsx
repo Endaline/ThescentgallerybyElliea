@@ -114,7 +114,7 @@ export default function CustomersPage({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#A76BCF]">Customers</h1>
+          <h1 className="text-3xl font-bold text-[#770a10]">Customers</h1>
           <p className="text-gray-600">
             Manage your customer relationships and profiles
           </p>
@@ -137,7 +137,7 @@ export default function CustomersPage({
             </div>
             <Button
               onClick={handleSearch}
-              className="bg-[#A76BCF] hover:bg-[#9155B8]"
+              className="bg-[#770a10] hover:bg-[#770a10]/90"
             >
               Search
             </Button>

@@ -76,17 +76,15 @@ const BasicInfo = ({ info }: { info: CompanyInfo | null | undefined }) => {
           disabled={isPending}
           className={cn(
             "px-4 cursor-pointer flex gap-2 py-[6px] text-sm rounded font-semibold",
-            "bg-[#9b59b6] hover:bg-[#9b59b6]/90 text-white cursor-pointer"
+            "bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
           )}
         >
-          {isPending ? (
+          {isPending ?
             <div className="flex items-center gap-2">
               Submitting..
               <Loader className="w-4 h-4 animate-spin" />
             </div>
-          ) : (
-            "Submit"
-          )}
+          : "Submit"}
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">

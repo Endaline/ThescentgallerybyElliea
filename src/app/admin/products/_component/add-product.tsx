@@ -200,7 +200,9 @@ const AddProduct = ({
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="name">Product Name *</Label>
+                    <Label htmlFor="name" className="pb-2">
+                      Product Name *
+                    </Label>
                     <Input
                       id="name"
                       value={formData.name}
@@ -212,7 +214,9 @@ const AddProduct = ({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="brand">Brand</Label>
+                    <Label htmlFor="brand" className="pb-2">
+                      Brand
+                    </Label>
                     <Select
                       value={formData.brand}
                       onValueChange={(value) =>
@@ -234,7 +238,9 @@ const AddProduct = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="shortDescription">Short Description</Label>
+                  <Label htmlFor="shortDescription" className="pb-2">
+                    Short Description
+                  </Label>
                   <Input
                     id="shortDescription"
                     value={formData.shortDescription}
@@ -246,7 +252,9 @@ const AddProduct = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Full Description *</Label>
+                  <Label htmlFor="description" className="pb-2">
+                    Full Description *
+                  </Label>
                   <Textarea
                     id="description"
                     value={formData.description}
@@ -261,7 +269,9 @@ const AddProduct = ({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="sku">SKU</Label>
+                    <Label htmlFor="sku" className="pb-2">
+                      SKU
+                    </Label>
                     <Input
                       id="sku"
                       value={formData.sku}
@@ -287,7 +297,9 @@ const AddProduct = ({
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <Label htmlFor="price">Price *</Label>
+                    <Label htmlFor="price" className="pb-2">
+                      Price *
+                    </Label>
                     <Input
                       id="price"
                       type="number"
@@ -301,7 +313,9 @@ const AddProduct = ({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="originalPrice">Original Price</Label>
+                    <Label htmlFor="originalPrice" className="pb-2">
+                      Original Price
+                    </Label>
                     <Input
                       id="originalPrice"
                       type="number"
@@ -314,7 +328,9 @@ const AddProduct = ({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="stock">Stock Quantity *</Label>
+                    <Label htmlFor="stock" className="pb-2">
+                      Stock Quantity *
+                    </Label>
                     <Input
                       id="stock"
                       type="number"
@@ -343,8 +359,10 @@ const AddProduct = ({
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="concentration">Concentration</Label>
+                  {/* <div>
+                    <Label htmlFor="concentration" className="pb-2">
+                      Concentration
+                    </Label>
                     <Select
                       value={formData.concentration}
                       onValueChange={(value) =>
@@ -367,9 +385,11 @@ const AddProduct = ({
                         <SelectItem value="Parfum">Parfum</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </div> */}
                   <div>
-                    <Label htmlFor="volume">Volume</Label>
+                    <Label htmlFor="volume" className="pb-2">
+                      Volume
+                    </Label>
                     <Input
                       id="volume"
                       value={formData.volume}
@@ -381,7 +401,7 @@ const AddProduct = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="longevity">Longevity</Label>
                     <Input
@@ -404,7 +424,7 @@ const AddProduct = ({
                       placeholder="Moderate to Strong"
                     />
                   </div>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </motion.div>
@@ -423,11 +443,11 @@ const AddProduct = ({
                 {["topNotes", "middleNotes", "baseNotes"].map((noteType) => (
                   <div key={noteType}>
                     <Label className="capitalize">
-                      {noteType === "topNotes"
-                        ? "Top Notes"
-                        : noteType === "middleNotes"
-                          ? "Middle Notes"
-                          : "Base Notes"}
+                      {noteType === "topNotes" ?
+                        "Top Notes"
+                      : noteType === "middleNotes" ?
+                        "Middle Notes"
+                      : "Base Notes"}
                     </Label>
                     <div className="space-y-2 mt-2">
                       {Array.isArray(
@@ -452,11 +472,9 @@ const AddProduct = ({
                                 )
                               }
                               placeholder={`${
-                                noteType === "topNotes"
-                                  ? "Top"
-                                  : noteType === "middleNotes"
-                                    ? "Middle"
-                                    : "Base"
+                                noteType === "topNotes" ? "Top"
+                                : noteType === "middleNotes" ? "Middle"
+                                : "Base"
                               } note`}
                             />
                             {(
@@ -487,6 +505,7 @@ const AddProduct = ({
                         type="button"
                         variant="outline"
                         size="sm"
+                        className="cursor-pointer"
                         onClick={() =>
                           addNote(
                             noteType as "topNotes" | "middleNotes" | "baseNotes"
@@ -595,7 +614,7 @@ const AddProduct = ({
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
+              className="w-full bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
             >
               {isPending ? "Creating" : " Create Product"}
             </Button>
@@ -603,7 +622,7 @@ const AddProduct = ({
               <Button
                 type="button"
                 variant="outline"
-                className="w-full bg-transparent"
+                className="w-full bg-transparent cursor-pointer"
               >
                 Cancel
               </Button>

@@ -26,8 +26,8 @@ export default async function ProductViewPage({
   const productImg = product.images as ProductImage[];
 
   const getStatusColor = (status: string) => {
-    return status === "active"
-      ? "bg-green-100 text-green-800"
+    return status === "active" ?
+        "bg-green-100 text-green-800"
       : "bg-gray-100 text-gray-800";
   };
 
@@ -49,7 +49,7 @@ export default async function ProductViewPage({
           </Button>
         </Link>
         <div>
-          <h1 className="font-serif text-3xl font-bold text-[#A76BCF]">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Product Details
           </h1>
           <p className="text-gray-600 mt-1">
@@ -110,7 +110,7 @@ export default async function ProductViewPage({
                     </Badge>
                   )}
                   {product?.limitedEdition && (
-                    <Badge className="bg-purple-100 text-purple-800">
+                    <Badge className="bg-purple-100 text-[#770a10]">
                       Limited Edition
                     </Badge>
                   )}

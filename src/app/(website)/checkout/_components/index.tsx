@@ -191,7 +191,7 @@ const CheckoutComp = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-charcoal hover:text-[#A76BCF]"
+                className="text-charcoal hover:text-[#770a10]"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -209,18 +209,19 @@ const CheckoutComp = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#A76BCF] text-white rounded-full flex items-center justify-center text-sm">
-                        1
+                <div>
+                  <div>
+                    <div className="flex items-center my-4">
+                      <span className=" font-bold text-xl">
+                        Contact Information
                       </span>
-                      Contact Information
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+                    </div>
+                  </div>
+                  <div className="space-y-4">
                     <div>
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email" className="my-2">
+                        Email Address
+                      </Label>
                       <Input
                         id="email"
                         type="email"
@@ -233,7 +234,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="name">First Name</Label>
+                      <Label htmlFor="name" className="pb-2">
+                        First Name
+                      </Label>
                       <Input
                         id="name"
                         value={formData.name}
@@ -245,7 +248,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone" className="pb-2">
+                        Phone Number
+                      </Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -258,7 +263,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="address.streetAddress">Address</Label>
+                      <Label htmlFor="address.streetAddress" className="pb-2">
+                        Address
+                      </Label>
                       <Input
                         id="address"
                         value={formData.address.streetAddress}
@@ -274,7 +281,9 @@ const CheckoutComp = ({
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="city">City</Label>
+                        <Label htmlFor="city" className="pb-2">
+                          City
+                        </Label>
                         <Input
                           id="city"
                           value={formData.address.city}
@@ -285,7 +294,9 @@ const CheckoutComp = ({
                         />
                       </div>
                       <div>
-                        <Label htmlFor="state">State</Label>
+                        <Label htmlFor="state" className="pb-2">
+                          State
+                        </Label>
                         <Input
                           id="state"
                           value={formData.address.lga}
@@ -298,7 +309,9 @@ const CheckoutComp = ({
                     </div>
 
                     <div>
-                      <Label htmlFor="zipCode">ZIP Code</Label>
+                      <Label htmlFor="zipCode" className="pb-2">
+                        ZIP Code
+                      </Label>
                       <Input
                         id="zipCode"
                         value={formData.address.postalCode}
@@ -311,8 +324,8 @@ const CheckoutComp = ({
                         required
                       />
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
 
               <div className="flex justify-between">
@@ -331,15 +344,13 @@ const CheckoutComp = ({
                           !paystackReady) ||
                         isPending
                       }
-                      className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white ml-auto"
+                      className="bg-[#770a10] hover:bg-[#770a10]/90 text-white ml-auto"
                       size="lg"
                     >
                       Place Order
-                      {isPending || loading ? (
+                      {isPending || loading ?
                         <Loader className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <ArrowRightCircleIcon />
-                      )}
+                      : <ArrowRightCircleIcon />}
                     </Button>
                   </div>
                 </>
@@ -351,11 +362,11 @@ const CheckoutComp = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <Card className="sticky top-8">
-              <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div className="sticky top-8">
+              <div>
+                <span>Order Summary</span>
+              </div>
+              <div className="space-y-4">
                 {(cart?.items as CartItem[]).map((item) => (
                   <div key={item.productId} className="flex gap-3">
                     <div className="w-16 h-16 flex-shrink-0">
@@ -400,8 +411,8 @@ const CheckoutComp = ({
                     <span>{formatCurrency(cart?.totalPrice ?? 0)}</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
