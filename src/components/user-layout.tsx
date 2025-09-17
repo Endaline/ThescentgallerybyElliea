@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Package, LogOut, Menu, X, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { signOutUser } from "@/app/actions/user.actions";
+import Image from "next/image";
 
 const navigation = [
   { name: "My Orders", href: "/account", icon: Package },
@@ -40,6 +41,22 @@ export default function UserLayout({
         animate={{ x: sidebarOpen ? 0 : "-100%" }}
         className="fixed inset-y-0 left-0 z-50 w-64 bg-slate-100  shadow-xl lg:hidden"
       >
+        <Link href="/" className="flex items-center group">
+          <div className="relative">
+            <Image
+              width={60}
+              height={60}
+              src="/images/logo-3.png"
+              alt="logo"
+              className="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div className="ml-3 hidden lg:block">
+            <span className="text-xl font-bold color ">
+              ThescentgallerybyElliea
+            </span>
+          </div>
+        </Link>
         <div className="flex h-16 items-center justify-between px-6 border-b">
           <h2 className="font-serif text-xl text-burgundy-600">My Account</h2>
           <Button
@@ -120,7 +137,7 @@ export default function UserLayout({
 
                 router.push("/");
               }}
-              className="w-full justify-start text-gray-600 hover:text-gray-900"
+              className="w-full justify-start text-white bg-[#770a10]"
             >
               <LogOut className="mr-3 h-5 w-5" />
               Sign Out
@@ -132,6 +149,7 @@ export default function UserLayout({
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Mobile header */}
+
         <div className="flex h-16 items-center justify-between px-4 border-b bg-white lg:hidden">
           <Button
             variant="ghost"

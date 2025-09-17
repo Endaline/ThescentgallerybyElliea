@@ -30,7 +30,7 @@ export default function Footer() {
                 href="https://www.instagram.com/thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
               >
                 <Instagram className="h-5 w-5 " />
               </Link>
@@ -39,7 +39,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,5 @@
 "use client";
 
-import { CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
@@ -20,7 +19,7 @@ const FeaturedProducts = ({
   cart: GenCart | undefined;
 }) => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 ">
       <div className="max-content padding-x">
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -60,21 +59,21 @@ const FeaturedProducts = ({
               return (
                 <div
                   key={product.id}
-                  className="group overflow-hidden bg-white hover:shadow-lg duration-300"
+                  className="group overflow-hidden  hover:shadow-lg duration-300"
                 >
                   <Link href={`/products/${product.slug}`}>
-                    <div className="relative overflow-hidden bg-gray-50">
+                    <div className="flex items-center justify-center gap-y-4 p-4">
                       <Image
                         width={300}
                         height={300}
                         src={images[0].url || "/placeholder.svg"}
                         alt={product.name}
-                        className="w-full h-64 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                        className="w-30 h-40 object-cover group-hover:scale-105 transition-transform duration-300 rounded-md"
                       />
                     </div>
                   </Link>
 
-                  <CardContent className="p-4">
+                  <div className="p-4">
                     <div className="space-y-3">
                       <Link href={`/product/${product.slug}`}>
                         <h3 className="text-sm font-medium text-gray-900 leading-tight">
@@ -116,7 +115,7 @@ const FeaturedProducts = ({
                         </Link>
                       </div>
                     </div>
-                  </CardContent>
+                  </div>
                 </div>
               );
             })

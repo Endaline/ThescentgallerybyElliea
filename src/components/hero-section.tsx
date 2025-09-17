@@ -42,7 +42,7 @@ const Hero = () => {
               alt={image.alt}
               fill
               priority={i === index}
-              className="object-cover"
+              className="object-cover "
             />
             <div className="absolute inset-0 bg-gradient-hero opacity-60" />
           </motion.div>
