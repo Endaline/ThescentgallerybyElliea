@@ -3,6 +3,7 @@
 import { contactFormSchema } from "@/lib/validators";
 import { prisma } from "../db/prismadb";
 import { sendContactEmail } from "@/services/email/mailer";
+import { formatError } from "@/lib/utils";
 
 export async function submitContact(_: unknown, formData: FormData) {
   try {
@@ -26,5 +27,32 @@ export async function submitContact(_: unknown, formData: FormData) {
     return { success: true, message: "Message sent successfully" };
   } catch (error: any) {
     return { success: false, message: error.message || "Something went wrong" };
+  }
+}
+
+export async function getAllContactMessages({
+  limit = 10,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  try {
+    const contactMessages = await prisma.contactMessage.findMany({
+      take: limit,
+      skip: (page - 1) * limit,
+      orderBy: { createdAt: "desc" },
+    });
+
+    const dataCount = await prisma.contactMessage.count();
+
+    return {
+      success: true,
+      data: contactMessages,
+      totalPages: Math.ceil(dataCount / limit),
+      totalCount: dataCount,
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }
