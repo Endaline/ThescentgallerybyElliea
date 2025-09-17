@@ -37,3 +37,24 @@ export async function sendResetEmail(to: string, token: string) {
     `,
   });
 }
+
+export async function sendContactEmail(data: {
+  fullName: string;
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  await transporter.sendMail({
+    from: `"${data.fullName}" <${data.email}>`,
+    to: process.env.EMAIL_USER,
+    subject: `New Contact Message: ${data.subject}`,
+    html: `
+      <h2>New Contact Message</h2>
+      <p><strong>Name:</strong> ${data.fullName}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Subject:</strong> ${data.subject}</p>
+      <p><strong>Message:</strong></p>
+      <p>${data.message}</p>
+    `,
+  });
+}

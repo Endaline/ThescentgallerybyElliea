@@ -111,6 +111,17 @@ export const insertOrderItemSchema = z.object({
   qty: z.number(),
 });
 
+export const contactFormSchema = z.object({
+  fullName: z.string().min(2, "Full name is required"),
+  email: z.string().email("Invalid email"),
+  phone: z.string().optional(),
+  subject: z.string().min(2, "Subject is required"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  // newsletter: z.boolean().optional(),
+});
+
+export type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 // Schema for payment result
 export const paymentResultSchema = z.object({
   id: z.string(),

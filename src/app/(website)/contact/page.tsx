@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,22 +19,18 @@ import {
   Heart,
 } from "lucide-react";
 import Link from "next/link";
+import { submitContact } from "@/app/actions/contact.action";
+import { contactFormSchema, ContactFormValues } from "@/lib/validators";
 
-// Zod schema for form validation
-const contactSchema = z.object({
-  fullName: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().optional(),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-  newsletter: z.boolean().optional(),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export default function ContactUsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [result, setResult] = useState({
+    success: false,
+    message: "",
+  });
 
   const {
     register,
@@ -42,29 +38,37 @@ export default function ContactUsPage() {
     reset,
     formState: { errors },
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      newsletter: false,
+      // newsletter: false,
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const [state, formAction, pending] = useActionState(submitContact, {
+    success: false,
+    message: "",
+  });
+
+  const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
 
     // Simulate API call
     try {
-      console.log("Form data:", data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSubmitSuccess(true);
-      reset();
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+      const result = await submitContact(null, formData); // call action directly
+      setResult(result);
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
+      reset();
       setIsSubmitting(false);
     }
   };
 
-  if (submitSuccess) {
+  if (result.success) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-amber-50 flex items-center justify-center p-4">
         <motion.div
@@ -90,7 +94,7 @@ export default function ContactUsPage() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setSubmitSuccess(false)}
+            onClick={() => setResult({ success: false, message: "" })}
             className="bg-gradient-to-r from-[#9b59b6] to-purple-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
           >
             Send Another Message
@@ -362,7 +366,7 @@ export default function ContactUsPage() {
               </div>
 
               {/* Newsletter Checkbox */}
-              <div className="flex items-start space-x-3">
+              {/* <div className="flex items-start space-x-3">
                 <input
                   type="checkbox"
                   {...register("newsletter")}
@@ -373,7 +377,7 @@ export default function ContactUsPage() {
                   Subscribe to our newsletter for exclusive fragrance releases
                   and special offers
                 </label>
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <motion.button
@@ -381,19 +385,18 @@ export default function ContactUsPage() {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-[#9b59b6] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
+                className="w-full bg-gradient-to-r from-[#9b59b6] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ?
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Sending...</span>
-                  </div>
-                : <div className="flex items-center justify-center space-x-2">
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </div>
-                }
+                {isSubmitting ? "Sending..." : "Send Message"}
               </motion.button>
+
+              {state.message && (
+                <p
+                  className={`text-center ${state.success ? "text-green-600" : "text-red-500"}`}
+                >
+                  {state.message}
+                </p>
+              )}
             </form>
           </motion.div>
         </div>
