@@ -30,7 +30,7 @@ export default function Footer() {
                 href="https://www.instagram.com/thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-pink-600 transition-colors"
+                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
               >
                 <Instagram className="h-5 w-5 " />
               </Link>
@@ -39,7 +39,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-pink-600 transition-colors"
+                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -81,15 +81,25 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 color" />
-                <span>Thescentgallerybyelliea@gmail.com</span>
+                <Link
+                  href="mailto:Thescentgallerybyelliea@gmail.com"
+                  className="hover:underline-[] "
+                >
+                  Thescentgallerybyelliea@gmail.com
+                </Link>
               </li>
+
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 color" />
                 <span>+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 color" />
-                <span>New York, NY 10001</span>
+                <p className="text-gray-600">
+                  No 2 geodetic road Rumuobiakani beside shell IA
+                  <br />
+                  Port harcourt, Rivers State
+                </p>{" "}
               </li>
             </ul>
           </div>

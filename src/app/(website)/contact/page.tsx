@@ -152,7 +152,7 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-medium text-gray-800 mb-2">
-                      Visit Our Boutique
+                      Visit Us At
                     </h3>
                     <p className="text-gray-600">
                       No 2 geodetic road Rumuobiakani beside shell IA
