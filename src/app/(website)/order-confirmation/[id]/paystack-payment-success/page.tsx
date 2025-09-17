@@ -19,6 +19,8 @@ export default async function PaystackSuccessPage(props: {
 
   if (!order) return <div>Order not found</div>;
 
+  console.log("order", order);
+
   return (
     <div>
       <h1>Payment {order.isPaid ? "Successful ✅" : "Pending ⏳"}</h1>

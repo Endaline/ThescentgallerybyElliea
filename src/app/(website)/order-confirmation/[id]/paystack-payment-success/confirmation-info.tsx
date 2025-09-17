@@ -18,6 +18,7 @@ const ConfirmationInfo = ({
   reference: string | undefined;
   paymentResult: PaymentResult;
 }) => {
+  console.log("paymentResult", paymentResult);
   return (
     <motion.div className="max-w-2xl mx-auto mt-8 md:p-6">
       <div className="mb-8">
@@ -71,7 +72,7 @@ const ConfirmationInfo = ({
           transition={{ delay: 0.8, duration: 0.6 }}
           className="flex-between mt-3 text-xs"
         >
-          <strong>Amount Paid:</strong> ₦{paymentResult.pricePaid}
+          <strong>Amount Paid:</strong> ₦{paymentResult?.pricePaid || "0"}
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
