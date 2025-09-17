@@ -10,7 +10,6 @@ import {
   Phone,
   Mail,
   Clock,
-  Send,
   CheckCircle,
   Instagram,
   Facebook,
@@ -26,7 +25,6 @@ type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export default function ContactUsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [result, setResult] = useState({
     success: false,
     message: "",

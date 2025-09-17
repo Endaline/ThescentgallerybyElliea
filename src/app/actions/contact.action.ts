@@ -25,8 +25,8 @@ export async function submitContact(_: unknown, formData: FormData) {
     await sendContactEmail(values);
 
     return { success: true, message: "Message sent successfully" };
-  } catch (error: any) {
-    return { success: false, message: error.message || "Something went wrong" };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }
 
