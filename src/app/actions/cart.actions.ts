@@ -147,7 +147,7 @@ export async function addItemToCart(data: CartItem) {
         },
       });
 
-      // revalidatePath(`/product/${product.slug}`);
+      revalidatePath(`/product/${product.slug}`);
 
       return {
         success: true,

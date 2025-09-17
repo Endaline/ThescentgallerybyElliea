@@ -15,24 +15,26 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email         String    @unique
-  phone         String?
-  name          String?
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          String    @default("user")
-  address       Json?     @db.Json
-  paymentMethod String?
-  createdAt     DateTime  @default(now()) @db.Timestamp
-  updatedAt     DateTime  @updatedAt
-  otp           OTP[]
-  session       Session[]
-  Order         Order[]
-  Review        Review[]
-  Cart          Cart[]
-  Account       Account[]
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
+  phone            String?
+  name             String?
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  role             String    @default("user")
+  address          Json?     @db.Json
+  paymentMethod    String?
+  createdAt        DateTime  @default(now()) @db.Timestamp
+  updatedAt        DateTime  @updatedAt
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  otp              OTP[]
+  session          Session[]
+  Order            Order[]
+  Review           Review[]
+  Cart             Cart[]
+  Account          Account[]
 }
 
 model Account {
@@ -208,4 +210,16 @@ model Review {
   createdAt          DateTime @default(now()) @db.Timestamp
   product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ContactMessage {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  fullName String
+  email    String
+  phone    String?
+  subject  String
+  message  String
+  // newsletter Boolean @default(false)
+
+  createdAt DateTime @default(now())
 }

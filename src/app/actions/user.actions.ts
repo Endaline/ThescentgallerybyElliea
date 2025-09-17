@@ -9,6 +9,8 @@ import { signInFormSchema, signUpFormSchema } from "@/lib/validators";
 import { prisma } from "@/app/db/prismadb";
 import { Prisma } from "@prisma/client";
 import { getMyCart } from "./cart.actions";
+import { sendResetEmail } from "@/services/email/mailer";
+import crypto from "crypto";
 
 export async function signInWithCredentials(
   prevState: unknown,
@@ -44,7 +46,6 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
-      confirmPassword: formData.get("confirmPassword"),
     });
 
     const plainPassword = user.password;
@@ -82,48 +83,101 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
   }
 }
 
-export async function changePassword(prevState: unknown, formData: FormData) {
-  try {
-    const user = signUpFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-      confirmPassword: formData.get("confirmPassword"),
-    });
+export async function resetPassword(prevState: unknown, formData: FormData) {
+  const token = formData.get("token") as string;
+  const password = formData.get("password") as string;
 
-    let plainPassword = user.password;
+  const user = await prisma.user.findFirst({
+    where: {
+      resetToken: token,
+      resetTokenExpiry: { gt: new Date() },
+    },
+  });
 
-    const userExists = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    if (!userExists) {
-      return { success: false, message: "User not found" };
-    }
-
-    const saltRounds = 10;
-
-    plainPassword = await bcrypt.hash(plainPassword, saltRounds);
-
-    await prisma.user.update({
-      where: { id: userExists.id },
-      data: { password: plainPassword },
-    });
-
-    return { success: true, message: "Password Changed successfully" };
-  } catch (error) {
-    // Handle redirect errors by re-throwing them
-    if (
-      error &&
-      typeof error === "object" &&
-      "digest" in error &&
-      typeof error.digest === "string" &&
-      error.digest.startsWith("NEXT_REDIRECT")
-    ) {
-      throw error;
-    }
-    return { success: false, message: formatError(error) };
+  if (!user) {
+    return { success: false, message: "Invalid or expired token" };
   }
+
+  const hashed = await bcrypt.hash(password, 10);
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      password: hashed,
+      resetToken: null,
+      resetTokenExpiry: null,
+    },
+  });
+
+  return { success: true, message: "Password has been reset successfully" };
 }
+
+export async function requestPasswordReset(
+  prevState: unknown,
+  formData: FormData
+) {
+  const email = formData.get("email") as string;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    return { success: false, message: "No account with that email" };
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1h
+
+  await prisma.user.update({
+    where: { email },
+    data: { resetToken: token, resetTokenExpiry: expiry },
+  });
+
+  await sendResetEmail(email, token);
+
+  return { success: true, message: "Password reset email sent" };
+}
+
+// export async function changePassword(prevState: unknown, formData: FormData) {
+//   try {
+//     const user = signUpFormSchema.parse({
+//       email: formData.get("email"),
+//       password: formData.get("password"),
+//       confirmPassword: formData.get("confirmPassword"),
+//     });
+
+//     let plainPassword = user.password;
+
+//     const userExists = await prisma.user.findUnique({
+//       where: { email: user.email },
+//     });
+
+//     if (!userExists) {
+//       return { success: false, message: "User not found" };
+//     }
+
+//     const saltRounds = 10;
+
+//     plainPassword = await bcrypt.hash(plainPassword, saltRounds);
+
+//     await prisma.user.update({
+//       where: { id: userExists.id },
+//       data: { password: plainPassword },
+//     });
+
+//     return { success: true, message: "Password Changed successfully" };
+//   } catch (error) {
+//     // Handle redirect errors by re-throwing them
+//     if (
+//       error &&
+//       typeof error === "object" &&
+//       "digest" in error &&
+//       typeof error.digest === "string" &&
+//       error.digest.startsWith("NEXT_REDIRECT")
+//     ) {
+//       throw error;
+//     }
+//     return { success: false, message: formatError(error) };
+//   }
+// }
 
 export async function signOutUser() {
   // get current users cart and delete it so it does not persist to next user
