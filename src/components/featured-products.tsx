@@ -36,7 +36,6 @@ const FeaturedProducts = ({
           method="GET"
           className=" flex justify-center mb-10 w-full"
         >
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-200 h-5 w-5" />
           <div className="relative max-w-md w-full">
             <Input
               defaultValue={query ?? ""}

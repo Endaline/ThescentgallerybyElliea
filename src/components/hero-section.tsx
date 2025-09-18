@@ -59,9 +59,9 @@ const Hero = () => {
             </h1>
 
             <p className="font-inter text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-              Discover our exclusive collection of luxury fragrances, crafted
+              Discover The Scent Gallery by Elliea – luxury fragrances crafted
               with the finest ingredients to create unforgettable scents that
-              define your unique story.
+              define your essence.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -87,21 +87,6 @@ const Hero = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/60 animate-bounce">
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
-      </div>
     </section>
   );
 };

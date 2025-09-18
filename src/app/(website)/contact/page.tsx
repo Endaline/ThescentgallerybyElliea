@@ -78,7 +78,7 @@ export default function ContactUsPage() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring" }}
-            className="w-20 h-20 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center"
+            className="w-20 h-20 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center"
           >
             <CheckCircle className="w-10 h-10 text-white" />
           </motion.div>
@@ -93,7 +93,7 @@ export default function ContactUsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setResult({ success: false, message: "" })}
-            className="bg-gradient-to-r from-[#9b59b6] to-purple-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+            className="bg-gradient-to-r from-[#770a10] to-purple-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
           >
             Send Another Message
           </motion.button>
@@ -113,7 +113,7 @@ export default function ContactUsPage() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-light mb-6 bg-gradient-to-r from-[#9b59b6] to-purple-600 bg-clip-text text-transparent"
+            className="text-5xl md:text-6xl font-light mb-6 bg-gradient-to-r from-[#770a10] to-purple-600 bg-clip-text text-transparent"
           >
             Let&apos;s Connect
           </motion.h1>
@@ -149,7 +149,7 @@ export default function ContactUsPage() {
                   whileHover={{ x: 5 }}
                   className="flex items-start space-x-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -169,14 +169,14 @@ export default function ContactUsPage() {
                   whileHover={{ x: 5 }}
                   className="flex items-start space-x-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium text-gray-800 mb-2">
                       Call Us
                     </h3>
-                    <p className="text-gray-600">09069521083, 08163541047</p>
+                    <p className="text-gray-600">+2349069521083</p>
                   </div>
                 </motion.div>
 
@@ -185,7 +185,7 @@ export default function ContactUsPage() {
                   whileHover={{ x: 5 }}
                   className="flex items-start space-x-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <Link href="mailto:Thescentgallerybyelliea@gmail.com">
@@ -203,7 +203,7 @@ export default function ContactUsPage() {
                   whileHover={{ x: 5 }}
                   className="flex items-start space-x-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -261,7 +261,7 @@ export default function ContactUsPage() {
             className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20"
           >
             <div className="flex items-center mb-8">
-              <div className="w-12 h-12 bg-gradient-to-r from-[#9b59b6] to-purple-600 rounded-full flex items-center justify-center mr-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#770a10] to-purple-600 rounded-full flex items-center justify-center mr-4">
                 <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-2xl font-light text-gray-800">
@@ -278,7 +278,7 @@ export default function ContactUsPage() {
                 <input
                   type="text"
                   {...register("fullName")}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#9b59b6] focus:border-[#9b59b6] outline-none ${
+                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#770a10] focus:border-[#770a10] outline-none ${
                     errors.fullName ? "border-red-400" : "border-gray-200"
                   }`}
                   placeholder="Your full name"
@@ -298,7 +298,7 @@ export default function ContactUsPage() {
                 <input
                   type="email"
                   {...register("email")}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#9b59b6] focus:border-[#9b59b6] outline-none ${
+                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#770a10] focus:border-[#770a10] outline-none ${
                     errors.email ? "border-red-400" : "border-gray-200"
                   }`}
                   placeholder="your.email@example.com"
@@ -318,7 +318,7 @@ export default function ContactUsPage() {
                 <input
                   type="tel"
                   {...register("phone")}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 transition-all duration-300 focus:ring-2 focus:ring-[#9b59b6] focus:border-[#9b59b6] outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 transition-all duration-300 focus:ring-2 focus:ring-[#770a10] focus:border-[#770a10] outline-none"
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
@@ -331,7 +331,7 @@ export default function ContactUsPage() {
                 <input
                   type="text"
                   {...register("subject")}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#9b59b6] focus:border-[#9b59b6] outline-none ${
+                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#770a10] focus:border-[#770a10] outline-none ${
                     errors.subject ? "border-red-400" : "border-gray-200"
                   }`}
                   placeholder="What's this about?"
@@ -351,7 +351,7 @@ export default function ContactUsPage() {
                 <textarea
                   rows={5}
                   {...register("message")}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#9b59b6] focus:border-[#9b59b6] outline-none resize-none ${
+                  className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:ring-2 focus:ring-[#770a10] focus:border-[#770a10] outline-none resize-none ${
                     errors.message ? "border-red-400" : "border-gray-200"
                   }`}
                   placeholder="Tell us how we can help you..."
@@ -368,7 +368,7 @@ export default function ContactUsPage() {
                 <input
                   type="checkbox"
                   {...register("newsletter")}
-                  className="w-5 h-5 rounded border-gray-300 text-[#9b59b6] focus:ring-[#9b59b6] mt-1"
+                  className="w-5 h-5 rounded border-gray-300 text-[#770a10] focus:ring-[#770a10] mt-1"
                   id="newsletter"
                 />
                 <label htmlFor="newsletter" className="text-sm text-gray-600">
@@ -383,7 +383,7 @@ export default function ContactUsPage() {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-[#9b59b6] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-[#770a10] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </motion.button>
@@ -402,7 +402,7 @@ export default function ContactUsPage() {
 
       {/* Floating Decorative Elements */}
       <div className="absolute bottom-10 right-10 opacity-10">
-        <Heart className="w-24 h-24 text-[#9b59b6]" />
+        <Heart className="w-24 h-24 text-[#770a10]" />
       </div>
     </div>
   );
