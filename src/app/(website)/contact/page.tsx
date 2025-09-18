@@ -230,27 +230,31 @@ export default function ContactUsPage() {
             </div>
 
             {/* Social Media */}
-            <div>
-              <h3 className="text-xl font-light text-gray-800 mb-4">
-                Follow Us
-              </h3>
-              <div className="flex space-x-4">
-                {[
-                  { icon: Instagram, color: "hover:text-pink-600" },
-                  { icon: Facebook, color: "hover:text-blue-600" },
-                  { icon: Twitter, color: "hover:text-blue-400" },
-                  { icon: MessageCircle, color: "hover:text-green-500" },
-                ].map((social, index) => (
-                  <motion.a
-                    key={index}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    href="#"
-                    className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center text-gray-600 transition-colors duration-300 border border-white/20"
-                  >
-                    <social.icon className="w-6 h-6" />
-                  </motion.a>
-                ))}
-              </div>
+            <div className="flex space-x-4 mt-6">
+              <Link
+                href="https://www.instagram.com/thescentgallery_byelliea"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
+              >
+                <Instagram className="h-5 w-5 " />
+              </Link>
+
+              <Link
+                href="https://www.tiktok.com/@thescentgallery_byelliea"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 48 48"
+                  className="h-5 w-5 "
+                >
+                  <path d="M41 15.3a9.6 9.6 0 0 1-6.9-2.9 9.6 9.6 0 0 1-2.9-6.9H26v27.3a6.1 6.1 0 1 1-6.1-6.1c.5 0 1 .1 1.5.2v-6.2c-.5 0-1-.1-1.5-.1a12.4 12.4 0 1 0 12.4 12.4V19.9a15.5 15.5 0 0 0 9.2 3V15.3z" />
+                </svg>
+              </Link>
             </div>
           </motion.div>
 
@@ -383,7 +387,7 @@ export default function ContactUsPage() {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-[#770a10] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-[#770a10] to-purple-600 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </motion.button>
