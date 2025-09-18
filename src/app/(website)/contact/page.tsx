@@ -12,8 +12,6 @@ import {
   Clock,
   CheckCircle,
   Instagram,
-  Facebook,
-  Twitter,
   MessageCircle,
   Heart,
 } from "lucide-react";

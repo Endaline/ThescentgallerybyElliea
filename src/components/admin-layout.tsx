@@ -15,6 +15,7 @@ import {
   LogOut,
   Menu,
   X,
+  Mail,
 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -40,6 +41,11 @@ const sidebarItems = [
     name: "Customers",
     href: "/admin/customers",
     icon: Users,
+  },
+  {
+    name: "Contacts",
+    href: "/admin/contacts",
+    icon: Mail,
   },
 
   {
