@@ -114,6 +114,13 @@ export default async function ProductsPage(props: {
       <Hero />
       <div className="max-content padding-x lg:py-20 md:py-10 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="block md:hidden">
+            <ProductList
+              products={products?.data ?? []}
+              query={query}
+              cart={cart}
+            />
+          </div>
           <div className="md:col-span-1 w-full h-full space-y-6">
             <div className="flex items-center justify-between">
               <h1 className="font-bold font-serif text-lg">Filters</h1>
@@ -253,11 +260,14 @@ export default async function ProductsPage(props: {
               </CardContent>
             </Card>
           </div>
+          {/* <div className="hidden md:block w-full"> */}
           <ProductList
             products={products?.data ?? []}
             query={query}
             cart={cart}
+            className="hidden md:block"
           />
+          {/* </div> */}
         </div>
       </div>
     </section>

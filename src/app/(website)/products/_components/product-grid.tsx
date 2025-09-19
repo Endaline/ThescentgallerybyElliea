@@ -138,7 +138,7 @@ export default function ProductGrid({
         <p className="text-gray-600">{products.length} products found</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3">
         {products.map((product, index) => {
           const images = product.images as ProductImage[];
           return (

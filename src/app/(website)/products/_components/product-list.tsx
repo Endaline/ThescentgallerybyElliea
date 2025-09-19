@@ -7,20 +7,23 @@ import { Input } from "@/components/ui/input";
 import { Search, SearchIcon } from "lucide-react";
 import { GenCart, GenProduct } from "@/lib/types/type";
 import ProductViewMode from "./product-view-mode";
+import { cn } from "@/lib/utils";
 
 const ProductList = ({
   products,
   query,
   cart,
+  className,
 }: {
   products: GenProduct[];
   query?: string;
+  className?: string;
   cart: GenCart | undefined;
 }) => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   return (
-    <div className="md:col-span-2 lg:col-span-3 ">
+    <div className={cn("md:col-span-2 lg:col-span-3 w-full", className)}>
       {/* Search and Controls */}
       <div className="flex flex-col lg:flex-row gap-4 items-center justify-between pb-10">
         <form

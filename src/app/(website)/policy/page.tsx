@@ -11,7 +11,7 @@ export default function RefundPolicy() {
             Refund &amp; Return Policy
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            <strong>Effective Date:</strong> <em>1-10-2025</em>
+            <strong>Effective Date:</strong> <em>1-9-2025</em>
             <span className="mx-2">•</span>
             <strong>Brand:</strong> <em>The Scent Gallery by Elliea</em>
           </p>
