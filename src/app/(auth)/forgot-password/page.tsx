@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
     return (
       <Button
         disabled={pending}
-        className="w-full h-12 bg-[#512260] hover:bg-[#512260]/90 text-white cursor-pointer"
+        className="w-full h-12 bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
       >
         {pending ? "Submitting..." : "Submit"}
       </Button>
@@ -58,11 +58,11 @@ export default function ForgotPasswordPage() {
               <Image
                 width={1000}
                 height={1000}
-                src="/images/Logo.svg"
+                src="/images/logo-3.png"
                 alt="logo"
                 className="h-20 w-auto"
               />
-              <span className="text-2xl font-semibold text-[#512260] ">
+              <span className="text-2xl font-semibold text-[#770a10] ">
                 ThescentgallerybyElliea
               </span>
             </Link>
@@ -116,19 +116,18 @@ export default function ForgotPasswordPage() {
                 </div>
               </div> */}
               <ForgotPasswordButton />
-              {data && !data.success ? (
+              {data && !data.success ?
                 <div className="text-center text-destructive">
                   {data.message}
                 </div>
-              ) : (
-                <div className="text-center text-green-500">{data.message}</div>
-              )}
+              : <div className="text-center text-green-500">{data.message}</div>
+              }
             </form>
 
             <div className="text-center">
               <Link
                 href="/login"
-                className="inline-flex items-center text-sm text-[#512260] hover:underline"
+                className="inline-flex items-center text-sm text-[#770a10] hover:underline"
               >
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 Back to Sign In

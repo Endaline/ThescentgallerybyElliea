@@ -30,7 +30,7 @@ export default function Footer() {
                 href="https://www.instagram.com/thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
               >
                 <Instagram className="h-5 w-5 " />
               </Link>
@@ -39,7 +39,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@thescentgallery_byelliea"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full  hover:bg-[#770a10] hover:text-white transition-colors"
+                className="p-2 rounded-full  bg-[#770a10] text-white transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export default function Footer() {
 
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 color" />
-                <span>+1 (555) 123-4567</span>
+                <span>+2349069521083</span>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 color" />
@@ -119,10 +119,10 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <Link
-              href="/terms"
+              href="/policy"
               className="hover: transition-colors hover:underline"
             >
-              Terms of Service
+              Refund Policy
             </Link>
           </div>
         </div>

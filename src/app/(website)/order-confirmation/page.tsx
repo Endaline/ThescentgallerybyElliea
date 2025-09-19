@@ -60,7 +60,7 @@ export default function OrderConfirmationPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="text-[#A76BCF] font-medium"
+              className="text-[#770a10] font-medium"
             >
               Order #{orderNumber}
             </motion.p>
@@ -74,7 +74,7 @@ export default function OrderConfirmationPage() {
           >
             <Card>
               <CardContent className="p-6 text-center">
-                <Package className="h-8 w-8 text-[#A76BCF] mx-auto mb-4" />
+                <Package className="h-8 w-8 text-[#770a10] mx-auto mb-4" />
                 <h3 className="font-semibold mb-2">Order Processing</h3>
                 <p className="text-sm text-gray-600">
                   Your order is being prepared for shipment
@@ -84,7 +84,7 @@ export default function OrderConfirmationPage() {
 
             <Card>
               <CardContent className="p-6 text-center">
-                <Truck className="h-8 w-8 text-[#A76BCF] mx-auto mb-4" />
+                <Truck className="h-8 w-8 text-[#770a10] mx-auto mb-4" />
                 <h3 className="font-semibold mb-2">Estimated Delivery</h3>
                 <p className="text-sm text-gray-600">{estimatedDelivery}</p>
               </CardContent>
@@ -92,7 +92,7 @@ export default function OrderConfirmationPage() {
 
             <Card>
               <CardContent className="p-6 text-center">
-                <Mail className="h-8 w-8 text-[#A76BCF] mx-auto mb-4" />
+                <Mail className="h-8 w-8 text-[#770a10] mx-auto mb-4" />
                 <h3 className="font-semibold mb-2">Email Confirmation</h3>
                 <p className="text-sm text-gray-600">
                   Sent to your email address
@@ -112,25 +112,27 @@ export default function OrderConfirmationPage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-[#A76BCF] text-[#A76BCF] hover:bg-[#A76BCF] hover:text-white bg-transparent"
+                  className="border-[#770a10] text-[#770a10] hover:bg-[#770a10] hover:text-white bg-transparent cusor-pointer"
                 >
                   Continue Shopping
                 </Button>
               </Link>
-              <Button
-                size="lg"
-                className="bg-[#A76BCF] hover:bg-[#A76BCF]/90 text-white"
-              >
-                Track Your Order
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link href="/account">
+                <Button
+                  size="lg"
+                  className="bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
+                >
+                  Track Your Order
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </div>
 
             <p className="text-sm text-gray-500 mt-8">
               Questions about your order? Contact our customer service team at{" "}
               <a
                 href="mailto:support@luxeparfum.com"
-                className="text-[#A76BCF] hover:underline"
+                className="text-[#770a10] hover:underline"
               >
                 support@luxeparfum.com
               </a>

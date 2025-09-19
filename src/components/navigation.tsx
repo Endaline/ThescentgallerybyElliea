@@ -10,7 +10,6 @@ import {
   LogIn,
   UserPlus,
   Package,
-  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -108,7 +107,7 @@ export default function Navigation({
                       </p>
                       <p className="text-xs text-gray-600 truncate">{email}</p>
                       <span className="inline-block mt-1 px-2 py-0.5 bg-red-100 text-[#770a10] text-xs font-medium rounded-full">
-                        {role === "admin" ? "Admin" : "Customer"}
+                        {role === "admin" ? "Admin" : "My Account"}
                       </span>
                     </div>
                     <DropdownMenuSeparator />
@@ -125,9 +124,7 @@ export default function Navigation({
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link
-                        href={
-                          role !== "admin" ? "/admin/orders" : "/account/orders"
-                        }
+                        href={role !== "admin" ? "/account" : "/admin/orders"}
                         className="flex items-center px-4 py-2 hover:bg-purple-50 transition-colors cursor-pointer"
                       >
                         <Package className="mr-3 h-4 w-4 text-[#770a10]" />
@@ -187,7 +184,7 @@ export default function Navigation({
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative h-10 w-10 rounded-full hover:bg-purple-50 hover:text-[#770a10]/90 transition-all duration-200 group"
+                className="relative h-10 w-10 rounded-full hover:bg-purple-50 hover:text-[#770a10]/90 transition-all duration-200 group cursor-pointer"
               >
                 <ShoppingBag className="h-5 w-5" />
                 {cartCount > 0 && (
@@ -234,7 +231,7 @@ export default function Navigation({
                 </Link>
               ))}
 
-              <div className="border-t border-gray-200 pt-4 mt-6">
+              {/* <div className="border-t border-gray-200 pt-4 mt-6">
                 {session ?
                   <div className="space-y-3">
                     <div className="px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
@@ -251,9 +248,7 @@ export default function Navigation({
                       {role === "admin" ? "Admin Dashboard" : "My Profile"}
                     </Link>
                     <Link
-                      href={
-                        role === "admin" ? "/admin/orders" : "/account/orders"
-                      }
+                      href={role === "admin" ? "/admin/orders" : "/account"}
                       className="block px-4 py-3 rounded-lg text-gray-700 hover:text-[#770a10]/90 hover:bg-purple-50 font-medium transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -294,7 +289,7 @@ export default function Navigation({
                     </Link>
                   </div>
                 }
-              </div>
+              </div> */}
             </div>
           </div>
         )}
