@@ -58,7 +58,7 @@ const FeaturedProducts = ({
         </form>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 ">
           {products.length > 0 ?
             products.map((product) => {
               const images = product.images as ProductImage[];
@@ -111,14 +111,14 @@ const FeaturedProducts = ({
                           }}
                           cart={cart}
                         />
-                        <Link href={`/products/${product.slug}`}>
+                        {/* <Link href={`/products/${product.slug}`}>
                           <Button
                             variant="outline"
                             className="w-full border-gray-300 text-gray-700 hover:border-[#770a10] bg-transparent cursor-pointer"
                           >
                             Quick view
                           </Button>
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                   </div>

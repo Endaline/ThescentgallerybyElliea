@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Shipping } from "@prisma/client";
 import { updateShippingInfo } from "@/app/actions/shipping.action";
 import { nigeriaData } from "@/app/(website)/contact";
-import { Edit, Plus } from "lucide-react";
+import { Edit } from "lucide-react";
 
 type ShippingRecord = Omit<Shipping, "id" | "createdAt" | "updatedAt"> & {
   id?: string | undefined;
@@ -68,8 +68,8 @@ const EditShipping = ({ isDashboard = false, info }: Props) => {
         toast.success(res.message);
         setOpen(!open);
         setRecord({ state: [], shippingRate: 0, taxRate: 0, id: "" });
-      } catch (error: any) {
-        toast.error("Something went wrong.");
+      } catch (error) {
+        toast.error(`Something went wrong.,${error}`);
       }
     });
   };

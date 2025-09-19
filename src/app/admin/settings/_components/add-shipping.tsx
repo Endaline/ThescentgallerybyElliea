@@ -67,8 +67,8 @@ const AddShipping = ({ isDashboard = false }: Props) => {
         toast.success(res.message);
         setOpen(!open);
         setRecord({ state: [], shippingRate: 0, taxRate: 0, id: "" });
-      } catch (error: any) {
-        toast.error("Something went wrong.");
+      } catch (error) {
+        toast.error(`Something went wrong,${error}`);
       }
     });
   };
@@ -84,9 +84,9 @@ const AddShipping = ({ isDashboard = false }: Props) => {
         <button
           className={cn(
             "px-4 cursor-pointer flex gap-2 py-[6px] text-sm rounded font-semibold",
-            isDashboard
-              ? "rounded bg-transparent border border-[#770a10] text-[#770a10]"
-              : "bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
+            isDashboard ?
+              "rounded bg-transparent border border-[#770a10] text-[#770a10]"
+            : "bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
           )}
         >
           <Plus className="w-4 h-4" />

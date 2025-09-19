@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Loader, Truck, Trash2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -16,8 +14,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { deleteShippingInfo } from "@/app/actions/shipping.action";
 import type { Shipping } from "@prisma/client";
-import { nigeriaData } from "@/app/(website)/contact";
-import { MultiSelect } from "@/components/ui/multi-select";
 import AddShipping from "./add-shipping";
 import {
   Table,
@@ -74,7 +70,7 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {info && info.length > 0 ? (
+            {info && info.length > 0 ?
               info.map((record) => (
                 <TableRow key={record.id ?? record.state.join(",")}>
                   <TableCell>{record.state.join(", ")}</TableCell>
@@ -89,18 +85,15 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
                         disabled={isPending}
                         onClick={() => handleDelete(record.id ?? "")}
                       >
-                        {isPending ? (
+                        {isPending ?
                           <Loader className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <Trash2 className="w-4 h-4" />
-                        )}
+                        : <Trash2 className="w-4 h-4" />}
                       </Button>
                     )}
                   </TableCell>
                 </TableRow>
               ))
-            ) : (
-              <TableRow>
+            : <TableRow>
                 <TableCell
                   colSpan={4}
                   className="text-center text-sm text-gray-500"
@@ -108,7 +101,7 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
                   No shipping records yet
                 </TableCell>
               </TableRow>
-            )}
+            }
           </TableBody>
         </Table>
       </CardContent>
