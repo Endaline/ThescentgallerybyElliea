@@ -172,7 +172,7 @@ const AddProduct = ({
           </Button>
         </Link>
         <div>
-          <h1 className="font-serif text-3xl font-bold text-purple-900">
+          <h1 className="font-serif text-3xl font-bold text-[#770a10]">
             Add New Product
           </h1>
           <p className="text-gray-600 mt-1">
@@ -303,7 +303,7 @@ const AddProduct = ({
                     <Input
                       id="price"
                       type="number"
-                      step="0.01"
+                      // step="0.01"
                       value={formData.price}
                       onChange={(e) =>
                         handleInputChange("price", e.target.value)
@@ -319,7 +319,7 @@ const AddProduct = ({
                     <Input
                       id="originalPrice"
                       type="number"
-                      step="0.01"
+                      // step="0.01"
                       value={formData.originalPrice}
                       onChange={(e) =>
                         handleInputChange("originalPrice", e.target.value)
