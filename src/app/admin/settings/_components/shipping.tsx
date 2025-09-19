@@ -29,10 +29,6 @@ import {
 } from "@/components/ui/table";
 import EditShipping from "./edit-shipping";
 
-type ShippingRecord = Omit<Shipping, "id" | "createdAt" | "updatedAt"> & {
-  id?: string | undefined;
-};
-
 const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
   const [isPending, startTransition] = useTransition();
 
@@ -48,6 +44,9 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
       });
     }
   };
+
+  const containsDefault = (record?: Shipping | null | undefined) =>
+    record?.state.includes("Default");
 
   return (
     <Card>
@@ -71,7 +70,7 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
               <TableHead>States</TableHead>
               <TableHead>Shipping Rate (₦)</TableHead>
               <TableHead>Tax Rate (%)</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,20 +80,22 @@ const Shipping = ({ info }: { info: Shipping[] | null | undefined }) => {
                   <TableCell>{record.state.join(", ")}</TableCell>
                   <TableCell>{record.shippingRate}</TableCell>
                   <TableCell>{record.taxRate}</TableCell>
-                  <TableCell className="text-right flex gap-2 justify-end">
+                  <TableCell className="text-right grid grid-cols-2 w-fit gap-2 ">
                     <EditShipping info={record} />
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      disabled={isPending}
-                      onClick={() => handleDelete(record.id ?? "")}
-                    >
-                      {isPending ? (
-                        <Loader className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Trash2 className="w-4 h-4" />
-                      )}
-                    </Button>
+                    {containsDefault(record) ? null : (
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        disabled={isPending}
+                        onClick={() => handleDelete(record.id ?? "")}
+                      >
+                        {isPending ? (
+                          <Loader className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))

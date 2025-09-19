@@ -14,7 +14,6 @@ import Shipping from "@/app/admin/settings/_components/shipping";
 
 export default function CartComp({
   cart,
-  shippingInfo,
 }: {
   cart?: GenCart;
   shippingInfo?: Shipping | null;
@@ -162,7 +161,7 @@ export default function CartComp({
                       </div>
                     )} */}
 
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                       <span>Shipping</span>
                       <span>
                         {shippingInfo?.shippingRate === 0 ?
@@ -174,7 +173,7 @@ export default function CartComp({
                     <div className="flex justify-between">
                       <span>Tax</span>
                       <span>%{shippingInfo?.taxRate.toFixed(2)}</span>
-                    </div>
+                    </div> */}
 
                     <Separator />
 

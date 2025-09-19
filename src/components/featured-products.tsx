@@ -22,7 +22,7 @@ const FeaturedProducts = ({
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
       currency: "NGN",
-      minimumFractionDigits: 0,
+      // minimumFractionDigits: 0,
     }).format(value);
   };
   return (
@@ -59,7 +59,7 @@ const FeaturedProducts = ({
 
         {/* Products Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
-          {products.length > 0 ?
+          {products.length > 0 ? (
             products.map((product) => {
               const images = product.images as ProductImage[];
               return (
@@ -125,10 +125,11 @@ const FeaturedProducts = ({
                 </div>
               );
             })
-          : <p className="col-span-full text-center text-gray-500">
+          ) : (
+            <p className="col-span-full text-center text-gray-500">
               No products found.
             </p>
-          }
+          )}
         </div>
 
         <div className="text-center mt-12">

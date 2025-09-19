@@ -46,7 +46,7 @@ const AddShipping = ({ isDashboard = false }: Props) => {
     setRecord((prev) => ({ ...prev, [key]: value }));
   };
 
-  const states = ["Default", ...Object.keys(nigeriaData)];
+  const states = [...Object.keys(nigeriaData)];
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

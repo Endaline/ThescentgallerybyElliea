@@ -47,7 +47,7 @@ const EditShipping = ({ isDashboard = false, info }: Props) => {
     setRecord((prev) => ({ ...prev, [key]: value }));
   };
 
-  const states = ["Default", ...Object.keys(nigeriaData)];
+  const states = [...Object.keys(nigeriaData)];
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -74,6 +74,8 @@ const EditShipping = ({ isDashboard = false, info }: Props) => {
     });
   };
 
+  const containsDefault = record?.state.includes("Default");
+
   return (
     <Dialog
       open={open}
@@ -85,7 +87,7 @@ const EditShipping = ({ isDashboard = false, info }: Props) => {
         <button
           className={cn(
             "px-4 cursor-pointer flex gap-2 py-[6px] text-sm rounded font-semibold",
-            "bg-[#770a10] hover:bg-[#770a10]/90 text-white cursor-pointer"
+            "bg-green-50 hover:bg-green-50/90 text-green-500 cursor-pointer"
           )}
         >
           <Edit className="w-4 h-4" />
@@ -108,15 +110,17 @@ const EditShipping = ({ isDashboard = false, info }: Props) => {
           onSubmit={(e) => handleSubmit(e)}
           className="grid bg-gray-100 -mt-5 py-5 px-5 space-y-5"
         >
-          <div>
-            <Label htmlFor="state">State *</Label>
-            <MultiSelect
-              options={states.map((s) => ({ label: s, value: s }))}
-              value={record.state ?? []}
-              onChange={(values) => handleChange("state", values)}
-              placeholder="Select states"
-            />
-          </div>
+          {containsDefault ? null : (
+            <div>
+              <Label htmlFor="state">State *</Label>
+              <MultiSelect
+                options={states.map((s) => ({ label: s, value: s }))}
+                value={record.state ?? []}
+                onChange={(values) => handleChange("state", values)}
+                placeholder="Select states"
+              />
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="shippingRate">Shipping Rate</Label>

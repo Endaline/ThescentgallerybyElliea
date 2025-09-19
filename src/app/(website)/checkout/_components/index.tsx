@@ -14,7 +14,7 @@ import { ArrowLeft, ArrowRightCircleIcon, Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 import {
@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { states } from "../../contact";
+import { calcShippingPrice, updateCartItems } from "@/app/actions/cart.actions";
 
 declare global {
   interface Window {
@@ -52,6 +53,8 @@ const CheckoutComp = ({
   userInfo: User;
 }) => {
   const [loading, setLoading] = useState(false);
+  const [cartState, setCart] = useState<Cart | undefined>(cart);
+
   const [formData, setFormData] = useState<FormData>({
     email: userInfo.email || "",
     name: userInfo.name || "",
@@ -73,6 +76,23 @@ const CheckoutComp = ({
   const handleScriptLoad = () => {
     setPaystackReady(true);
   };
+
+  function updateShipping() {
+    startTransition(async () => {
+      if (!cartState) return;
+      const shippingPrice = await calcShippingPrice(
+        cartState.items as CartItem[],
+        formData.address
+      );
+      setCart({ ...cartState, ...shippingPrice });
+    });
+  }
+
+  useEffect(() => {
+    if (formData.address.lga) {
+      updateShipping();
+    }
+  }, [formData.address.lga]);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => {
@@ -97,9 +117,12 @@ const CheckoutComp = ({
 
     startTransition(async () => {
       // 1. Create order in your DB
-      const res = await createOrder({
-        data: formData,
-      });
+      const res = await createOrder(
+        {
+          data: formData,
+        },
+        cartState!
+      );
 
       if (!res.success || !res.id) {
         toast.error(res.message ?? "Could not create order");
@@ -116,7 +139,7 @@ const CheckoutComp = ({
             body: JSON.stringify({
               orderId: res.id,
               email: formData.email,
-              amount: cart?.totalPrice,
+              amount: cartState?.totalPrice,
             }),
           });
 
@@ -141,6 +164,8 @@ const CheckoutComp = ({
       }
     });
   };
+
+  console.log("paystackReady", paystackReady);
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -326,9 +351,11 @@ const CheckoutComp = ({
                       size="lg"
                     >
                       Place Order
-                      {isPending || loading ?
+                      {isPending || loading ? (
                         <Loader className="w-4 h-4 animate-spin" />
-                      : <ArrowRightCircleIcon />}
+                      ) : (
+                        <ArrowRightCircleIcon />
+                      )}
                     </Button>
                   </div>
                 </>
@@ -345,7 +372,7 @@ const CheckoutComp = ({
                 <span>Order Summary</span>
               </div>
               <div className="space-y-4">
-                {(cart?.items as CartItem[]).map((item) => (
+                {(cartState?.items as CartItem[]).map((item) => (
                   <div key={item.productId} className="flex gap-3">
                     <div className="w-16 h-16 flex-shrink-0">
                       <Image
@@ -373,20 +400,20 @@ const CheckoutComp = ({
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>{formatCurrency(cart?.itemsPrice ?? 0)}</span>
+                    <span>{formatCurrency(cartState?.itemsPrice ?? 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>{formatCurrency(cart?.shippingPrice ?? 0)}</span>
+                    <span>{formatCurrency(cartState?.shippingPrice ?? 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>{formatCurrency(cart?.taxPrice ?? 0)}</span>
+                    <span>{formatCurrency(cartState?.taxPrice ?? 0)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
-                    <span>{formatCurrency(cart?.totalPrice ?? 0)}</span>
+                    <span>{formatCurrency(cartState?.totalPrice ?? 0)}</span>
                   </div>
                 </div>
               </div>

@@ -4,9 +4,15 @@ import { auth } from "@/services/auth";
 import { cookies } from "next/headers";
 import { prisma } from "../db/prismadb";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
+import { Cart, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { cartItemSchema, insertCartSchema } from "@/lib/validators";
+import {
+  cartItemSchema,
+  insertCartSchema,
+  ShippingAddressSchema,
+} from "@/lib/validators";
+import { getUserById } from "./user.actions";
+import { redirect } from "next/navigation";
 
 type CartItem = {
   image: string;
@@ -46,26 +52,103 @@ export async function getMyCart() {
   });
 }
 
-const isShipping = await prisma.shipping.findFirst();
-const shipping = isShipping ? isShipping : { shippingRate: 0, taxRate: 0 };
-
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(
-      items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
-    ),
-    // shippingPrice = round2(itemsPrice > 100 ? 0 : shipping.shippingRate),
-    shippingPrice = round2(shipping.shippingRate),
-    taxPrice = round2(shipping.taxRate * itemsPrice),
-    totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
+    items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
+  );
 
   return {
     itemsPrice: itemsPrice,
-    shippingPrice: shippingPrice,
-    taxPrice: taxPrice,
-    totalPrice: totalPrice,
   };
 };
+
+// --- Types for clarity ---
+type ShippingInfo = {
+  shippingRate: number;
+  taxRate: number;
+  state: string[];
+  id: string;
+};
+
+// ✅ Helper: Always returns a normalized shipping object
+const findShipping = async (lga: string | null): Promise<ShippingInfo> => {
+  const shippingList = await prisma.shipping.findMany();
+
+  // Try exact match, else default
+  const shipping =
+    (lga
+      ? shippingList.find((s) => s.state.includes(lga))
+      : shippingList.find((s) => s.state.includes("Default"))) ?? null;
+
+  // Fallback to safe default
+  return (
+    shipping ?? {
+      shippingRate: 0,
+      taxRate: 0,
+      state: ["Default"],
+      id: "",
+    }
+  );
+};
+
+// ✅ Helper: Calculate totals
+export const calcShippingPrice = async (
+  items: CartItem[],
+  userAddress?: ShippingAddressSchema
+) => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    redirect(`/login?callbackUrl=/checkout`);
+  }
+
+  const user = await getUserById(userId);
+
+  const address = userAddress ?? (user.address as ShippingAddressSchema);
+
+  // Pick LGA from provided address, user’s address, or null (for default)
+  const lga = address?.lga ?? null;
+  const shipping = await findShipping(lga);
+
+  // Items subtotal
+  const itemsPrice = round2(
+    items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
+  );
+
+  // Shipping + tax
+  const shippingPrice = round2(shipping.shippingRate);
+  const taxPrice = round2(shipping.taxRate * itemsPrice);
+  const totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
+
+  return {
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+  };
+};
+
+// ✅ Update cart and revalidate
+export async function updateCartItems(
+  cart: Cart,
+  userAddress?: ShippingAddressSchema
+) {
+  const shippingPrice = await calcShippingPrice(
+    cart.items as CartItem[],
+    userAddress
+  );
+
+  console.log("shippingPrice", shippingPrice);
+
+  await prisma.cart.update({
+    where: { id: cart.id },
+    data: { ...shippingPrice },
+  });
+
+  revalidatePath("/checkout");
+}
 
 export async function addItemToCart(data: CartItem) {
   try {
