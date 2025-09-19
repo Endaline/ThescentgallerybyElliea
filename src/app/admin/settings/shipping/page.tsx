@@ -8,6 +8,8 @@ const page = async () => {
 
   await requireAdmin();
 
+  console.log("data", data);
+
   return <Shipping info={data} />;
 };
 

@@ -151,6 +151,7 @@ model Shipping {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   shippingRate Float
   taxRate      Float
+  state        String[]
   createdAt    DateTime @default(now()) @db.Timestamp
 }
 
