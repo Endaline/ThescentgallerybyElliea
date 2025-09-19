@@ -60,6 +60,7 @@ const calcPrice = (items: CartItem[]) => {
 
   return {
     itemsPrice: itemsPrice,
+    totalPrice: itemsPrice,
   };
 };
 

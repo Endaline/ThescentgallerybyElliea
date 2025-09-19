@@ -154,7 +154,6 @@ const CheckoutComp = ({
           // 3. Redirect user to Paystack checkout page
           window.location.href = authorizationUrl;
         } catch (err) {
-          console.error(err);
           toast.error("Payment initialization failed");
           setLoading(false);
         }
@@ -165,7 +164,6 @@ const CheckoutComp = ({
     });
   };
 
-  console.log("paystackReady", paystackReady);
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
