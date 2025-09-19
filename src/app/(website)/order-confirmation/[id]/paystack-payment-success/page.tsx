@@ -23,8 +23,8 @@ export default async function PaystackSuccessPage(props: {
 
   return (
     <div>
-      <h1>Payment {order.isPaid ? "Successful ✅" : "Pending ⏳"}</h1>
-      <p>Order ID: {order.id}</p>
+      {/* <h1>Payment {order.isPaid ? "Successful ✅" : "Pending ⏳"}</h1>
+      <p>Order ID: {order.id}</p> */}
       <ConfirmationInfo
         order={order}
         reference={""}

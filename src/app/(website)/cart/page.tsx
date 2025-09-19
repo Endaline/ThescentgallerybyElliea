@@ -5,6 +5,6 @@ import { getAllShippingInfo } from "@/app/actions/shipping.action";
 
 export default async function page() {
   const cart = await getMyCart();
-  const { data } = await getAllShippingInfo();
-  return <CartComp cart={cart} shippingInfo={data} />;
+  // const { data } = await getAllShippingInfo();
+  return <CartComp cart={cart} />;
 }

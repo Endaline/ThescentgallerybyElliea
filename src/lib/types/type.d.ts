@@ -38,6 +38,8 @@ type MainCompanyInfo = {
 type MainShipping = {
   shippingRate: number;
   taxRate: number;
+  state: string[];
+  id?: string | undefined;
 };
 
 type MainProduct = {

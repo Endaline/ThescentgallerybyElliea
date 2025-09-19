@@ -16,8 +16,9 @@ import {
 import Image from "next/image";
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { resetPassword } from "@/app/actions/user.actions";
+import { toast } from "sonner";
 
 export default function ResetPassword() {
   const params = useSearchParams();
@@ -42,6 +43,11 @@ export default function ResetPassword() {
     );
   };
 
+  if (data?.success) {
+    toast.success(data.message);
+    redirect("/login");
+  }
+
   return (
     <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
       <motion.div
@@ -65,7 +71,7 @@ export default function ResetPassword() {
               </span>
             </Link>
             <CardDescription className="text-gray-600">
-              Enter your email address and password
+              Enter your new password
             </CardDescription>
           </CardHeader>
 
@@ -92,9 +98,11 @@ export default function ResetPassword() {
                     className="absolute right-0 top-0 h-12 w-12"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ?
+                    {showPassword ? (
                       <EyeOff className="h-4 w-4" />
-                    : <Eye className="h-4 w-4" />}
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>

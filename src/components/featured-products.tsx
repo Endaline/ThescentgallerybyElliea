@@ -22,7 +22,7 @@ const FeaturedProducts = ({
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
       currency: "NGN",
-      minimumFractionDigits: 0,
+      // minimumFractionDigits: 0,
     }).format(value);
   };
   return (
@@ -58,7 +58,7 @@ const FeaturedProducts = ({
         </form>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 ">
+        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
           {products.length > 0 ?
             products.map((product) => {
               const images = product.images as ProductImage[];

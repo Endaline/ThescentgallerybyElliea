@@ -3,7 +3,7 @@
 import { prisma } from "@/app/db/prismadb";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { auth } from "@/services/auth";
-import { Prisma } from "@prisma/client";
+import { Cart, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
@@ -156,23 +156,24 @@ export async function deleteOrder(id: string) {
   }
 }
 
-export async function createOrder(data: {
-  data: CheckoutSchema;
-  isPaid?: boolean;
-  paidAt?: Date;
-  paymentResult?: PaymentResult;
-}) {
+export async function createOrder(
+  data: {
+    data: CheckoutSchema;
+    isPaid?: boolean;
+    paidAt?: Date;
+    paymentResult?: PaymentResult;
+  },
+  dataCart: Cart
+) {
   try {
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
-
-    const cart = await getMyCart();
     const userId = session?.user?.id;
     if (!userId) redirect("/login");
 
     const user = await getUserById(userId);
 
-    if (!cart || cart.items.length === 0) {
+    if (!dataCart || dataCart.items.length === 0) {
       return {
         success: false,
         message: "Your cart is empty",
@@ -207,15 +208,28 @@ export async function createOrder(data: {
       });
     }
 
+    const cart = await prisma.cart.findUnique({ where: { id: dataCart.id } });
+    if (!cart) throw new Error("Cart not found");
+
+    const updatedCart = await prisma.cart.update({
+      where: { id: dataCart.id },
+      data: {
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      },
+    });
+
     // Create order object
     const order = {
       userId: user.id,
       shippingAddress: updatedUser?.address || data.data.address,
       paymentMethod: updatedUser?.paymentMethod || data.data.paymentMethod,
-      itemsPrice: cart.itemsPrice,
-      shippingPrice: cart.shippingPrice,
-      taxPrice: cart.taxPrice,
-      totalPrice: cart.totalPrice,
+      itemsPrice: updatedCart.itemsPrice,
+      shippingPrice: updatedCart.shippingPrice,
+      taxPrice: updatedCart.taxPrice,
+      totalPrice: updatedCart.totalPrice,
       isPaid: data.isPaid ?? false,
       paidAt: data.paidAt,
     };
