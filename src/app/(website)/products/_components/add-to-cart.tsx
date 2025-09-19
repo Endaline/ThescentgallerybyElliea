@@ -20,7 +20,6 @@ const AddToCart = ({
   isCartPage?: boolean;
   cart: GenCart | undefined;
 }) => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const existItem = cart?.items.find((x) => x.productId === item.productId);
@@ -56,46 +55,40 @@ const AddToCart = ({
     });
   };
 
-  return existItem ? (
-    <div
-      className={cn(
-        "flex items-center justify-center",
-        !isCartPage ? "w-full" : ""
-      )}
-    >
-      <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
-        {isPending ? (
-          <Loader className="w-4 h-4 animate-spin" />
-        ) : (
-          <Minus className="w-4 h-4" />
+  return existItem ?
+      <div
+        className={cn(
+          "flex items-center justify-center",
+          !isCartPage ? "w-full" : ""
         )}
-      </Button>
-      <span className="px-2">{existItem.qty}</span>
-      <Button type="button" variant="outline" onClick={handleAddToCart}>
-        {isPending ? (
-          <Loader className="w-4 h-4 animate-spin" />
-        ) : (
-          <Plus className="w-4 h-4" />
-        )}
-      </Button>
-    </div>
-  ) : (
-    <Button
-      size="lg"
-      type="button"
-      disabled={isPending}
-      className={cn(
-        "flex-1 border h-12 cursor-pointer w-full py-3",
-        isBuy
-          ? " border-[#770a10] hover:bg-[#770a10]/90 bg-white hover:text-white text-[#512260]"
+      >
+        <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
+          {isPending ?
+            <Loader className="w-4 h-4 animate-spin" />
+          : <Minus className="w-4 h-4" />}
+        </Button>
+        <span className="px-2">{existItem.qty}</span>
+        <Button type="button" variant="outline" onClick={handleAddToCart}>
+          {isPending ?
+            <Loader className="w-4 h-4 animate-spin" />
+          : <Plus className="w-4 h-4" />}
+        </Button>
+      </div>
+    : <Button
+        size="lg"
+        type="button"
+        disabled={isPending}
+        className={cn(
+          "flex-1 border h-12 cursor-pointer w-full py-3",
+          isBuy ?
+            " border-[#770a10] hover:bg-[#770a10]/90 bg-white hover:text-white text-[#512260]"
           : "bg-[#770a10] hover:border-[#770a10] hover:text-slate-700 hover:bg-white text-white "
-      )}
-      onClick={handleAddToCart}
-    >
-      {isPending && <Loader className="w-4 h-4 animate-spin" />}
-      {isBuy ? "Buy it now" : "Add to Cart"}
-    </Button>
-  );
+        )}
+        onClick={handleAddToCart}
+      >
+        {isPending && <Loader className="w-4 h-4 animate-spin" />}
+        {isBuy ? "Buy it now" : "Add to Cart"}
+      </Button>;
 };
 
 export default AddToCart;

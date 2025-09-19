@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
+import { Minus, Plus, Shield, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { GenCart, GenProduct } from "@/lib/types/type";
@@ -25,7 +25,13 @@ export default function ProductDetailPage({
   if (!product) {
     return <div>Product not found</div>;
   }
-
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
   const images = product.images as ProductImage[];
 
   return (
@@ -87,7 +93,7 @@ export default function ProductDetailPage({
                 {product.name}
               </h1>
 
-              <div className="flex items-center gap-4 mb-6">
+              {/* <div className="flex items-center gap-4 mb-6">
                 <span className="font-bold text-3xl text-charcoal">
                   ₦{product.price}
                 </span>
@@ -102,6 +108,25 @@ export default function ProductDetailPage({
                     className="bg-green-100 text-green-800"
                   >
                     Save ₦{product.originalPrice - product.price}
+                  </Badge>
+                )}
+              </div> */}
+
+              <div className="flex items-center gap-4 mb-6">
+                <span className="font-bold text-3xl text-charcoal">
+                  {formatCurrency(product.price)}
+                </span>
+                {product.originalPrice && (
+                  <span className="text-xl text-gray-500 line-through">
+                    {formatCurrency(product.originalPrice)}
+                  </span>
+                )}
+                {product.originalPrice && (
+                  <Badge
+                    variant="secondary"
+                    className="bg-green-100 text-green-800"
+                  >
+                    Save {formatCurrency(product.originalPrice - product.price)}
                   </Badge>
                 )}
               </div>
@@ -146,9 +171,9 @@ export default function ProductDetailPage({
                     </Button>
                   </>
                 }
-                <span className="text-sm text-gray-500 ml-4">
+                {/* <span className="text-sm text-gray-500 ml-4">
                   {product.stock} in stock
-                </span>
+                </span> */}
               </div>
             </div>
 
@@ -189,11 +214,11 @@ export default function ProductDetailPage({
                 {product.description}
               </p>
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <Truck className="h-6 w-6 text-[#770a10] mx-auto mb-2" />
                   <p className="text-sm font-medium">Free Shipping</p>
                   <p className="text-xs text-gray-500">On orders over $100</p>
-                </div>
+                </div> */}
                 <div className="text-center">
                   <Shield className="h-6 w-6 text-[#770a10] mx-auto mb-2" />
                   <p className="text-sm font-medium">Authentic</p>

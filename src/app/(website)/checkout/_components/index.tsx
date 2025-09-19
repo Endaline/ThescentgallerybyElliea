@@ -14,10 +14,9 @@ import { ArrowLeft, ArrowRightCircleIcon, Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
-import { nigeriaData } from "../../contact";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { states } from "../../contact";
 
 declare global {
   interface Window {
@@ -69,68 +69,10 @@ const CheckoutComp = ({
 
   const [paystackReady, setPaystackReady] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [availableStates, setAvailableStates] = useState(
-    Object.keys(nigeriaData)
-  );
 
   const handleScriptLoad = () => {
     setPaystackReady(true);
   };
-  const findStatesForCity = (cityInput: any) => {
-    if (!cityInput.trim()) {
-      return Object.keys(nigeriaData);
-    }
-
-    const matchingStates: any = [];
-    const cityLower = cityInput.toLowerCase().trim();
-
-    Object.keys(nigeriaData).forEach((state) => {
-      const hasMatchingCity = nigeriaData[
-        state as keyof typeof nigeriaData
-      ].some(
-        (city) =>
-          city.toLowerCase().includes(cityLower) ||
-          cityLower.includes(city.toLowerCase())
-      );
-      if (hasMatchingCity) {
-        matchingStates.push(state);
-      }
-    });
-
-    return matchingStates.length > 0 ?
-        matchingStates
-      : Object.keys(nigeriaData);
-  };
-
-  // Update available states when city changes
-  useEffect(() => {
-    const matchingStates = findStatesForCity(formData.address.city);
-    setAvailableStates(matchingStates);
-
-    // Auto-select state if only one matches
-    if (matchingStates.length === 1 && formData.address.city.trim()) {
-      setFormData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          lga: matchingStates[0],
-        },
-      }));
-    } else if (
-      matchingStates.length > 1 &&
-      formData.address.lga &&
-      !matchingStates.includes(formData.address.lga)
-    ) {
-      // Reset state if current selection is not in matching states
-      setFormData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          lga: "",
-        },
-      }));
-    }
-  }, [formData.address.city, formData.address.lga]);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => {
@@ -304,7 +246,7 @@ const CheckoutComp = ({
                       <div>
                         <label
                           htmlFor="city"
-                          className="block text-sm font-medium  pb-2"
+                          className="block text-sm font-medium pb-2"
                         >
                           City
                         </label>
@@ -317,7 +259,7 @@ const CheckoutComp = ({
                           }
                           placeholder="Type your city name"
                           required
-                          className="mt-1 block w-full px-3 py-2 rounded-md shadow-sm  "
+                          className="mt-1 block w-full px-3 py-2 rounded-md shadow-sm"
                         />
                       </div>
                       <div>
@@ -332,18 +274,10 @@ const CheckoutComp = ({
                           required
                         >
                           <SelectTrigger className="w-full">
-                            <SelectValue
-                              placeholder={
-                                availableStates.length === 37 ? "Select State"
-                                : availableStates.length === 1 ?
-                                  `Auto-selected: ${availableStates[0]}`
-                                : `Select from ${availableStates.length} matching states`
-
-                              }
-                            />
+                            <SelectValue placeholder="Select State" />
                           </SelectTrigger>
                           <SelectContent>
-                            {availableStates.map((state) => (
+                            {states.map((state) => (
                               <SelectItem key={state} value={state}>
                                 {state}
                               </SelectItem>

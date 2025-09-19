@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -22,6 +22,13 @@ export default function ProductGrid({
   products,
   cart,
 }: ProductGridProps) {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
   if (viewMode === "list") {
     return (
       <div className="space-y-6">
@@ -65,7 +72,7 @@ export default function ProductGrid({
                           </h3>
                         </Link>
 
-                        <div className="flex md:flex-row flex-col items-center gap-2 mb-1">
+                        {/* <div className="flex md:flex-row flex-col items-center gap-2 mb-1">
                           <span className="font-bold text-lg text-gray-900">
                             {product.hasVariants ? "From " : ""}₦
                             {product.price.toLocaleString()}.00
@@ -73,6 +80,19 @@ export default function ProductGrid({
                           {product.originalPrice && (
                             <span className="text-sm text-gray-500 line-through">
                               ₦{product.originalPrice.toLocaleString()}.00
+                            </span>
+                          )}
+                        </div> */}
+
+                        <div className="flex md:flex-row flex-col items-center gap-2 mb-1">
+                          <span className="font-bold text-lg text-gray-900">
+                            {product.hasVariants ? "From " : ""}
+                            {formatCurrency(product.price)}
+                          </span>
+
+                          {product.originalPrice && (
+                            <span className="text-sm text-gray-500 line-through">
+                              {formatCurrency(product.originalPrice)}
                             </span>
                           )}
                         </div>
@@ -153,11 +173,11 @@ export default function ProductGrid({
                     </Link>
                     <div className="flex md:flex-row flex-col items-center md:space-x-2 space-x-0">
                       <span className="text-lg font-bold text-gray-900">
-                        {product.price}
+                        {formatCurrency(product.price)}
                       </span>
                       {product.originalPrice && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.originalPrice}
+                          {formatCurrency(product.originalPrice)}
                         </span>
                       )}
                     </div>

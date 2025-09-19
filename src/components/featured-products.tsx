@@ -7,7 +7,7 @@ import { Input } from "./ui/input";
 import { Product, ProductImage } from "@prisma/client";
 import AddToCart from "@/app/(website)/products/_components/add-to-cart";
 import { GenCart } from "@/lib/types/type";
-import { Search, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 
 const FeaturedProducts = ({
   products,
@@ -18,6 +18,13 @@ const FeaturedProducts = ({
   query?: string;
   cart: GenCart | undefined;
 }) => {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
   return (
     <section className="py-20 ">
       <div className="max-content padding-x">
@@ -51,7 +58,7 @@ const FeaturedProducts = ({
         </form>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
           {products.length > 0 ?
             products.map((product) => {
               const images = product.images as ProductImage[];
@@ -82,12 +89,12 @@ const FeaturedProducts = ({
 
                       <div className="flex items-center space-x-2">
                         <span className="text-lg font-bold text-gray-900">
-                          ₦{product.price}
+                          {formatCurrency(product.price)}
                         </span>
-                        ₦
+
                         {product.originalPrice && (
                           <span className="text-sm text-gray-500 line-through">
-                            {product.originalPrice}
+                            {formatCurrency(product.originalPrice)}
                           </span>
                         )}
                       </div>
