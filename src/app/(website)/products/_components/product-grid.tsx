@@ -48,9 +48,9 @@ export default function ProductGrid({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                <div className=" bg-slate-100 border p-4">
+                <div className=" bg-slate-100 border p-3">
                   {/* <div className="p-4 border"> */}
-                  <div className="flex items-center md:gap-10 gap-2  ">
+                  <div className="flex items-center md:gap-10 gap-2 md:h-35 h-60 w-full  ">
                     {/* Product Image - Left */}
                     <div className="flex-shrink-0">
                       <Link href={`/products/${product.slug}`}>
@@ -138,7 +138,7 @@ export default function ProductGrid({
         <p className="text-gray-600">{products.length} products found</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3  p-2">
+      <div className="grid grid-cols-2 lg:grid-cols-3">
         {products.map((product, index) => {
           const images = product.images as ProductImage[];
           return (
@@ -150,7 +150,7 @@ export default function ProductGrid({
             >
               <div
                 key={product.id}
-                className="group overflow-hidden bg-slate-100 hover:shadow-lg duration-300 rounded-lg border border-gray-200 m-2"
+                className="group overflow-hidden bg-slate-100 hover:shadow-lg duration-300 rounded-lg border border-gray-200 m-2 md:h-96 h-[420px]"
                 // 👆 added margin so borders won’t touch
               >
                 <Link href={`/products/${product.slug}`}>

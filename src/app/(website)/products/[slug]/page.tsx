@@ -18,7 +18,7 @@ export default async function page(props: {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-content padding-x lg:py-20 md:py-12 py-8">
         <ProductDetailPage
           product={product}
           cart={cart}

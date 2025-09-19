@@ -20,13 +20,13 @@ const ProductList = ({
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   return (
-    <div className="md:col-span-2 lg:col-span-3 padding-x">
+    <div className="md:col-span-2 lg:col-span-3 ">
       {/* Search and Controls */}
       <div className="flex flex-col lg:flex-row gap-4 items-center justify-between pb-10">
         <form
           action="/products"
           method="GET"
-          className="relative flex-1 max-w-md"
+          className="relative flex-1 w-full"
         >
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-200 h-5 w-5" />
           <Input

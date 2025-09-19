@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getMyCart } from "@/app/actions/cart.actions";
+import CollapsibleBrandsFilter from "./_components/brandsdropdown";
 
 export async function generateMetadata(props: {
   searchParams: Promise<{
@@ -111,7 +112,7 @@ export default async function ProductsPage(props: {
     <section className="min-h-screen ">
       {/* Header */}
       <Hero />
-      <div className="max-content padding-x py-20">
+      <div className="max-content padding-x lg:py-20 md:py-10 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div className="md:col-span-1 w-full h-full space-y-6">
             <div className="flex items-center justify-between">
@@ -122,7 +123,7 @@ export default async function ProductsPage(props: {
                 </Button>
               </Link>
             </div>
-            <Card className="bg-slate-100 text-slate-900">
+            {/* <Card className="bg-slate-100 text-slate-900">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base">Brand</CardTitle>
               </CardHeader>
@@ -164,7 +165,11 @@ export default async function ProductsPage(props: {
                   );
                 })}
               </CardContent>
-            </Card>
+            </Card> */}
+            <CollapsibleBrandsFilter
+              allBrandList={allBrandList}
+              brand={brand}
+            />
             <Card className="bg-slate-100 text-slate-900">
               <CardHeader className="">
                 <CardTitle className="text-base">Price Range</CardTitle>

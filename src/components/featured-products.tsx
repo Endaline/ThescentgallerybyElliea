@@ -58,14 +58,14 @@ const FeaturedProducts = ({
         </form>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 ">
           {products.length > 0 ?
             products.map((product) => {
               const images = product.images as ProductImage[];
               return (
                 <div
                   key={product.id}
-                  className="group overflow-hidden  hover:shadow-lg duration-300"
+                  className="group overflow-hidden  hover:shadow-lg duration-300 h-96 border border-gray-200 "
                 >
                   <Link href={`/products/${product.slug}`}>
                     <div className="flex items-center justify-center gap-y-4 p-4">
