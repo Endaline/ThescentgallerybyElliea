@@ -18,6 +18,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { requestPasswordReset } from "@/app/actions/user.actions";
 import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ForgotPasswordPage() {
   const [data, action] = useActionState(requestPasswordReset, {
@@ -38,7 +39,10 @@ export default function ForgotPasswordPage() {
     );
   };
 
-  data?.success && redirect("/login");
+  if (data?.success) {
+    toast.success(data.message);
+    redirect("/reset-password");
+  }
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-700 flex items-center justify-center p-4">
